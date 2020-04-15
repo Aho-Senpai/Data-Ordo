@@ -1,0 +1,15 @@
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\bin\Debug\netstandard2.0\Data-Ordo.deps.json
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\bin\Debug\netstandard2.0\Data-Ordo.dll
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\bin\Debug\netstandard2.0\Data-Ordo.pdb
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\bin\Debug\netstandard2.0\Advanced Combat Tracker.exe
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\bin\Debug\netstandard2.0\GammaJul.LgLcd.dll
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\bin\Debug\netstandard2.0\ICSharpCode.SharpZipLib.dll
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\bin\Debug\netstandard2.0\Trinet.Core.IO.Ntfs.dll
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\bin\Debug\netstandard2.0\Advanced Combat Tracker.exe.config
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\obj\Debug\netstandard2.0\Data-Ordo.csprojAssemblyReference.cache
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\obj\Debug\netstandard2.0\Data-Ordo.csproj.CoreCompileInputs.cache
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\obj\Debug\netstandard2.0\Data-Ordo.AssemblyInfoInputs.cache
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\obj\Debug\netstandard2.0\Data-Ordo.AssemblyInfo.cs
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\obj\Debug\netstandard2.0\Data-Ordo.csproj.CopyComplete
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\obj\Debug\netstandard2.0\Data-Ordo.dll
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\Data-Ordo\obj\Debug\netstandard2.0\Data-Ordo.pdb

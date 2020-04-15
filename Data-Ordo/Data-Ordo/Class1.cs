@@ -7,3 +7,5 @@ namespace Data_Ordo
     {
     }
 }
+
+// public interface IActPluginV1
