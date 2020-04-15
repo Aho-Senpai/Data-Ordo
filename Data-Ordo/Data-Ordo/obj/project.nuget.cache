@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "liqXBxpr7h49DkWAtDBgWwnxoGUdsKU5+3E+rjsmpcJi7SOq5davUQz4lSK8nBL6QGfuGYZ7OLwglxZ0XH1x0A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\nicol\\Documents\\GitHub\\Data-Ordo\\Data-Ordo\\Data-Ordo\\Data-Ordo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\nicol\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\nicol\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
