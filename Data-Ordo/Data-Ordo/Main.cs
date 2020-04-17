@@ -21,5 +21,13 @@ namespace Data_Ordo
     public class Main : UserControl, IActPluginV1
     {
 
-    }   
+        public void InitPlugin(System.Windows.Forms.TabPage pluginScreenSpace, System.Windows.Forms.Label pluginStatusText)
+        {
+            throw new NotImplementedException();
+        }
+        public void DeInitPlugin()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
