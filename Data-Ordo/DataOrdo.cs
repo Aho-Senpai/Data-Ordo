@@ -117,6 +117,7 @@ namespace DataOrdo
             // 
             this.checkbox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkbox1.AutoSize = true;
+            this.checkbox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkbox1.Location = new System.Drawing.Point(556, 3);
             this.checkbox1.Name = "checkbox1";
             this.checkbox1.Size = new System.Drawing.Size(98, 17);
