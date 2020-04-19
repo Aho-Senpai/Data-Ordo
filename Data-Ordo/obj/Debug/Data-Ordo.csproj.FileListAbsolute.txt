@@ -5,8 +5,11 @@ C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\bin\Debug\GammaJul.LgLcd.dll
 C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\bin\Debug\ICSharpCode.SharpZipLib.dll
 C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\bin\Debug\Trinet.Core.IO.Ntfs.dll
 C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\bin\Debug\Advanced Combat Tracker.exe.config
-C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\obj\Debug\Data-Ordo.csprojAssemblyReference.cache
 C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\obj\Debug\Data-Ordo.csproj.CoreCompileInputs.cache
 C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\obj\Debug\Data-Ordo.csproj.CopyComplete
 C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\obj\Debug\Data-Ordo.dll
 C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\obj\Debug\Data-Ordo.pdb
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\obj\Debug\Data-Ordo.csprojAssemblyReference.cache
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\obj\Debug\DataOrdo.DataOrdoMain.resources
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\obj\Debug\Data-Ordo.csproj.GenerateResource.cache
+C:\Users\nicol\Documents\GitHub\Data-Ordo\Data-Ordo\obj\Debug\Data_Ordo.Properties.Resources.resources
