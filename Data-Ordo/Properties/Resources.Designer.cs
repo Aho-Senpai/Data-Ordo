@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Data_Ordo.Properties {
+namespace UserInterface.Properties {
     using System;
     
     
