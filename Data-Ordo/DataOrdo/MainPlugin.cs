@@ -20,6 +20,7 @@ namespace DataOrdo
         Label lblStatus;
         SettingsSerializer xmlSettings;
 		string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Data-Ordo.config.xml");
+		UserInterfaceMain UIMain;
 
         public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
         {
@@ -29,7 +30,8 @@ namespace DataOrdo
 			this.Dock = DockStyle.Fill;					// Expand the UserControl to fill the tab's client space
 			xmlSettings = new SettingsSerializer(this);	// Create a new settings serializer and pass it this instance
 			ActGlobals.oFormActMain.AfterCombatAction += new CombatActionDelegate(oFormActMain_AfterCombatAction); // Create some sort of parsing event handler.  After the "+=" hit TAB twice and the code will be generated for you.
-
+			UIMain = new UserInterfaceMain();
+			this.Controls.Add(UIMain);
 
             LoadSettings();
 
