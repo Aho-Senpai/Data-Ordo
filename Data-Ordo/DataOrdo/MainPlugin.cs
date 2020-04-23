@@ -17,10 +17,10 @@ namespace DataOrdo
 {
     public class MainPlugin : UserControl, IActPluginV1
     {
-        Label lblStatus;
-        SettingsSerializer xmlSettings;
-		string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Data-Ordo.config.xml");
-		UserInterfaceMain UIMain;
+        Label lblStatus;	// Create a lblStatus to print a message on the plugin status in the plugin list in ACT
+        SettingsSerializer xmlSettings;	// For the settings file ? i think
+		string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Data-Ordo.config.xml"); // Path for the setting file i think
+		UserInterfaceMain UIMain;	// Init UserInterface to display UI later
 
         public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
         {
@@ -30,9 +30,9 @@ namespace DataOrdo
 			this.Dock = DockStyle.Fill;					// Expand the UserControl to fill the tab's client space
 			xmlSettings = new SettingsSerializer(this);	// Create a new settings serializer and pass it this instance
 			ActGlobals.oFormActMain.AfterCombatAction += new CombatActionDelegate(oFormActMain_AfterCombatAction); // Create some sort of parsing event handler.  After the "+=" hit TAB twice and the code will be generated for you.
-			UIMain = new UserInterfaceMain();
-			this.Controls.Add(UIMain);
-
+			UIMain = new UserInterfaceMain();		// Declare UIMain 
+			this.Controls.Add(UIMain);				// Use UI main and display it
+			
             LoadSettings();
 
             lblStatus.Text = "Crash Avoided!";
