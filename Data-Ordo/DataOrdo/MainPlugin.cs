@@ -27,8 +27,8 @@ namespace DataOrdo
 			
 			lblStatus = pluginStatusText;			    // Hand the status label's reference to our local var
 			pluginScreenSpace.Controls.Add(this);		// Add this UserControl to the tab ACT provides
-			this.Dock = DockStyle.Fill;					// Expand the UserControl to fill the tab's client space
 			xmlSettings = new SettingsSerializer(this);	// Create a new settings serializer and pass it this instance
+			this.Dock = DockStyle.Fill;					// Expand the UserControl to fill the tab's client space
 			ActGlobals.oFormActMain.AfterCombatAction += new CombatActionDelegate(oFormActMain_AfterCombatAction); // Create some sort of parsing event handler.  After the "+=" hit TAB twice and the code will be generated for you.
 			UIMain = new UserInterfaceMain();		// Declare UIMain 
 			this.Controls.Add(UIMain);				// Use UI main and display it
@@ -84,10 +84,12 @@ namespace DataOrdo
         private void SaveSettings()
         {
             FileStream fs = new FileStream(settingsFile, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
-			XmlTextWriter xWriter = new XmlTextWriter(fs, Encoding.UTF8);
-			xWriter.Formatting = Formatting.Indented;
-			xWriter.Indentation = 1;
-			xWriter.IndentChar = '\t';
+			XmlTextWriter xWriter = new XmlTextWriter(fs, Encoding.UTF8)
+			{
+				Formatting = Formatting.Indented,
+				Indentation = 1,
+				IndentChar = '\t'
+			};
 			xWriter.WriteStartDocument(true);
 			xWriter.WriteStartElement("Config");                // <Config>
 			xWriter.WriteStartElement("SettingsSerializer");    // <Config><SettingsSerializer>

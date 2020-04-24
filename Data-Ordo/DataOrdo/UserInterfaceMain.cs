@@ -14,6 +14,7 @@ namespace DataOrdo
     {
         public UserInterfaceMain()
         {
+            this.Dock = DockStyle.Fill;
             InitializeComponent();
         }
 
