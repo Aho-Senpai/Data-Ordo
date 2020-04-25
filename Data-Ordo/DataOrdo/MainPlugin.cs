@@ -31,9 +31,10 @@ namespace DataOrdo
 			this.Dock = DockStyle.Fill;                 // Expand the UserControl to fill the tab's client space
 			ActGlobals.oFormActMain.OnLogLineRead += OFormActMain_OnLogLineRead;
 			UIMain = new UserInterfaceMain();		// Declare UIMain 
-			this.Controls.Add(UIMain);				// Use UI main and display it
-			
-            LoadSettings();
+			this.Controls.Add(UIMain);              // Use UI main and display it
+			UIMain.SetPluginVar(this);
+
+			LoadSettings();
 
             lblStatus.Text = "Crash Avoided!";
         }
@@ -52,6 +53,7 @@ namespace DataOrdo
 		{
 			textBox.Text = text;
 		}
+
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
 			if (UIMain.CB_OOCLog == true && ActGlobals.oFormActMain.InCombat == false)
@@ -108,5 +110,15 @@ namespace DataOrdo
 			xWriter.Flush();                                    // Flush the file buffer to disk
 			xWriter.Close();
         }
+
+		public void ReloadPlugin()
+		{
+			ActPluginData pluginData = ActGlobals.oFormActMain.PluginGetSelfData(this);
+			pluginData.cbEnabled.Checked = false; // Deinit the old plugin
+			Application.DoEvents();
+			pluginData.cbEnabled.Checked = true;  // Init the new version
+			TabControl tc = (TabControl)pluginData.tpPluginSpace.Parent;
+			tc.SelectTab(tc.TabPages.Count - 1);
+		}
 	}
 }
