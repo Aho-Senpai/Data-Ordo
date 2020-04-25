@@ -18,17 +18,33 @@ namespace DataOrdo
             InitializeComponent();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void OutOfCombarParsing_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb = sender as CheckBox;
             if (cb.Checked == false)
             {
-                checkBox1.Text = "Is NOT Parsing";
+                OutOfCombarParsing.Text = "Is NOT Parsing";
+                OutOfCombarParsing.ForeColor = Color.Red;
             }
             if (cb.Checked == true)
             {
-                checkBox1.Text = "Is Parsing";
+                OutOfCombarParsing.Text = "Is Parsing";
+                OutOfCombarParsing.ForeColor = Color.Green;
+            }
+        }
 
+        private void EncountersParsing_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+            if (cb.Checked == false)
+            {
+                EncountersParsing.Text = "Is NOT Parsing";
+                EncountersParsing.ForeColor = Color.Red;
+            }
+            if (cb.Checked == true)
+            {
+                EncountersParsing.Text = "Is Parsing";
+                EncountersParsing.ForeColor = Color.Green;
             }
         }
     }

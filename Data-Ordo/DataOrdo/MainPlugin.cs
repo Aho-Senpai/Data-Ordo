@@ -21,6 +21,7 @@ namespace DataOrdo
         SettingsSerializer xmlSettings;	// For the settings file ? i think
 		string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Data-Ordo.config.xml"); // Path for the setting file i think
 		UserInterfaceMain UIMain;	// Init UserInterface to display UI later
+		RichTextBox OOCLog;	// OOCLog = OutOfCombatLog
 
         public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
         {
@@ -28,8 +29,9 @@ namespace DataOrdo
 			lblStatus = pluginStatusText;			    // Hand the status label's reference to our local var
 			pluginScreenSpace.Controls.Add(this);		// Add this UserControl to the tab ACT provides
 			xmlSettings = new SettingsSerializer(this);	// Create a new settings serializer and pass it this instance
-			this.Dock = DockStyle.Fill;					// Expand the UserControl to fill the tab's client space
-			ActGlobals.oFormActMain.AfterCombatAction += new CombatActionDelegate(oFormActMain_AfterCombatAction); // Create some sort of parsing event handler.  After the "+=" hit TAB twice and the code will be generated for you.
+			this.Dock = DockStyle.Fill;                 // Expand the UserControl to fill the tab's client space
+			// ActGlobals.oFormActMain.AfterCombatAction += new CombatActionDelegate(OFormActMain_AfterCombatAction); // Create some sort of parsing event handler.  After the "+=" hit TAB twice and the code will be generated for you.
+			ActGlobals.oFormActMain.OnLogLineRead += OFormActMain_OnLogLineRead;
 			UIMain = new UserInterfaceMain();		// Declare UIMain 
 			this.Controls.Add(UIMain);				// Use UI main and display it
 			
@@ -38,17 +40,30 @@ namespace DataOrdo
             lblStatus.Text = "Crash Avoided!";
         }
 
-        public void DeInitPlugin()
+		public void DeInitPlugin()
         {
-            ActGlobals.oFormActMain.AfterCombatAction -= oFormActMain_AfterCombatAction; // Unsubscribe from any events you listen to when exiting!
+			// ActGlobals.oFormActMain.AfterCombatAction -= OFormActMain_AfterCombatAction; // Unsubscribe from any events you listen to when exiting!
+			ActGlobals.oFormActMain.OnLogLineRead -= OFormActMain_OnLogLineRead;
 
-
-            SaveSettings();
+			SaveSettings();
 
 			lblStatus.Text = "Ready To Crash";
         }
 
-        void oFormActMain_AfterCombatAction(bool isImport, CombatActionEventArgs actionInfo)
+
+		private void SetText(string text, TextBox textBox)
+		{
+			textBox.Text = text;
+		}
+		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
+		{
+			OOCLog = 1;
+			string msg = $"logLine{logInfo.logLine}";
+			// ThreadInvokes.ControlSetText(ActGlobals.oFormActMain, , msg);
+			this.Invoke(new Action<string, TextBox>(SetText), msg, YouTextBox);
+		}
+
+        void OFormActMain_AfterCombatAction(bool isImport, CombatActionEventArgs actionInfo)
 		{
 			throw new NotImplementedException();
 		}
@@ -100,5 +115,5 @@ namespace DataOrdo
 			xWriter.Flush();                                    // Flush the file buffer to disk
 			xWriter.Close();
         }
-    }
+	}
 }
