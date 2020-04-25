@@ -21,7 +21,6 @@ namespace DataOrdo
         SettingsSerializer xmlSettings;	// For the settings file ? i think
 		string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Data-Ordo.config.xml"); // Path for the setting file i think
 		UserInterfaceMain UIMain;	// Init UserInterface to display UI later
-		RichTextBox OOCLog;	// OOCLog = OutOfCombatLog
 
         public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
         {
@@ -30,7 +29,6 @@ namespace DataOrdo
 			pluginScreenSpace.Controls.Add(this);		// Add this UserControl to the tab ACT provides
 			xmlSettings = new SettingsSerializer(this);	// Create a new settings serializer and pass it this instance
 			this.Dock = DockStyle.Fill;                 // Expand the UserControl to fill the tab's client space
-			// ActGlobals.oFormActMain.AfterCombatAction += new CombatActionDelegate(OFormActMain_AfterCombatAction); // Create some sort of parsing event handler.  After the "+=" hit TAB twice and the code will be generated for you.
 			ActGlobals.oFormActMain.OnLogLineRead += OFormActMain_OnLogLineRead;
 			UIMain = new UserInterfaceMain();		// Declare UIMain 
 			this.Controls.Add(UIMain);				// Use UI main and display it
@@ -42,7 +40,6 @@ namespace DataOrdo
 
 		public void DeInitPlugin()
         {
-			// ActGlobals.oFormActMain.AfterCombatAction -= OFormActMain_AfterCombatAction; // Unsubscribe from any events you listen to when exiting!
 			ActGlobals.oFormActMain.OnLogLineRead -= OFormActMain_OnLogLineRead;
 
 			SaveSettings();
@@ -51,21 +48,17 @@ namespace DataOrdo
         }
 
 
-		private void SetText(string text, TextBox textBox)
+		private void SetText(string text, RichTextBox textBox)
 		{
 			textBox.Text = text;
 		}
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
-			OOCLog = 1;
-			string msg = $"logLine{logInfo.logLine}";
-			// ThreadInvokes.ControlSetText(ActGlobals.oFormActMain, , msg);
-			this.Invoke(new Action<string, TextBox>(SetText), msg, YouTextBox);
-		}
-
-        void OFormActMain_AfterCombatAction(bool isImport, CombatActionEventArgs actionInfo)
-		{
-			throw new NotImplementedException();
+			if (UIMain.CB_OOCLog == true && ActGlobals.oFormActMain.InCombat == false)
+			{
+				string msg = $"{UIMain.richTextBox1.Text}{logInfo.logLine}{Environment.NewLine}";
+				this.Invoke(new Action<string, RichTextBox>(SetText), msg, UIMain.richTextBox1);
+			}
 		}
 
         private void LoadSettings()

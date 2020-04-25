@@ -12,6 +12,7 @@ namespace DataOrdo
 {
     public partial class UserInterfaceMain : UserControl
     {
+        public bool CB_OOCLog;
         public UserInterfaceMain()
         {
             this.Dock = DockStyle.Fill;
@@ -25,11 +26,13 @@ namespace DataOrdo
             {
                 OutOfCombarParsing.Text = "Is NOT Parsing";
                 OutOfCombarParsing.ForeColor = Color.Red;
+                CB_OOCLog = false;
             }
             if (cb.Checked == true)
             {
                 OutOfCombarParsing.Text = "Is Parsing";
                 OutOfCombarParsing.ForeColor = Color.Green;
+                CB_OOCLog = true;
             }
         }
 
