@@ -19,7 +19,7 @@ namespace DataOrdo
     {
         Label lblStatus;	// Create a lblStatus to print a message on the plugin status in the plugin list in ACT
         SettingsSerializer xmlSettings;	// For the settings file ? i think
-		string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Data-Ordo.config.xml"); // Path for the setting file i think
+		string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Data-Ordo.config.xml"); // Path for the setting (file i think)
 		UserInterfaceMain UIMain;	// Init UserInterface to display UI later
 
         public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
