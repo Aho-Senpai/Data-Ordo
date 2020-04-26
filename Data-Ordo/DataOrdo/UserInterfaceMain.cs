@@ -21,7 +21,19 @@ namespace DataOrdo
             this.Dock = DockStyle.Fill;
             InitializeComponent();
         }
+        #region ToolStrip Controls
+        public void SetPluginVar(MainPlugin PluginInstance)
+        {
+            this.PlugInstance = PluginInstance; 
+        }
 
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            PlugInstance.ReloadPlugin();
+        }
+        #endregion
+
+        #region Out Of Combat Logs Tab Controlls
         private void OutOfCombarParsing_CheckedChanged(object sender, EventArgs e)
         {
             if (OutOfCombarParsing.BackColor == Color.Green)
@@ -36,20 +48,6 @@ namespace DataOrdo
                 OutOfCombarParsing.Text = "Parsing ON";
                 OutOfCombarParsing.BackColor = Color.Green;
                 CB_OOCLog = true;
-            }
-        }
-
-        private void EncountersParsing_CheckedChanged(object sender, EventArgs e)
-        {
-            if (EncountersParsing.BackColor == Color.Green)
-            {
-                EncountersParsing.Text = "Parsing OFF";
-                EncountersParsing.BackColor = Color.Red;
-            }
-            else if (EncountersParsing.BackColor == Color.Red)
-            {
-                EncountersParsing.Text = "Parsing ON";
-                EncountersParsing.BackColor = Color.Green;
             }
         }
 
@@ -70,14 +68,40 @@ namespace DataOrdo
             }
         }
 
-        public void SetPluginVar(MainPlugin PluginInstance)
+        private void ClearOOCLogButton_Click(object sender, EventArgs e)
         {
-            this.PlugInstance = PluginInstance; 
+            richTextBox1.Clear();
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void RegexOOCSearchBar_CheckedChanged(object sender, EventArgs e)
         {
-            PlugInstance.ReloadPlugin();
+            if (RegexOOCSearchBar.BackColor == Color.Gray)
+            {
+                RegexOOCSearchBar.Text = "Regex ON";
+                RegexOOCSearchBar.BackColor = Color.Blue;
+            }
+            else if (RegexOOCSearchBar.BackColor == Color.Blue)
+            {
+                RegexOOCSearchBar.Text = "Regex OFF";
+                RegexOOCSearchBar.BackColor = Color.Gray;
+            }
         }
+        #endregion
+
+        #region Encounter Logs Tab Controls
+        private void EncountersParsing_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EncountersParsing.BackColor == Color.Green)
+            {
+                EncountersParsing.Text = "Parsing OFF";
+                EncountersParsing.BackColor = Color.Red;
+            }
+            else if (EncountersParsing.BackColor == Color.Red)
+            {
+                EncountersParsing.Text = "Parsing ON";
+                EncountersParsing.BackColor = Color.Green;
+            }
+        }
+        #endregion
     }
 }

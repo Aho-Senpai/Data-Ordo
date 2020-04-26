@@ -20,8 +20,9 @@ namespace DataOrdo
         Label lblStatus;	// Create a lblStatus to print a message on the plugin status in the plugin list in ACT
         SettingsSerializer xmlSettings;	// For the settings file ? i think
 		string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Data-Ordo.config.xml"); // Path for the setting (file i think)
-		UserInterfaceMain UIMain;	// Init UserInterface to display UI later
+		UserInterfaceMain UIMain;   // Init UserInterface to display UI later
 
+        #region Init & DeInit PLugin
         public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
         {
 			
@@ -47,8 +48,10 @@ namespace DataOrdo
 
 			lblStatus.Text = "Ready To Crash";
         }
+		#endregion
 
-		private void SetText(string text, RichTextBox textBox)
+        #region OOCLogs Tab Parsing
+        private void SetText(string text, RichTextBox textBox)
 		{
 			textBox.Text = text;
 		}
@@ -61,7 +64,9 @@ namespace DataOrdo
 				this.Invoke(new Action<string, RichTextBox>(SetText), msg, UIMain.richTextBox1);
 			}
 		}
+        #endregion
 
+        #region Load & Save Settings
         private void LoadSettings()
         {
 			if (File.Exists(settingsFile))
@@ -109,9 +114,11 @@ namespace DataOrdo
 			xWriter.Flush();                                    // Flush the file buffer to disk
 			xWriter.Close();
         }
+        #endregion
 
-		public void ReloadPlugin()
+        public void ReloadPlugin()
 		{
+			// This will reload the plugin and then grab the last opened tab (which is said plugin that we just restarted
 			ActPluginData pluginData = ActGlobals.oFormActMain.PluginGetSelfData(this);
 			pluginData.cbEnabled.Checked = false; // Deinit the old plugin
 			Application.DoEvents();
