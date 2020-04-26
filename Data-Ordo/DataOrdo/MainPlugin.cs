@@ -118,7 +118,7 @@ namespace DataOrdo
 			Application.DoEvents();
 			pluginData.cbEnabled.Checked = true;  // Init the new version
 			TabControl tc = (TabControl)pluginData.tpPluginSpace.Parent;
-			tc.SelectTab(tc.TabPages.Count - 1);    // Switch to last opened tab after reload
+			tc.SelectTab(tc.TabPages.Count - 1);
 		}
 	}
 }
