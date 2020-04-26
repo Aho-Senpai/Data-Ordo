@@ -15,6 +15,8 @@ namespace DataOrdo
         public MainPlugin PlugInstance;
         public bool CB_OOCLog;
         public bool CB_Timestamp;
+        public bool CB_OOCLogScroll;
+        public bool CB_OOCLogPrint;
 
         public UserInterfaceMain()
         {
@@ -65,6 +67,7 @@ namespace DataOrdo
                 OOC_Timestamp.BackColor = Color.Green; // Enable Option
                 OOC_Timestamp.Text = "Timestamp ON";
                 CB_Timestamp = true;
+
             }
         }
 
@@ -86,6 +89,51 @@ namespace DataOrdo
                 RegexOOCSearchBar.BackColor = Color.Gray;
             }
         }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            // Scroll at the bottom when new lines gets added
+            if (CB_OOCLogScroll == true)
+            {
+                richTextBox1.SelectionStart = richTextBox1.Text.Length;
+                richTextBox1.ScrollToCaret();
+            }
+        }
+
+        private void AutoScrollOOCLog_CheckedChanged(object sender, EventArgs e)
+        {
+            if (autoScrollOOCLog.BackColor == Color.Green)
+            {
+                autoScrollOOCLog.BackColor = Color.Red; // Disable Option
+                autoScrollOOCLog.Text = "Autoscroll OFF";
+                CB_OOCLogScroll = false;
+            }
+
+            else if (autoScrollOOCLog.BackColor == Color.Red)
+            {
+                autoScrollOOCLog.BackColor = Color.Green; // Enable Option
+                autoScrollOOCLog.Text = "Autoscroll ON";
+                CB_OOCLogScroll = true;
+                richTextBox1.ScrollToCaret();
+            }
+        }
+
+        private void OOC_LogPrint_CheckedChanged(object sender, EventArgs e)
+        {
+            if (OOC_LogPrint.BackColor == Color.Green)
+            {
+                OOC_LogPrint.BackColor = Color.Red; // Disable Option
+                OOC_LogPrint.Text = "Log OFF";
+                CB_OOCLogPrint = false;
+            }
+
+            else if (OOC_LogPrint.BackColor == Color.Red)
+            {
+                OOC_LogPrint.BackColor = Color.Green; // Enable Option
+                OOC_LogPrint.Text = "Log ON";
+                CB_OOCLogPrint = true;
+            }
+        }
         #endregion
 
         #region Encounter Logs Tab Controls
@@ -103,5 +151,6 @@ namespace DataOrdo
             }
         }
         #endregion
+
     }
 }

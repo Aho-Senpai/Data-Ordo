@@ -38,6 +38,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.autoScrollOOCLog = new System.Windows.Forms.CheckBox();
             this.RegexOOCSearchBar = new System.Windows.Forms.CheckBox();
             this.ClearOOCLogButton = new System.Windows.Forms.Button();
             this.OOC_Timestamp = new System.Windows.Forms.CheckBox();
@@ -53,6 +54,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.EncountersParsing = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.OOC_LogPrint = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -139,6 +141,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.OOC_LogPrint);
+            this.tabPage1.Controls.Add(this.autoScrollOOCLog);
             this.tabPage1.Controls.Add(this.RegexOOCSearchBar);
             this.tabPage1.Controls.Add(this.ClearOOCLogButton);
             this.tabPage1.Controls.Add(this.OOC_Timestamp);
@@ -151,6 +155,24 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Out Of Combat Logs";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // autoScrollOOCLog
+            // 
+            this.autoScrollOOCLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.autoScrollOOCLog.Appearance = System.Windows.Forms.Appearance.Button;
+            this.autoScrollOOCLog.BackColor = System.Drawing.Color.Red;
+            this.autoScrollOOCLog.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.autoScrollOOCLog.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.autoScrollOOCLog.ForeColor = System.Drawing.Color.White;
+            this.autoScrollOOCLog.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.autoScrollOOCLog.Location = new System.Drawing.Point(1376, 93);
+            this.autoScrollOOCLog.Name = "autoScrollOOCLog";
+            this.autoScrollOOCLog.Size = new System.Drawing.Size(98, 23);
+            this.autoScrollOOCLog.TabIndex = 14;
+            this.autoScrollOOCLog.Text = "AutoScroll OFF";
+            this.autoScrollOOCLog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.autoScrollOOCLog.UseVisualStyleBackColor = false;
+            this.autoScrollOOCLog.CheckedChanged += new System.EventHandler(this.AutoScrollOOCLog_CheckedChanged);
             // 
             // RegexOOCSearchBar
             // 
@@ -217,7 +239,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.textBox2);
             this.splitContainer1.Panel2.Controls.Add(this.richTextBox1);
             this.splitContainer1.Size = new System.Drawing.Size(1364, 547);
-            this.splitContainer1.SplitterDistance = 453;
+            this.splitContainer1.SplitterDistance = 300;
             this.splitContainer1.TabIndex = 10;
             // 
             // treeView1
@@ -229,7 +251,7 @@
             treeNode2.Text = "Out Of Combat Encounters";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode2});
-            this.treeView1.Size = new System.Drawing.Size(453, 547);
+            this.treeView1.Size = new System.Drawing.Size(300, 547);
             this.treeView1.TabIndex = 6;
             // 
             // textBox2
@@ -237,7 +259,7 @@
             this.textBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox2.Location = new System.Drawing.Point(0, 0);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(907, 20);
+            this.textBox2.Size = new System.Drawing.Size(1060, 20);
             this.textBox2.TabIndex = 5;
             // 
             // richTextBox1
@@ -248,10 +270,12 @@
             this.richTextBox1.Location = new System.Drawing.Point(0, 26);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(907, 521);
+            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
+            this.richTextBox1.Size = new System.Drawing.Size(1060, 521);
             this.richTextBox1.TabIndex = 8;
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // OutOfCombarParsing
             // 
@@ -360,6 +384,24 @@
             this.tabPage3.Text = "Tab3 (still not sure what)";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // OOC_LogPrint
+            // 
+            this.OOC_LogPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.OOC_LogPrint.Appearance = System.Windows.Forms.Appearance.Button;
+            this.OOC_LogPrint.BackColor = System.Drawing.Color.Green;
+            this.OOC_LogPrint.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.OOC_LogPrint.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.OOC_LogPrint.ForeColor = System.Drawing.Color.White;
+            this.OOC_LogPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.OOC_LogPrint.Location = new System.Drawing.Point(1376, 122);
+            this.OOC_LogPrint.Name = "OOC_LogPrint";
+            this.OOC_LogPrint.Size = new System.Drawing.Size(98, 23);
+            this.OOC_LogPrint.TabIndex = 15;
+            this.OOC_LogPrint.Text = "Log ON";
+            this.OOC_LogPrint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.OOC_LogPrint.UseVisualStyleBackColor = false;
+            this.OOC_LogPrint.CheckedChanged += new System.EventHandler(this.OOC_LogPrint_CheckedChanged);
+            // 
             // UserInterfaceMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -414,5 +456,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.Button ClearOOCLogButton;
         private System.Windows.Forms.CheckBox RegexOOCSearchBar;
+        private System.Windows.Forms.CheckBox autoScrollOOCLog;
+        private System.Windows.Forms.CheckBox OOC_LogPrint;
     }
 }

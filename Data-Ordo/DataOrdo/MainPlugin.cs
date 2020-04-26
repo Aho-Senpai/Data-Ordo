@@ -18,8 +18,9 @@ namespace DataOrdo
     public class MainPlugin : UserControl, IActPluginV1
     {
         Label lblStatus;	// Create a lblStatus to print a message on the plugin status in the plugin list in ACT
-        SettingsSerializer xmlSettings;	// For the settings file ? i think
-		string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Data-Ordo.config.xml"); // Path for the setting (file i think)
+        SettingsSerializer xmlSettings; // For the settings file ? i think
+		string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Data-Ordo.config.xml"); // Path for the settings file
+		string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\DataOrdo-Temp\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
 		UserInterfaceMain UIMain;   // Init UserInterface to display UI later
 
         #region Init & DeInit PLugin
@@ -31,9 +32,12 @@ namespace DataOrdo
 			xmlSettings = new SettingsSerializer(this);	// Create a new settings serializer and pass it this instance
 			this.Dock = DockStyle.Fill;                 // Expand the UserControl to fill the tab's client space
 			ActGlobals.oFormActMain.OnLogLineRead += OFormActMain_OnLogLineRead;
-			UIMain = new UserInterfaceMain();		// Declare UIMain 
+			UIMain = new UserInterfaceMain();       // Declare UIMain 
 			this.Controls.Add(UIMain);              // Use UI main and display it
+
 			UIMain.SetPluginVar(this);
+			UIMain.CB_Timestamp = true;
+			UIMain.CB_OOCLogPrint = true;
 
 			LoadSettings();
 
@@ -50,19 +54,10 @@ namespace DataOrdo
         }
 		#endregion
 
-        #region OOCLogs Tab Parsing
-        private void SetText(string text, RichTextBox textBox)
-		{
-			textBox.Text = text;
-		}
-
+		#region OOCLogs Tab Parsing
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
-			if (UIMain.CB_OOCLog == true && ActGlobals.oFormActMain.InCombat == false)
-			{
-				string msg = $"{UIMain.richTextBox1.Text}{logInfo.logLine}{Environment.NewLine}";
-				this.Invoke(new Action<string, RichTextBox>(SetText), msg, UIMain.richTextBox1);
-			}
+			// New logging logic goes here
 		}
         #endregion
 
