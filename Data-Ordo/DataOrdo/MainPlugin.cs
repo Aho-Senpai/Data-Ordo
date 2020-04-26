@@ -48,7 +48,6 @@ namespace DataOrdo
 			lblStatus.Text = "Ready To Crash";
         }
 
-
 		private void SetText(string text, RichTextBox textBox)
 		{
 			textBox.Text = text;
