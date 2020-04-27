@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,7 +54,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.EncountersParsing = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.OOC_LogPrint = new System.Windows.Forms.CheckBox();
+            this.ShowLogButton = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -141,7 +141,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.OOC_LogPrint);
+            this.tabPage1.Controls.Add(this.ShowLogButton);
             this.tabPage1.Controls.Add(this.autoScrollOOCLog);
             this.tabPage1.Controls.Add(this.RegexOOCSearchBar);
             this.tabPage1.Controls.Add(this.ClearOOCLogButton);
@@ -247,10 +247,10 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode2.Name = "Root";
-            treeNode2.Text = "Out Of Combat Encounters";
+            treeNode1.Name = "Root";
+            treeNode1.Text = "Out Of Combat Encounters";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode1});
             this.treeView1.Size = new System.Drawing.Size(300, 547);
             this.treeView1.TabIndex = 6;
             // 
@@ -384,23 +384,19 @@
             this.tabPage3.Text = "Tab3 (still not sure what)";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // OOC_LogPrint
+            // ShowLogButton
             // 
-            this.OOC_LogPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.OOC_LogPrint.Appearance = System.Windows.Forms.Appearance.Button;
-            this.OOC_LogPrint.BackColor = System.Drawing.Color.Green;
-            this.OOC_LogPrint.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.OOC_LogPrint.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.OOC_LogPrint.ForeColor = System.Drawing.Color.White;
-            this.OOC_LogPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.OOC_LogPrint.Location = new System.Drawing.Point(1376, 122);
-            this.OOC_LogPrint.Name = "OOC_LogPrint";
-            this.OOC_LogPrint.Size = new System.Drawing.Size(98, 23);
-            this.OOC_LogPrint.TabIndex = 15;
-            this.OOC_LogPrint.Text = "Log ON";
-            this.OOC_LogPrint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.OOC_LogPrint.UseVisualStyleBackColor = false;
-            this.OOC_LogPrint.CheckedChanged += new System.EventHandler(this.OOC_LogPrint_CheckedChanged);
+            this.ShowLogButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ShowLogButton.BackColor = System.Drawing.Color.MidnightBlue;
+            this.ShowLogButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ShowLogButton.ForeColor = System.Drawing.Color.White;
+            this.ShowLogButton.Location = new System.Drawing.Point(1376, 439);
+            this.ShowLogButton.Name = "ShowLogButton";
+            this.ShowLogButton.Size = new System.Drawing.Size(98, 23);
+            this.ShowLogButton.TabIndex = 15;
+            this.ShowLogButton.Text = "Log Click";
+            this.ShowLogButton.UseVisualStyleBackColor = false;
+            this.ShowLogButton.Click += new System.EventHandler(this.ShowLogButton_Click);
             // 
             // UserInterfaceMain
             // 
@@ -457,6 +453,6 @@
         private System.Windows.Forms.Button ClearOOCLogButton;
         private System.Windows.Forms.CheckBox RegexOOCSearchBar;
         private System.Windows.Forms.CheckBox autoScrollOOCLog;
-        private System.Windows.Forms.CheckBox OOC_LogPrint;
+        private System.Windows.Forms.Button ShowLogButton;
     }
 }

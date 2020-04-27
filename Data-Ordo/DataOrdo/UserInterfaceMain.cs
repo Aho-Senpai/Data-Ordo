@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace DataOrdo
 {
@@ -16,7 +17,6 @@ namespace DataOrdo
         public bool CB_OOCLog;
         public bool CB_Timestamp;
         public bool CB_OOCLogScroll;
-        public bool CB_OOCLogPrint;
 
         public UserInterfaceMain()
         {
@@ -118,21 +118,20 @@ namespace DataOrdo
             }
         }
 
-        private void OOC_LogPrint_CheckedChanged(object sender, EventArgs e)
+        private async void ShowLogButton_Click(object sender, EventArgs e)
         {
-            if (OOC_LogPrint.BackColor == Color.Green)
+            using (StreamReader sr = new StreamReader(PlugInstance.OOCLogFile))
             {
-                OOC_LogPrint.BackColor = Color.Red; // Disable Option
-                OOC_LogPrint.Text = "Log OFF";
-                CB_OOCLogPrint = false;
-            }
-
-            else if (OOC_LogPrint.BackColor == Color.Red)
-            {
-                OOC_LogPrint.BackColor = Color.Green; // Enable Option
-                OOC_LogPrint.Text = "Log ON";
-                CB_OOCLogPrint = true;
-            }
+                if (CB_Timestamp)
+                {
+                    string line = await sr.ReadToEndAsync();
+                    richTextBox1.Text = line;
+                }
+                else if (!CB_Timestamp)
+                {
+                    // remove the first 15 characters then print
+                }
+            }    
         }
         #endregion
 

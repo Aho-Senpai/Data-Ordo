@@ -19,8 +19,8 @@ namespace DataOrdo
     {
         Label lblStatus;	// Create a lblStatus to print a message on the plugin status in the plugin list in ACT
         SettingsSerializer xmlSettings; // For the settings file ? i think
-		string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Data-Ordo.config.xml"); // Path for the settings file
-		string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\DataOrdo-Temp\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
+		readonly string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\DataOrdo.config.xml"); // Path for the settings file
+		public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
 		UserInterfaceMain UIMain;   // Init UserInterface to display UI later
 
         #region Init & DeInit PLugin
@@ -49,6 +49,7 @@ namespace DataOrdo
 			ActGlobals.oFormActMain.OnLogLineRead -= OFormActMain_OnLogLineRead;
 
 			SaveSettings();
+			File.WriteAllText(OOCLogFile, "");	// Clears the file
 
 			lblStatus.Text = "Ready To Crash";
         }
@@ -57,7 +58,10 @@ namespace DataOrdo
 		#region OOCLogs Tab Parsing
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
-			// New logging logic goes here
+			if (UIMain.CB_OOCLog && !ActGlobals.oFormActMain.InCombat)	// this is the same as : if(UIMain.CB_OOCLog == true && ActGlobals.oFormActMain.InCombat == false)
+			{
+				File.AppendAllText(OOCLogFile, $"{logInfo.logLine}{Environment.NewLine}");	// Add line to LogFile If button Log is on AND not incombat
+			}
 		}
         #endregion
 
