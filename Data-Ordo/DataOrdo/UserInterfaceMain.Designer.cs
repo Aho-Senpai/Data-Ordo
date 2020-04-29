@@ -54,7 +54,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.EncountersParsing = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.ShowLogButton = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -141,7 +140,6 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.ShowLogButton);
             this.tabPage1.Controls.Add(this.autoScrollOOCLog);
             this.tabPage1.Controls.Add(this.RegexOOCSearchBar);
             this.tabPage1.Controls.Add(this.ClearOOCLogButton);
@@ -384,20 +382,6 @@
             this.tabPage3.Text = "Tab3 (still not sure what)";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // ShowLogButton
-            // 
-            this.ShowLogButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ShowLogButton.BackColor = System.Drawing.Color.MidnightBlue;
-            this.ShowLogButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ShowLogButton.ForeColor = System.Drawing.Color.White;
-            this.ShowLogButton.Location = new System.Drawing.Point(1376, 439);
-            this.ShowLogButton.Name = "ShowLogButton";
-            this.ShowLogButton.Size = new System.Drawing.Size(98, 23);
-            this.ShowLogButton.TabIndex = 15;
-            this.ShowLogButton.Text = "Log Click";
-            this.ShowLogButton.UseVisualStyleBackColor = false;
-            this.ShowLogButton.Click += new System.EventHandler(this.ShowLogButton_Click);
-            // 
             // UserInterfaceMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -453,6 +437,5 @@
         private System.Windows.Forms.Button ClearOOCLogButton;
         private System.Windows.Forms.CheckBox RegexOOCSearchBar;
         private System.Windows.Forms.CheckBox autoScrollOOCLog;
-        private System.Windows.Forms.Button ShowLogButton;
     }
 }

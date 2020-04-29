@@ -23,6 +23,7 @@ namespace DataOrdo
             this.Dock = DockStyle.Fill;
             InitializeComponent();
         }
+
         #region ToolStrip Controls
         public void SetPluginVar(MainPlugin PluginInstance)
         {
@@ -116,22 +117,6 @@ namespace DataOrdo
                 CB_OOCLogScroll = true;
                 richTextBox1.ScrollToCaret();
             }
-        }
-
-        private async void ShowLogButton_Click(object sender, EventArgs e)
-        {
-            using (StreamReader sr = new StreamReader(PlugInstance.OOCLogFile))
-            {
-                if (CB_Timestamp)
-                {
-                    string line = await sr.ReadToEndAsync();
-                    richTextBox1.Text = line;
-                }
-                else if (!CB_Timestamp)
-                {
-                    // remove the first 15 characters then print
-                }
-            }    
         }
         #endregion
 

@@ -15,21 +15,21 @@ using System.Xml;
 
 namespace DataOrdo
 {
-    public class MainPlugin : UserControl, IActPluginV1
-    {
-        Label lblStatus;	// Create a lblStatus to print a message on the plugin status in the plugin list in ACT
-        SettingsSerializer xmlSettings; // For the settings file ? i think
+	public class MainPlugin : UserControl, IActPluginV1
+	{
+		Label lblStatus;    // Create a lblStatus to print a message on the plugin status in the plugin list in ACT
+		SettingsSerializer xmlSettings; // For the settings file ? i think
 		readonly string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\DataOrdo.config.xml"); // Path for the settings file
 		public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
 		UserInterfaceMain UIMain;   // Init UserInterface to display UI later
 
-        #region Init & DeInit PLugin
-        public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
-        {
-			
-			lblStatus = pluginStatusText;			    // Hand the status label's reference to our local var
-			pluginScreenSpace.Controls.Add(this);		// Add this UserControl to the tab ACT provides
-			xmlSettings = new SettingsSerializer(this);	// Create a new settings serializer and pass it this instance
+		#region Init & DeInit PLugin
+		public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
+		{
+
+			lblStatus = pluginStatusText;               // Hand the status label's reference to our local var
+			pluginScreenSpace.Controls.Add(this);       // Add this UserControl to the tab ACT provides
+			xmlSettings = new SettingsSerializer(this); // Create a new settings serializer and pass it this instance
 			this.Dock = DockStyle.Fill;                 // Expand the UserControl to fill the tab's client space
 			ActGlobals.oFormActMain.OnLogLineRead += OFormActMain_OnLogLineRead;
 			UIMain = new UserInterfaceMain();       // Declare UIMain 
@@ -37,22 +37,21 @@ namespace DataOrdo
 
 			UIMain.SetPluginVar(this);
 			UIMain.CB_Timestamp = true;
-			UIMain.CB_OOCLogPrint = true;
 
 			LoadSettings();
 
-            lblStatus.Text = "Crash Avoided!";
-        }
+			lblStatus.Text = "Crash Avoided!";
+		}
 
 		public void DeInitPlugin()
-        {
+		{
 			ActGlobals.oFormActMain.OnLogLineRead -= OFormActMain_OnLogLineRead;
 
 			SaveSettings();
-			File.WriteAllText(OOCLogFile, "");	// Clears the file
+			File.WriteAllText(OOCLogFile, "");  // Clears the file
 
 			lblStatus.Text = "Ready To Crash";
-        }
+		}
 		#endregion
 
 		#region OOCLogs Tab Parsing
@@ -60,14 +59,24 @@ namespace DataOrdo
 		{
 			if (UIMain.CB_OOCLog && !ActGlobals.oFormActMain.InCombat)	// this is the same as : if(UIMain.CB_OOCLog == true && ActGlobals.oFormActMain.InCombat == false)
 			{
-				File.AppendAllText(OOCLogFile, $"{logInfo.logLine}{Environment.NewLine}");	// Add line to LogFile If button Log is on AND not incombat
+				// File.AppendAllText(OOCLogFile, $"{logInfo.logLine}{Environment.NewLine}");
+								
 			}
 		}
-        #endregion
 
-        #region Load & Save Settings
-        private void LoadSettings()
-        {
+		public class OOC_FFLogLine
+		{
+			public string Timestamp { get; set; }
+			public string LineId { get; set; }
+			public string LogLine { get; set; }
+			public override string ToString() {return $"{Timestamp} {LineId}:{LogLine}";}
+			public string ToStringNoTimestamp() {return $"{LineId}:{LogLine}";}
+		}
+		#endregion
+
+		#region Load & Save Settings
+		private void LoadSettings()
+		{
 			if (File.Exists(settingsFile))
 			{
 				FileStream fs = new FileStream(settingsFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -92,11 +101,11 @@ namespace DataOrdo
 				}
 				xReader.Close();
 			}
-        }
+		}
 
-        private void SaveSettings()
-        {
-            FileStream fs = new FileStream(settingsFile, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+		private void SaveSettings()
+		{
+			FileStream fs = new FileStream(settingsFile, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
 			XmlTextWriter xWriter = new XmlTextWriter(fs, Encoding.UTF8)
 			{
 				Formatting = Formatting.Indented,
@@ -112,10 +121,10 @@ namespace DataOrdo
 			xWriter.WriteEndDocument();                         // Tie up loose ends (shouldn't be any)
 			xWriter.Flush();                                    // Flush the file buffer to disk
 			xWriter.Close();
-        }
-        #endregion
+		}
+		#endregion
 
-        public void ReloadPlugin()
+		public void ReloadPlugin()
 		{
 			// This will reload the plugin and then grab the last opened tab (which is said plugin that we just restarted
 			ActPluginData pluginData = ActGlobals.oFormActMain.PluginGetSelfData(this);
@@ -125,5 +134,6 @@ namespace DataOrdo
 			TabControl tc = (TabControl)pluginData.tpPluginSpace.Parent;
 			tc.SelectTab(tc.TabPages.Count - 1);
 		}
+
 	}
 }
