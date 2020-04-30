@@ -30,7 +30,7 @@ namespace DataOrdo
             this.PlugInstance = PluginInstance; 
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void ToolStripButton1_Click(object sender, EventArgs e)
         {
             PlugInstance.ReloadPlugin();
         }
@@ -54,7 +54,7 @@ namespace DataOrdo
             }
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (OOC_Timestamp.BackColor == Color.Green)
             {
@@ -91,7 +91,7 @@ namespace DataOrdo
             }
         }
 
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        private void RichTextBox1_TextChanged(object sender, EventArgs e)
         {
             // Scroll at the bottom when new lines gets added
             if (CB_OOCLogScroll == true)

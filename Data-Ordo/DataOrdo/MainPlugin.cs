@@ -61,7 +61,7 @@ namespace DataOrdo
 			{
 				
 				
-				// File.AppendAllLines(OOCLogFile, OOC_FFLogLine.ToString); //?
+				File.AppendAllText(OOCLogFile, ); //?
 			}
 
 			else if (!UIMain.CB_OOCLog && !ActGlobals.oFormActMain.InCombat)
@@ -131,7 +131,6 @@ namespace DataOrdo
 			TabControl tc = (TabControl)pluginData.tpPluginSpace.Parent;
 			tc.SelectTab(tc.TabPages.Count - 1);
 		}
-
 	}
 
 	public class OOC_FFLogLine

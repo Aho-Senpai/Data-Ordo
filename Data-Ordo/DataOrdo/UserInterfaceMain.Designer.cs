@@ -114,7 +114,7 @@
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(84, 22);
             this.toolStripButton1.Text = "Reload Plugin";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1_Click);
             // 
             // statusStrip1
             // 
@@ -218,7 +218,7 @@
             this.OOC_Timestamp.Text = "Timestamp ON";
             this.OOC_Timestamp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.OOC_Timestamp.UseVisualStyleBackColor = false;
-            this.OOC_Timestamp.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.OOC_Timestamp.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 
             // splitContainer1
             // 
