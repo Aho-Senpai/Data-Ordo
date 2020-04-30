@@ -74,7 +74,7 @@ namespace DataOrdo
 
         private void ClearOOCLogButton_Click(object sender, EventArgs e)
         {
-            richTextBox1.Clear();
+            //richTextBox1.Clear();
         }
 
         private void RegexOOCSearchBar_CheckedChanged(object sender, EventArgs e)
@@ -96,8 +96,8 @@ namespace DataOrdo
             // Scroll at the bottom when new lines gets added
             if (CB_OOCLogScroll == true)
             {
-                richTextBox1.SelectionStart = richTextBox1.Text.Length;
-                richTextBox1.ScrollToCaret();
+                //richTextBox1.SelectionStart = richTextBox1.Text.Length;
+                //richTextBox1.ScrollToCaret();
             }
         }
 
@@ -115,7 +115,7 @@ namespace DataOrdo
                 autoScrollOOCLog.BackColor = Color.Green; // Enable Option
                 autoScrollOOCLog.Text = "Autoscroll ON";
                 CB_OOCLogScroll = true;
-                richTextBox1.ScrollToCaret();
+                // listView1.ScrollToCaret();
             }
         }
         #endregion
@@ -135,6 +135,5 @@ namespace DataOrdo
             }
         }
         #endregion
-
     }
 }

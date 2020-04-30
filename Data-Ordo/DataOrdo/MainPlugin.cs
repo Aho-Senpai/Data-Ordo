@@ -59,18 +59,15 @@ namespace DataOrdo
 		{
 			if (UIMain.CB_OOCLog && !ActGlobals.oFormActMain.InCombat)	// this is the same as : if(UIMain.CB_OOCLog == true && ActGlobals.oFormActMain.InCombat == false)
 			{
-				// File.AppendAllText(OOCLogFile, $"{logInfo.logLine}{Environment.NewLine}");
-								
+				
+				
+				// File.AppendAllLines(OOCLogFile, OOC_FFLogLine.ToString); //?
 			}
-		}
 
-		public class OOC_FFLogLine
-		{
-			public string Timestamp { get; set; }
-			public string LineId { get; set; }
-			public string LogLine { get; set; }
-			public override string ToString() {return $"{Timestamp} {LineId}:{LogLine}";}
-			public string ToStringNoTimestamp() {return $"{LineId}:{LogLine}";}
+			else if (!UIMain.CB_OOCLog && !ActGlobals.oFormActMain.InCombat)
+			{
+
+			}
 		}
 		#endregion
 
@@ -135,5 +132,14 @@ namespace DataOrdo
 			tc.SelectTab(tc.TabPages.Count - 1);
 		}
 
+	}
+
+	public class OOC_FFLogLine
+	{
+		public string Timestamp { get; set; }
+		public string LineId { get; set; }
+		public string LogLine { get; set; }
+		public override string ToString() { return $"{Timestamp} {LineId}:{LogLine}"; }
+		public string ToStringNoTimestamp() { return $"{LineId}:{LogLine}"; }
 	}
 }

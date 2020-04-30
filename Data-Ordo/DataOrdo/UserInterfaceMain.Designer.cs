@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,7 +45,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.OutOfCombarParsing = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -54,6 +53,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.EncountersParsing = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.listView1 = new System.Windows.Forms.ListView();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -234,8 +234,8 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.listView1);
             this.splitContainer1.Panel2.Controls.Add(this.textBox2);
-            this.splitContainer1.Panel2.Controls.Add(this.richTextBox1);
             this.splitContainer1.Size = new System.Drawing.Size(1364, 547);
             this.splitContainer1.SplitterDistance = 300;
             this.splitContainer1.TabIndex = 10;
@@ -245,10 +245,10 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "Root";
-            treeNode1.Text = "Out Of Combat Encounters";
+            treeNode4.Name = "Root";
+            treeNode4.Text = "Out Of Combat Encounters";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode4});
             this.treeView1.Size = new System.Drawing.Size(300, 547);
             this.treeView1.TabIndex = 6;
             // 
@@ -259,21 +259,6 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(1060, 20);
             this.textBox2.TabIndex = 5;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.Location = new System.Drawing.Point(0, 26);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
-            this.richTextBox1.Size = new System.Drawing.Size(1060, 521);
-            this.richTextBox1.TabIndex = 8;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.WordWrap = false;
-            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // OutOfCombarParsing
             // 
@@ -382,6 +367,15 @@
             this.tabPage3.Text = "Tab3 (still not sure what)";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // listView1
+            // 
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(0, 26);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(1060, 521);
+            this.listView1.TabIndex = 6;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            // 
             // UserInterfaceMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -424,7 +418,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.TextBox textBox2;
-        public System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TreeView treeView2;
         private System.Windows.Forms.TextBox textBox1;
@@ -437,5 +430,6 @@
         private System.Windows.Forms.Button ClearOOCLogButton;
         private System.Windows.Forms.CheckBox RegexOOCSearchBar;
         private System.Windows.Forms.CheckBox autoScrollOOCLog;
+        private System.Windows.Forms.ListView listView1;
     }
 }
