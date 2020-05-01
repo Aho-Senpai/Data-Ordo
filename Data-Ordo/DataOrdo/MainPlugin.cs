@@ -18,9 +18,6 @@ namespace DataOrdo
 	public class MainPlugin : UserControl, IActPluginV1
 	{
 		Label lblStatus;    // Create a lblStatus to print a message on the plugin status in the plugin list in ACT
-		SettingsSerializer xmlSettings; // For the settings file ? i think
-		readonly string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\DataOrdo.config.xml"); // Path for the settings file
-		public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
 		UserInterfaceMain UIMain;   // Init UserInterface to display UI later
 
 		#region Init & DeInit PLugin
@@ -55,23 +52,24 @@ namespace DataOrdo
 		#endregion
 
 		#region OOCLogs Tab Parsing
+		public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
+
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
-			if (UIMain.CB_OOCLog && !ActGlobals.oFormActMain.InCombat)	// this is the same as : if(UIMain.CB_OOCLog == true && ActGlobals.oFormActMain.InCombat == false)
+			if (!ActGlobals.oFormActMain.InCombat && UIMain.CB_OOCLog)
 			{
-				
-				
-				File.AppendAllText(OOCLogFile, ); //?
-			}
+				var line = new OOC_FFLogLine(logInfo.logLine);
+				string Log = line.ToString();
+				File.AppendAllText(OOCLogFile, Log);
 
-			else if (!UIMain.CB_OOCLog && !ActGlobals.oFormActMain.InCombat)
-			{
-
+				UIMain.listBox1.Items.Add(Log);
 			}
 		}
 		#endregion
 
 		#region Load & Save Settings
+		SettingsSerializer xmlSettings; // For the settings file ? i think
+		readonly string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\DataOrdo.config.xml"); // Path for the settings file
 		private void LoadSettings()
 		{
 			if (File.Exists(settingsFile))
@@ -135,10 +133,16 @@ namespace DataOrdo
 
 	public class OOC_FFLogLine
 	{
+		public OOC_FFLogLine(string Logline)
+		{
+			Timestamp = Logline.Substring(0, 14);
+			LineId = Logline.Substring(15, 2);
+			LogText = Logline.Substring(18);
+		}
 		public string Timestamp { get; set; }
 		public string LineId { get; set; }
-		public string LogLine { get; set; }
-		public override string ToString() { return $"{Timestamp} {LineId}:{LogLine}"; }
-		public string ToStringNoTimestamp() { return $"{LineId}:{LogLine}"; }
+		public string LogText { get; set; }
+		public override string ToString() { return $"{Timestamp} {LineId}:{LogText}{Environment.NewLine}"; }
+		public string ToStringNoTimestamp() { return $"{LineId}:{LogText}{Environment.NewLine}"; }
 	}
 }
