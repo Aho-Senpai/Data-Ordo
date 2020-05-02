@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,12 +38,14 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.domainUpDown1 = new System.Windows.Forms.DomainUpDown();
             this.autoScrollOOCLog = new System.Windows.Forms.CheckBox();
             this.RegexOOCSearchBar = new System.Windows.Forms.CheckBox();
             this.ClearOOCLogButton = new System.Windows.Forms.Button();
             this.OOC_Timestamp = new System.Windows.Forms.CheckBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.OutOfCombarParsing = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -53,7 +55,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.EncountersParsing = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -140,6 +141,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.domainUpDown1);
             this.tabPage1.Controls.Add(this.autoScrollOOCLog);
             this.tabPage1.Controls.Add(this.RegexOOCSearchBar);
             this.tabPage1.Controls.Add(this.ClearOOCLogButton);
@@ -153,6 +155,77 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Out Of Combat Logs";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // domainUpDown1
+            // 
+            this.domainUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.domainUpDown1.Items.Add("60");
+            this.domainUpDown1.Items.Add("59");
+            this.domainUpDown1.Items.Add("58");
+            this.domainUpDown1.Items.Add("57");
+            this.domainUpDown1.Items.Add("56");
+            this.domainUpDown1.Items.Add("55");
+            this.domainUpDown1.Items.Add("54");
+            this.domainUpDown1.Items.Add("53");
+            this.domainUpDown1.Items.Add("52");
+            this.domainUpDown1.Items.Add("51");
+            this.domainUpDown1.Items.Add("50");
+            this.domainUpDown1.Items.Add("49");
+            this.domainUpDown1.Items.Add("48");
+            this.domainUpDown1.Items.Add("47");
+            this.domainUpDown1.Items.Add("46");
+            this.domainUpDown1.Items.Add("45");
+            this.domainUpDown1.Items.Add("44");
+            this.domainUpDown1.Items.Add("43");
+            this.domainUpDown1.Items.Add("42");
+            this.domainUpDown1.Items.Add("41");
+            this.domainUpDown1.Items.Add("40");
+            this.domainUpDown1.Items.Add("39");
+            this.domainUpDown1.Items.Add("38");
+            this.domainUpDown1.Items.Add("37");
+            this.domainUpDown1.Items.Add("36");
+            this.domainUpDown1.Items.Add("35");
+            this.domainUpDown1.Items.Add("34");
+            this.domainUpDown1.Items.Add("33");
+            this.domainUpDown1.Items.Add("32");
+            this.domainUpDown1.Items.Add("31");
+            this.domainUpDown1.Items.Add("30");
+            this.domainUpDown1.Items.Add("29");
+            this.domainUpDown1.Items.Add("28");
+            this.domainUpDown1.Items.Add("27");
+            this.domainUpDown1.Items.Add("26");
+            this.domainUpDown1.Items.Add("25");
+            this.domainUpDown1.Items.Add("24");
+            this.domainUpDown1.Items.Add("23");
+            this.domainUpDown1.Items.Add("22");
+            this.domainUpDown1.Items.Add("21");
+            this.domainUpDown1.Items.Add("20");
+            this.domainUpDown1.Items.Add("19");
+            this.domainUpDown1.Items.Add("18");
+            this.domainUpDown1.Items.Add("17");
+            this.domainUpDown1.Items.Add("16");
+            this.domainUpDown1.Items.Add("15");
+            this.domainUpDown1.Items.Add("14");
+            this.domainUpDown1.Items.Add("13");
+            this.domainUpDown1.Items.Add("12");
+            this.domainUpDown1.Items.Add("11");
+            this.domainUpDown1.Items.Add("10");
+            this.domainUpDown1.Items.Add("9");
+            this.domainUpDown1.Items.Add("8");
+            this.domainUpDown1.Items.Add("7");
+            this.domainUpDown1.Items.Add("6");
+            this.domainUpDown1.Items.Add("5");
+            this.domainUpDown1.Items.Add("4");
+            this.domainUpDown1.Items.Add("3");
+            this.domainUpDown1.Items.Add("2");
+            this.domainUpDown1.Items.Add("1");
+            this.domainUpDown1.Location = new System.Drawing.Point(1376, 122);
+            this.domainUpDown1.Name = "domainUpDown1";
+            this.domainUpDown1.Size = new System.Drawing.Size(98, 20);
+            this.domainUpDown1.TabIndex = 8;
+            this.domainUpDown1.Text = "20";
+            this.domainUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.domainUpDown1.SelectedItemChanged += new System.EventHandler(this.domainUpDown1_SelectedItemChanged);
             // 
             // autoScrollOOCLog
             // 
@@ -245,12 +318,23 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode3.Name = "Root";
-            treeNode3.Text = "Out Of Combat Encounters";
+            treeNode1.Name = "Root";
+            treeNode1.Text = "Out Of Combat Encounters";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
+            treeNode1});
             this.treeView1.Size = new System.Drawing.Size(300, 547);
             this.treeView1.TabIndex = 6;
+            // 
+            // listBox1
+            // 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(0, 23);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(1060, 524);
+            this.listBox1.TabIndex = 7;
             // 
             // textBox2
             // 
@@ -367,17 +451,6 @@
             this.tabPage3.Text = "Tab3 (still not sure what)";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // listBox1
-            // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(0, 23);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(1060, 524);
-            this.listBox1.TabIndex = 7;
-            // 
             // UserInterfaceMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -433,5 +506,6 @@
         private System.Windows.Forms.CheckBox RegexOOCSearchBar;
         private System.Windows.Forms.CheckBox autoScrollOOCLog;
         public System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.DomainUpDown domainUpDown1;
     }
 }

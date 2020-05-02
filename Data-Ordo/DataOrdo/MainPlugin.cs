@@ -58,11 +58,11 @@ namespace DataOrdo
 		{
 			if (!ActGlobals.oFormActMain.InCombat && UIMain.CB_OOCLog)
 			{
-				var line = new OOC_FFLogLine(logInfo.logLine);
+				var line = new FFLogLine(logInfo.logLine);
 				string Log = line.ToString();
 				File.AppendAllText(OOCLogFile, Log);
 
-				UIMain.listBox1.Items.Add(Log);
+				UIMain.listBox1.Items.Add(Log); // to add logic for it and move there
 			}
 		}
 		#endregion
@@ -131,9 +131,9 @@ namespace DataOrdo
 		}
 	}
 
-	public class OOC_FFLogLine
+	public class FFLogLine
 	{
-		public OOC_FFLogLine(string Logline)
+		public FFLogLine(string Logline)
 		{
 			Timestamp = Logline.Substring(0, 14);
 			LineId = Logline.Substring(15, 2);

@@ -17,6 +17,7 @@ namespace DataOrdo
         public bool CB_OOCLog;
         public bool CB_Timestamp;
         public bool CB_OOCLogScroll;
+        public int i;
 
         public UserInterfaceMain()
         {
@@ -74,7 +75,7 @@ namespace DataOrdo
 
         private void ClearOOCLogButton_Click(object sender, EventArgs e)
         {
-            //richTextBox1.Clear();
+            listBox1.Text = ""; 
         }
 
         private void RegexOOCSearchBar_CheckedChanged(object sender, EventArgs e)
@@ -91,13 +92,13 @@ namespace DataOrdo
             }
         }
 
-        private void RichTextBox1_TextChanged(object sender, EventArgs e)
+        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Scroll at the bottom when new lines gets added
             if (CB_OOCLogScroll == true)
             {
-                //richTextBox1.SelectionStart = richTextBox1.Text.Length;
-                //richTextBox1.ScrollToCaret();
+                //listBox1.SelectedIndex = listBox1.Items.Count - 1;
+                //listBox1.SelectedIndex = -1;
             }
         }
 
@@ -115,7 +116,8 @@ namespace DataOrdo
                 autoScrollOOCLog.BackColor = Color.Green; // Enable Option
                 autoScrollOOCLog.Text = "Autoscroll ON";
                 CB_OOCLogScroll = true;
-                // listView1.ScrollToCaret();
+                listBox1.SelectedIndex = listBox1.Items.Count - 1;
+                listBox1.SelectedIndex = -1;
             }
         }
         #endregion
@@ -135,5 +137,10 @@ namespace DataOrdo
             }
         }
         #endregion
+
+        private void domainUpDown1_SelectedItemChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
