@@ -56,13 +56,23 @@ namespace DataOrdo
 
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
-			if (!ActGlobals.oFormActMain.InCombat && UIMain.CB_OOCLog)
+			if (!ActGlobals.oFormActMain.InCombat && UIMain.CB_OOCParse)
 			{
 				var line = new FFLogLine(logInfo.logLine);
 				string Log = line.ToString();
 				File.AppendAllText(OOCLogFile, Log);
 
-				UIMain.listBox1.Items.Add(Log); // to add logic for it and move there
+				if (UIMain.CB_OOCLog)
+				{
+					if (UIMain.CB_Timestamp)
+					{
+						UIMain.listBox1.Items.Add(line.ToString());
+					}
+					else if (!UIMain.CB_Timestamp)
+					{
+						UIMain.listBox1.Items.Add(line.ToStringNoTimestamp());
+					}
+				}
 			}
 		}
 		#endregion

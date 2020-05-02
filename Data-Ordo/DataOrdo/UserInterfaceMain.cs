@@ -14,9 +14,10 @@ namespace DataOrdo
     public partial class UserInterfaceMain : UserControl
     {
         public MainPlugin PlugInstance;
-        public bool CB_OOCLog;
+        public bool CB_OOCParse;
         public bool CB_Timestamp;
         public bool CB_OOCLogScroll;
+        public bool CB_OOCLog = true;
         public int i;
 
         public UserInterfaceMain()
@@ -44,14 +45,14 @@ namespace DataOrdo
             {
                 OutOfCombarParsing.Text = "Parsing OFF";
                 OutOfCombarParsing.BackColor = Color.Red;
-                CB_OOCLog = false;
+                CB_OOCParse = false;
             }
 
             else if (OutOfCombarParsing.BackColor == Color.Red)
             {
                 OutOfCombarParsing.Text = "Parsing ON";
                 OutOfCombarParsing.BackColor = Color.Green;
-                CB_OOCLog = true;
+                CB_OOCParse = true;
             }
         }
 
@@ -62,6 +63,7 @@ namespace DataOrdo
                 OOC_Timestamp.BackColor = Color.Red; // Disable Option
                 OOC_Timestamp.Text = "Timestamp OFF";
                 CB_Timestamp = false;
+                
             }
 
             else if (OOC_Timestamp.BackColor == Color.Red)
@@ -75,7 +77,7 @@ namespace DataOrdo
 
         private void ClearOOCLogButton_Click(object sender, EventArgs e)
         {
-            listBox1.Text = ""; 
+            listBox1.Items.Clear();
         }
 
         private void RegexOOCSearchBar_CheckedChanged(object sender, EventArgs e)
@@ -120,6 +122,23 @@ namespace DataOrdo
                 listBox1.SelectedIndex = -1;
             }
         }
+
+        private void OOCLog_CheckedChanged(object sender, EventArgs e)
+        {
+            if (OOCLog.BackColor == Color.Green)
+            {
+                OOCLog.Text = "Log OFF";
+                OOCLog.BackColor = Color.Red;
+                CB_OOCLog = false;
+            }
+
+            else if (OOCLog.BackColor == Color.Red)
+            {
+                OOCLog.Text = "Log ON";
+                OOCLog.BackColor = Color.Green;
+                CB_OOCLog = true;
+            }
+        }
         #endregion
 
         #region Encounter Logs Tab Controls
@@ -142,5 +161,6 @@ namespace DataOrdo
         {
             
         }
+
     }
 }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +55,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.EncountersParsing = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.OOCLog = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -141,6 +142,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.OOCLog);
             this.tabPage1.Controls.Add(this.domainUpDown1);
             this.tabPage1.Controls.Add(this.autoScrollOOCLog);
             this.tabPage1.Controls.Add(this.RegexOOCSearchBar);
@@ -219,7 +221,7 @@
             this.domainUpDown1.Items.Add("3");
             this.domainUpDown1.Items.Add("2");
             this.domainUpDown1.Items.Add("1");
-            this.domainUpDown1.Location = new System.Drawing.Point(1376, 122);
+            this.domainUpDown1.Location = new System.Drawing.Point(1376, 93);
             this.domainUpDown1.Name = "domainUpDown1";
             this.domainUpDown1.Size = new System.Drawing.Size(98, 20);
             this.domainUpDown1.TabIndex = 8;
@@ -236,7 +238,7 @@
             this.autoScrollOOCLog.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.autoScrollOOCLog.ForeColor = System.Drawing.Color.White;
             this.autoScrollOOCLog.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.autoScrollOOCLog.Location = new System.Drawing.Point(1376, 93);
+            this.autoScrollOOCLog.Location = new System.Drawing.Point(1376, 148);
             this.autoScrollOOCLog.Name = "autoScrollOOCLog";
             this.autoScrollOOCLog.Size = new System.Drawing.Size(98, 23);
             this.autoScrollOOCLog.TabIndex = 14;
@@ -284,7 +286,7 @@
             this.OOC_Timestamp.BackColor = System.Drawing.Color.Green;
             this.OOC_Timestamp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.OOC_Timestamp.ForeColor = System.Drawing.Color.White;
-            this.OOC_Timestamp.Location = new System.Drawing.Point(1376, 64);
+            this.OOC_Timestamp.Location = new System.Drawing.Point(1376, 119);
             this.OOC_Timestamp.Name = "OOC_Timestamp";
             this.OOC_Timestamp.Size = new System.Drawing.Size(98, 23);
             this.OOC_Timestamp.TabIndex = 11;
@@ -318,10 +320,10 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "Root";
-            treeNode1.Text = "Out Of Combat Encounters";
+            treeNode2.Name = "Root";
+            treeNode2.Text = "Out Of Combat Encounters";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeView1.Size = new System.Drawing.Size(300, 547);
             this.treeView1.TabIndex = 6;
             // 
@@ -451,6 +453,24 @@
             this.tabPage3.Text = "Tab3 (still not sure what)";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // OOCLog
+            // 
+            this.OOCLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.OOCLog.Appearance = System.Windows.Forms.Appearance.Button;
+            this.OOCLog.BackColor = System.Drawing.Color.Green;
+            this.OOCLog.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.OOCLog.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.OOCLog.ForeColor = System.Drawing.Color.White;
+            this.OOCLog.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.OOCLog.Location = new System.Drawing.Point(1376, 64);
+            this.OOCLog.Name = "OOCLog";
+            this.OOCLog.Size = new System.Drawing.Size(98, 23);
+            this.OOCLog.TabIndex = 15;
+            this.OOCLog.Text = "Log ON";
+            this.OOCLog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.OOCLog.UseVisualStyleBackColor = false;
+            this.OOCLog.CheckedChanged += new System.EventHandler(this.OOCLog_CheckedChanged);
+            // 
             // UserInterfaceMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -507,5 +527,6 @@
         private System.Windows.Forms.CheckBox autoScrollOOCLog;
         public System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.DomainUpDown domainUpDown1;
+        private System.Windows.Forms.CheckBox OOCLog;
     }
 }
