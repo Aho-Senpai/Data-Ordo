@@ -33,7 +33,6 @@ namespace DataOrdo
 			this.Controls.Add(UIMain);              // Use UI main and display it
 
 			UIMain.SetPluginVar(this);
-			UIMain.CB_Timestamp = true;
 
 			LoadSettings();
 
@@ -61,18 +60,7 @@ namespace DataOrdo
 				var line = new FFLogLine(logInfo.logLine);
 				string Log = line.ToString();
 				File.AppendAllText(OOCLogFile, Log);
-
-				if (UIMain.CB_OOCLog)
-				{
-					if (UIMain.CB_Timestamp)
-					{
-						UIMain.listBox1.Items.Add(line.ToString());
-					}
-					else if (!UIMain.CB_Timestamp)
-					{
-						UIMain.listBox1.Items.Add(line.ToStringNoTimestamp());
-					}
-				}
+				UIMain.MyFFData.Add(new FFLogLine(logInfo.logLine));
 			}
 		}
 		#endregion
@@ -148,11 +136,15 @@ namespace DataOrdo
 			Timestamp = Logline.Substring(0, 14);
 			LineId = Logline.Substring(15, 2);
 			LogText = Logline.Substring(18);
+			FFFullLogLine = ToString();
+			FFNoTSLogLine = ToStringNoTimeline();
 		}
 		public string Timestamp { get; set; }
 		public string LineId { get; set; }
 		public string LogText { get; set; }
+		public string FFFullLogLine { get; }
+		public string FFNoTSLogLine { get; }
 		public override string ToString() { return $"{Timestamp} {LineId}:{LogText}{Environment.NewLine}"; }
-		public string ToStringNoTimestamp() { return $"{LineId}:{LogText}{Environment.NewLine}"; }
+		public string ToStringNoTimeline() { return $"{LineId}:{LogText}{Environment.NewLine}"; }
 	}
 }

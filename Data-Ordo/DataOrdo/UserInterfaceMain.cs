@@ -16,15 +16,19 @@ namespace DataOrdo
     {
         public MainPlugin PlugInstance;
         public bool CB_OOCParse;
-        public bool CB_Timestamp;
+        public bool CB_Timestamp = true;
         public bool CB_OOCLogScroll;
         public bool CB_OOCLog = true;
-        public int i;
+        public BindingList<FFLogLine> MyFFData = new BindingList<FFLogLine>();
+
 
         public UserInterfaceMain()
         {
             this.Dock = DockStyle.Fill;
             InitializeComponent();
+
+            listBox1.DataSource = MyFFData;
+            listBox1.DisplayMember = "FullDisplay";
         }
 
         #region ToolStrip Controls
@@ -64,22 +68,14 @@ namespace DataOrdo
                 OOC_Timestamp.BackColor = Color.Red; // Disable Option
                 OOC_Timestamp.Text = "Timestamp OFF";
                 CB_Timestamp = false;
-                for (int i = 0; i < listBox1.Items.Count; i++)
-                {
-                    string line = listBox1.Items[i].ToString();
-                    if (Regex.IsMatch(line, @"^\["))
-                    {
-                        //remove the first 15 characters
-                    }
-                }
+                listBox1.DisplayMember = "FFNoTSLogLine";
             }
-
             else if (OOC_Timestamp.BackColor == Color.Red)
             {
                 OOC_Timestamp.BackColor = Color.Green; // Enable Option
                 OOC_Timestamp.Text = "Timestamp ON";
                 CB_Timestamp = true;
-
+                listBox1.DisplayMember = "FFFullLogLine";
             }
         }
 
