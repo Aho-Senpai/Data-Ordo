@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,8 +38,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.domainUpDown1 = new System.Windows.Forms.DomainUpDown();
-            this.autoScrollOOCLog = new System.Windows.Forms.CheckBox();
+            this.OOCLog = new System.Windows.Forms.CheckBox();
             this.RegexOOCSearchBar = new System.Windows.Forms.CheckBox();
             this.ClearOOCLogButton = new System.Windows.Forms.Button();
             this.OOC_Timestamp = new System.Windows.Forms.CheckBox();
@@ -55,7 +54,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.EncountersParsing = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.OOCLog = new System.Windows.Forms.CheckBox();
+            this.CombatToggle = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -142,9 +141,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.CombatToggle);
             this.tabPage1.Controls.Add(this.OOCLog);
-            this.tabPage1.Controls.Add(this.domainUpDown1);
-            this.tabPage1.Controls.Add(this.autoScrollOOCLog);
             this.tabPage1.Controls.Add(this.RegexOOCSearchBar);
             this.tabPage1.Controls.Add(this.ClearOOCLogButton);
             this.tabPage1.Controls.Add(this.OOC_Timestamp);
@@ -158,94 +156,23 @@
             this.tabPage1.Text = "Out Of Combat Logs";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // domainUpDown1
+            // OOCLog
             // 
-            this.domainUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.domainUpDown1.Items.Add("60");
-            this.domainUpDown1.Items.Add("59");
-            this.domainUpDown1.Items.Add("58");
-            this.domainUpDown1.Items.Add("57");
-            this.domainUpDown1.Items.Add("56");
-            this.domainUpDown1.Items.Add("55");
-            this.domainUpDown1.Items.Add("54");
-            this.domainUpDown1.Items.Add("53");
-            this.domainUpDown1.Items.Add("52");
-            this.domainUpDown1.Items.Add("51");
-            this.domainUpDown1.Items.Add("50");
-            this.domainUpDown1.Items.Add("49");
-            this.domainUpDown1.Items.Add("48");
-            this.domainUpDown1.Items.Add("47");
-            this.domainUpDown1.Items.Add("46");
-            this.domainUpDown1.Items.Add("45");
-            this.domainUpDown1.Items.Add("44");
-            this.domainUpDown1.Items.Add("43");
-            this.domainUpDown1.Items.Add("42");
-            this.domainUpDown1.Items.Add("41");
-            this.domainUpDown1.Items.Add("40");
-            this.domainUpDown1.Items.Add("39");
-            this.domainUpDown1.Items.Add("38");
-            this.domainUpDown1.Items.Add("37");
-            this.domainUpDown1.Items.Add("36");
-            this.domainUpDown1.Items.Add("35");
-            this.domainUpDown1.Items.Add("34");
-            this.domainUpDown1.Items.Add("33");
-            this.domainUpDown1.Items.Add("32");
-            this.domainUpDown1.Items.Add("31");
-            this.domainUpDown1.Items.Add("30");
-            this.domainUpDown1.Items.Add("29");
-            this.domainUpDown1.Items.Add("28");
-            this.domainUpDown1.Items.Add("27");
-            this.domainUpDown1.Items.Add("26");
-            this.domainUpDown1.Items.Add("25");
-            this.domainUpDown1.Items.Add("24");
-            this.domainUpDown1.Items.Add("23");
-            this.domainUpDown1.Items.Add("22");
-            this.domainUpDown1.Items.Add("21");
-            this.domainUpDown1.Items.Add("20");
-            this.domainUpDown1.Items.Add("19");
-            this.domainUpDown1.Items.Add("18");
-            this.domainUpDown1.Items.Add("17");
-            this.domainUpDown1.Items.Add("16");
-            this.domainUpDown1.Items.Add("15");
-            this.domainUpDown1.Items.Add("14");
-            this.domainUpDown1.Items.Add("13");
-            this.domainUpDown1.Items.Add("12");
-            this.domainUpDown1.Items.Add("11");
-            this.domainUpDown1.Items.Add("10");
-            this.domainUpDown1.Items.Add("9");
-            this.domainUpDown1.Items.Add("8");
-            this.domainUpDown1.Items.Add("7");
-            this.domainUpDown1.Items.Add("6");
-            this.domainUpDown1.Items.Add("5");
-            this.domainUpDown1.Items.Add("4");
-            this.domainUpDown1.Items.Add("3");
-            this.domainUpDown1.Items.Add("2");
-            this.domainUpDown1.Items.Add("1");
-            this.domainUpDown1.Location = new System.Drawing.Point(1376, 93);
-            this.domainUpDown1.Name = "domainUpDown1";
-            this.domainUpDown1.Size = new System.Drawing.Size(98, 20);
-            this.domainUpDown1.TabIndex = 8;
-            this.domainUpDown1.Text = "20";
-            this.domainUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.domainUpDown1.SelectedItemChanged += new System.EventHandler(this.domainUpDown1_SelectedItemChanged);
-            // 
-            // autoScrollOOCLog
-            // 
-            this.autoScrollOOCLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.autoScrollOOCLog.Appearance = System.Windows.Forms.Appearance.Button;
-            this.autoScrollOOCLog.BackColor = System.Drawing.Color.Red;
-            this.autoScrollOOCLog.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.autoScrollOOCLog.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoScrollOOCLog.ForeColor = System.Drawing.Color.White;
-            this.autoScrollOOCLog.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.autoScrollOOCLog.Location = new System.Drawing.Point(1376, 148);
-            this.autoScrollOOCLog.Name = "autoScrollOOCLog";
-            this.autoScrollOOCLog.Size = new System.Drawing.Size(98, 23);
-            this.autoScrollOOCLog.TabIndex = 14;
-            this.autoScrollOOCLog.Text = "AutoScroll OFF";
-            this.autoScrollOOCLog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.autoScrollOOCLog.UseVisualStyleBackColor = false;
-            this.autoScrollOOCLog.CheckedChanged += new System.EventHandler(this.AutoScrollOOCLog_CheckedChanged);
+            this.OOCLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.OOCLog.Appearance = System.Windows.Forms.Appearance.Button;
+            this.OOCLog.BackColor = System.Drawing.Color.Green;
+            this.OOCLog.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.OOCLog.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.OOCLog.ForeColor = System.Drawing.Color.White;
+            this.OOCLog.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.OOCLog.Location = new System.Drawing.Point(1376, 64);
+            this.OOCLog.Name = "OOCLog";
+            this.OOCLog.Size = new System.Drawing.Size(98, 23);
+            this.OOCLog.TabIndex = 15;
+            this.OOCLog.Text = "Log ON";
+            this.OOCLog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.OOCLog.UseVisualStyleBackColor = false;
+            this.OOCLog.CheckedChanged += new System.EventHandler(this.OOCLog_CheckedChanged);
             // 
             // RegexOOCSearchBar
             // 
@@ -286,14 +213,14 @@
             this.OOC_Timestamp.BackColor = System.Drawing.Color.Green;
             this.OOC_Timestamp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.OOC_Timestamp.ForeColor = System.Drawing.Color.White;
-            this.OOC_Timestamp.Location = new System.Drawing.Point(1376, 119);
+            this.OOC_Timestamp.Location = new System.Drawing.Point(1376, 122);
             this.OOC_Timestamp.Name = "OOC_Timestamp";
             this.OOC_Timestamp.Size = new System.Drawing.Size(98, 23);
             this.OOC_Timestamp.TabIndex = 11;
             this.OOC_Timestamp.Text = "Timestamp ON";
             this.OOC_Timestamp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.OOC_Timestamp.UseVisualStyleBackColor = false;
-            this.OOC_Timestamp.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
+            this.OOC_Timestamp.CheckedChanged += new System.EventHandler(this.OOC_Timestamp_CheckedChanged);
             // 
             // splitContainer1
             // 
@@ -320,10 +247,10 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode2.Name = "Root";
-            treeNode2.Text = "Out Of Combat Encounters";
+            treeNode6.Name = "Root";
+            treeNode6.Text = "Out Of Combat Encounters";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode6});
             this.treeView1.Size = new System.Drawing.Size(300, 547);
             this.treeView1.TabIndex = 6;
             // 
@@ -453,23 +380,18 @@
             this.tabPage3.Text = "Tab3 (still not sure what)";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // OOCLog
+            // CombatToggle
             // 
-            this.OOCLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.OOCLog.Appearance = System.Windows.Forms.Appearance.Button;
-            this.OOCLog.BackColor = System.Drawing.Color.Green;
-            this.OOCLog.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.OOCLog.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.OOCLog.ForeColor = System.Drawing.Color.White;
-            this.OOCLog.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.OOCLog.Location = new System.Drawing.Point(1376, 64);
-            this.OOCLog.Name = "OOCLog";
-            this.OOCLog.Size = new System.Drawing.Size(98, 23);
-            this.OOCLog.TabIndex = 15;
-            this.OOCLog.Text = "Log ON";
-            this.OOCLog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.OOCLog.UseVisualStyleBackColor = false;
-            this.OOCLog.CheckedChanged += new System.EventHandler(this.OOCLog_CheckedChanged);
+            this.CombatToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CombatToggle.BackColor = System.Drawing.Color.Gray;
+            this.CombatToggle.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.CombatToggle.ForeColor = System.Drawing.Color.White;
+            this.CombatToggle.Location = new System.Drawing.Point(1376, 93);
+            this.CombatToggle.Name = "CombatToggle";
+            this.CombatToggle.Size = new System.Drawing.Size(98, 23);
+            this.CombatToggle.TabIndex = 13;
+            this.CombatToggle.UseVisualStyleBackColor = false;
+            this.CombatToggle.Click += new System.EventHandler(this.CombatToggle_Click);
             // 
             // UserInterfaceMain
             // 
@@ -524,9 +446,8 @@
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.Button ClearOOCLogButton;
         private System.Windows.Forms.CheckBox RegexOOCSearchBar;
-        private System.Windows.Forms.CheckBox autoScrollOOCLog;
         public System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.DomainUpDown domainUpDown1;
         private System.Windows.Forms.CheckBox OOCLog;
+        public System.Windows.Forms.Button CombatToggle;
     }
 }

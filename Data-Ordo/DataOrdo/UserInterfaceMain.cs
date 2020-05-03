@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Advanced_Combat_Tracker;
 
 namespace DataOrdo
 {
@@ -20,7 +21,8 @@ namespace DataOrdo
         public bool CB_OOCLogScroll;
         public bool CB_OOCLog = true;
         public BindingList<FFLogLine> MyFFData = new BindingList<FFLogLine>();
-
+        public bool IsInCombat;
+        
 
         public UserInterfaceMain()
         {
@@ -61,7 +63,7 @@ namespace DataOrdo
             }
         }
 
-        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
+        private void OOC_Timestamp_CheckedChanged(object sender, EventArgs e)
         {
             if (OOC_Timestamp.BackColor == Color.Green)
             {
@@ -81,7 +83,8 @@ namespace DataOrdo
 
         private void ClearOOCLogButton_Click(object sender, EventArgs e)
         {
-            listBox1.Items.Clear();
+            // this line will throw an error because listbox is tied to a DataSource
+            // listBox1.Items.Clear();
         }
 
         private void RegexOOCSearchBar_CheckedChanged(object sender, EventArgs e)
@@ -95,35 +98,6 @@ namespace DataOrdo
             {
                 RegexOOCSearchBar.Text = "Regex OFF";
                 RegexOOCSearchBar.BackColor = Color.Gray;
-            }
-        }
-
-        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Scroll at the bottom when new lines gets added
-            if (CB_OOCLogScroll == true)
-            {
-                //listBox1.SelectedIndex = listBox1.Items.Count - 1;
-                //listBox1.SelectedIndex = -1;
-            }
-        }
-
-        private void AutoScrollOOCLog_CheckedChanged(object sender, EventArgs e)
-        {
-            if (autoScrollOOCLog.BackColor == Color.Green)
-            {
-                autoScrollOOCLog.BackColor = Color.Red; // Disable Option
-                autoScrollOOCLog.Text = "Autoscroll OFF";
-                CB_OOCLogScroll = false;
-            }
-
-            else if (autoScrollOOCLog.BackColor == Color.Red)
-            {
-                autoScrollOOCLog.BackColor = Color.Green; // Enable Option
-                autoScrollOOCLog.Text = "Autoscroll ON";
-                CB_OOCLogScroll = true;
-                listBox1.SelectedIndex = listBox1.Items.Count - 1;
-                listBox1.SelectedIndex = -1;
             }
         }
 
@@ -143,6 +117,12 @@ namespace DataOrdo
                 CB_OOCLog = true;
             }
         }
+        
+        private void CombatToggle_Click(object sender, EventArgs e)
+        {
+            if (IsInCombat)
+                ActGlobals.oFormActMain.EndCombat(export: true);
+        }
         #endregion
 
         #region Encounter Logs Tab Controls
@@ -160,11 +140,6 @@ namespace DataOrdo
             }
         }
         #endregion
-
-        private void domainUpDown1_SelectedItemChanged(object sender, EventArgs e)
-        {
-            
-        }
 
     }
 }

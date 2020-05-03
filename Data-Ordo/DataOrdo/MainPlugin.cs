@@ -29,29 +29,52 @@ namespace DataOrdo
 			xmlSettings = new SettingsSerializer(this); // Create a new settings serializer and pass it this instance
 			this.Dock = DockStyle.Fill;                 // Expand the UserControl to fill the tab's client space
 			ActGlobals.oFormActMain.OnLogLineRead += OFormActMain_OnLogLineRead;
+			ActGlobals.oFormActMain.OnCombatStart += OFormActMain_OnCombatStart;
+			ActGlobals.oFormActMain.OnCombatEnd += OFormActMain_OnCombatEnd;
+
 			UIMain = new UserInterfaceMain();       // Declare UIMain 
 			this.Controls.Add(UIMain);              // Use UI main and display it
 
-			UIMain.SetPluginVar(this);
+            #region Set Button "CombatToggle" on Init
+			// This Region sets the state of the "CombatToggle" button on PluginInit
+            if (ActGlobals.oFormActMain.InCombat)
+			{
+				UIMain.CombatToggle.BackColor = Color.Red;
+				UIMain.CombatToggle.Text = "In Combat";
+				UIMain.IsInCombat = true;
+			}
+			if (!ActGlobals.oFormActMain.InCombat)
+			{
+				UIMain.CombatToggle.BackColor = Color.Green;
+				UIMain.CombatToggle.Text = "Out Of Combat";
+				UIMain.IsInCombat = false;
+			}
+            #endregion
+
+            UIMain.SetPluginVar(this);
 
 			LoadSettings();
 
 			lblStatus.Text = "Crash Avoided!";
 		}
 
+
 		public void DeInitPlugin()
 		{
 			ActGlobals.oFormActMain.OnLogLineRead -= OFormActMain_OnLogLineRead;
+			ActGlobals.oFormActMain.OnCombatStart -= OFormActMain_OnCombatStart;
+			ActGlobals.oFormActMain.OnCombatEnd -= OFormActMain_OnCombatEnd;
 
 			SaveSettings();
 			File.WriteAllText(OOCLogFile, "");  // Clears the file
 
 			lblStatus.Text = "Ready To Crash";
 		}
-		#endregion
+        #endregion
 
-		#region OOCLogs Tab Parsing
-		public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
+        #region OOCLogs Tab
+        #region Parsing
+        public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
 
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
@@ -60,13 +83,30 @@ namespace DataOrdo
 				var line = new FFLogLine(logInfo.logLine);
 				string Log = line.ToString();
 				File.AppendAllText(OOCLogFile, Log);
-				UIMain.MyFFData.Add(new FFLogLine(logInfo.logLine));
+				if (UIMain.CB_OOCLog)
+					UIMain.MyFFData.Add(new FFLogLine(logInfo.logLine));
 			}
 		}
-		#endregion
+        #endregion
+        #region CombatToggle Button Logic
+        private void OFormActMain_OnCombatEnd(bool isImport, CombatToggleEventArgs encounterInfo)
+		{
+			UIMain.CombatToggle.BackColor = Color.Green;
+			UIMain.CombatToggle.Text = "Out Of Combat";
+			UIMain.IsInCombat = false;
+		}
 
-		#region Load & Save Settings
-		SettingsSerializer xmlSettings; // For the settings file ? i think
+		private void OFormActMain_OnCombatStart(bool isImport, CombatToggleEventArgs encounterInfo)
+		{
+			UIMain.CombatToggle.BackColor = Color.Red;
+			UIMain.CombatToggle.Text = "In Combat";
+			UIMain.IsInCombat = true;
+		}
+        #endregion
+        #endregion
+
+        #region Load & Save Settings
+        SettingsSerializer xmlSettings; // For the settings file ? i think
 		readonly string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\DataOrdo.config.xml"); // Path for the settings file
 		private void LoadSettings()
 		{
