@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
@@ -63,7 +64,14 @@ namespace DataOrdo
                 OOC_Timestamp.BackColor = Color.Red; // Disable Option
                 OOC_Timestamp.Text = "Timestamp OFF";
                 CB_Timestamp = false;
-                
+                for (int i = 0; i < listBox1.Items.Count; i++)
+                {
+                    string line = listBox1.Items[i].ToString();
+                    if (Regex.IsMatch(line, @"^\["))
+                    {
+                        //remove the first 15 characters
+                    }
+                }
             }
 
             else if (OOC_Timestamp.BackColor == Color.Red)
