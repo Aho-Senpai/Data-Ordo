@@ -73,8 +73,8 @@ namespace DataOrdo
         #endregion
 
         #region OOCLogs Tab
-        #region Parsing
         public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
+		public string EncounterLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Encounter_LogFileTemp.txt");
 
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
@@ -86,9 +86,16 @@ namespace DataOrdo
 				if (UIMain.CB_OOCLog)
 					UIMain.MyFFData.Add(new FFLogLine(logInfo.logLine));
 			}
+			if (ActGlobals.oFormActMain.InCombat && UIMain.EncounterParsing)
+			{
+				var line = new FFLogLine(logInfo.logLine);
+				string Log = line.ToString();
+				File.AppendAllText(EncounterLogFile, Log);
+				UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
+			}
 		}
         #endregion
-        #region CombatToggle Button Logic
+        #region OnCombat Start/End Events
         private void OFormActMain_OnCombatEnd(bool isImport, CombatToggleEventArgs encounterInfo)
 		{
 			UIMain.CombatToggle.BackColor = Color.Green;
@@ -102,7 +109,6 @@ namespace DataOrdo
 			UIMain.CombatToggle.Text = "In Combat";
 			UIMain.IsInCombat = true;
 		}
-        #endregion
         #endregion
 
         #region Load & Save Settings

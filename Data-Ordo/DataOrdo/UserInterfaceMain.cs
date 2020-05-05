@@ -17,26 +17,32 @@ namespace DataOrdo
     {
         public MainPlugin PlugInstance;
         public bool CB_OOCParse;
-        public bool CB_Timestamp = true;
+        public bool CB_OOCTimestamp = true;
         public bool CB_OOCLogScroll;
         public bool CB_OOCLog = true;
         public BindingList<FFLogLine> MyFFData = new BindingList<FFLogLine>();
+        public BindingList<FFLogLine> MyFFDataEnc = new BindingList<FFLogLine>();
         public bool IsInCombat;
-        
+        public bool EncounterParsing;
+        public bool CB_EncTimestamp;
+
 
         public UserInterfaceMain()
         {
             this.Dock = DockStyle.Fill;
             InitializeComponent();
 
-            listBox1.DataSource = MyFFData;
-            listBox1.DisplayMember = "FullDisplay";
+            OOC_Logs_ListBox.DataSource = MyFFData;
+            OOC_Logs_ListBox.DisplayMember = "FullDisplay";
+
+            Enc_Logs_ListBox.DataSource = MyFFDataEnc;
+            Enc_Logs_ListBox.DisplayMember = "FullDisplay";
         }
 
         #region ToolStrip Controls
         public void SetPluginVar(MainPlugin PluginInstance)
         {
-            this.PlugInstance = PluginInstance; 
+            this.PlugInstance = PluginInstance;
         }
 
         private void ToolStripButton1_Click(object sender, EventArgs e)
@@ -46,6 +52,19 @@ namespace DataOrdo
         #endregion
 
         #region Out Of Combat Logs Tab Controlls
+        private void RegexOOCSearchBar_CheckedChanged(object sender, EventArgs e) //WIP
+        {
+            if (RegexOOCSearchBar.BackColor == Color.Gray)
+            {
+                RegexOOCSearchBar.Text = "Regex ON";
+                RegexOOCSearchBar.BackColor = Color.Blue;
+            }
+            else if (RegexOOCSearchBar.BackColor == Color.Blue)
+            {
+                RegexOOCSearchBar.Text = "Regex OFF";
+                RegexOOCSearchBar.BackColor = Color.Gray;
+            }
+        }
         private void OutOfCombarParsing_CheckedChanged(object sender, EventArgs e)
         {
             if (OutOfCombarParsing.BackColor == Color.Green)
@@ -62,45 +81,23 @@ namespace DataOrdo
                 CB_OOCParse = true;
             }
         }
-
         private void OOC_Timestamp_CheckedChanged(object sender, EventArgs e)
         {
             if (OOC_Timestamp.BackColor == Color.Green)
             {
                 OOC_Timestamp.BackColor = Color.Red; // Disable Option
                 OOC_Timestamp.Text = "Timestamp OFF";
-                CB_Timestamp = false;
-                listBox1.DisplayMember = "FFNoTSLogLine";
+                CB_OOCTimestamp = false;
+                OOC_Logs_ListBox.DisplayMember = "FFNoTSLogLine";
             }
             else if (OOC_Timestamp.BackColor == Color.Red)
             {
                 OOC_Timestamp.BackColor = Color.Green; // Enable Option
                 OOC_Timestamp.Text = "Timestamp ON";
-                CB_Timestamp = true;
-                listBox1.DisplayMember = "FFFullLogLine";
+                CB_OOCTimestamp = true;
+                OOC_Logs_ListBox.DisplayMember = "FFFullLogLine";
             }
         }
-
-        private void ClearOOCLogButton_Click(object sender, EventArgs e)
-        {
-            // this line will throw an error because listbox is tied to a DataSource
-            // listBox1.Items.Clear();
-        }
-
-        private void RegexOOCSearchBar_CheckedChanged(object sender, EventArgs e)
-        {
-            if (RegexOOCSearchBar.BackColor == Color.Gray)
-            {
-                RegexOOCSearchBar.Text = "Regex ON";
-                RegexOOCSearchBar.BackColor = Color.Blue;
-            }
-            else if (RegexOOCSearchBar.BackColor == Color.Blue)
-            {
-                RegexOOCSearchBar.Text = "Regex OFF";
-                RegexOOCSearchBar.BackColor = Color.Gray;
-            }
-        }
-
         private void OOCLog_CheckedChanged(object sender, EventArgs e)
         {
             if (OOCLog.BackColor == Color.Green)
@@ -117,29 +114,54 @@ namespace DataOrdo
                 CB_OOCLog = true;
             }
         }
-        
         private void CombatToggle_Click(object sender, EventArgs e)
         {
             if (IsInCombat)
                 ActGlobals.oFormActMain.EndCombat(export: true);
         }
-        #endregion
-
-        #region Encounter Logs Tab Controls
-        private void EncountersParsing_CheckedChanged(object sender, EventArgs e)
+        private void ClearOOCLogButton_Click(object sender, EventArgs e) //WIP - Broken ATM
         {
-            if (EncountersParsing.BackColor == Color.Green)
-            {
-                EncountersParsing.Text = "Parsing OFF";
-                EncountersParsing.BackColor = Color.Red;
-            }
-            else if (EncountersParsing.BackColor == Color.Red)
-            {
-                EncountersParsing.Text = "Parsing ON";
-                EncountersParsing.BackColor = Color.Green;
-            }
+            // this line will throw an error because listbox is tied to a DataSource
+            // listBox1.Items.Clear();
+        }
+      
+        private void OOC_SearchTextBox_TextChanged(object sender, EventArgs e) // WIP
+        {
+            //listBox1.DataSource = MyFFData.Where(item => item.ToString().Contains(OOC_SearchTextBox.Text));
         }
         #endregion
 
+        #region Encounter Logs Tab Controls
+        private void RegexEncSearchBar_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RegexEncSearchBar.BackColor == Color.Gray)
+            {
+                RegexEncSearchBar.Text = "Regex ON";
+                RegexEncSearchBar.BackColor = Color.Blue;
+            }
+            else if (RegexEncSearchBar.BackColor == Color.Blue)
+            {
+                RegexEncSearchBar.Text = "Regex OFF";
+                RegexEncSearchBar.BackColor = Color.Gray;
+            }
+        }
+        private void EncTimestamp_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Enc_Timestamp.BackColor == Color.Green)
+            {
+                Enc_Timestamp.BackColor = Color.Red; // Disable Option
+                Enc_Timestamp.Text = "Timestamp OFF";
+                CB_EncTimestamp = false;
+                Enc_Logs_ListBox.DisplayMember = "FFNoTSLogLine";
+            }
+            else if (Enc_Timestamp.BackColor == Color.Red)
+            {
+                Enc_Timestamp.BackColor = Color.Green; // Enable Option
+                Enc_Timestamp.Text = "Timestamp ON";
+                CB_EncTimestamp = true;
+                Enc_Logs_ListBox.DisplayMember = "FFFullLogLine";
+            }
+        }
+        #endregion
     }
 }
