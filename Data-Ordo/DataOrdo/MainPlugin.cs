@@ -1,4 +1,5 @@
 ﻿using Advanced_Combat_Tracker;
+using FFXIV_ACT_Plugin.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,6 +32,9 @@ namespace DataOrdo
 			ActGlobals.oFormActMain.OnLogLineRead += OFormActMain_OnLogLineRead;
 			ActGlobals.oFormActMain.OnCombatStart += OFormActMain_OnCombatStart;
 			ActGlobals.oFormActMain.OnCombatEnd += OFormActMain_OnCombatEnd;
+			
+
+			
 
 			UIMain = new UserInterfaceMain();       // Declare UIMain 
 			this.Controls.Add(UIMain);              // Use UI main and display it
@@ -58,6 +62,20 @@ namespace DataOrdo
 			lblStatus.Text = "Crash Avoided!";
 		}
 
+		private static IDataSubscription subscription;
+		private static IDataSubscription GetSubscription()
+		{
+			if (subscription != null)
+				return subscription;
+
+			var FFXIV = ActGlobals.oFormActMain.ActPlugins.FirstOrDefault(x => x.lblPluginTitle.Text == "FFXIV_ACT_Plugin.dll");
+			if (FFXIV != null && FFXIV.pluginObj != null)
+			{
+				subscription = (IDataSubscription)FFXIV.pluginObj.GetType().GetProperty("DataSubscription").GetValue(FFXIV.pluginObj);	
+			}
+			return subscription;
+			// Subsription has the ZoneChanged data
+		}	
 
 		public void DeInitPlugin()
 		{
