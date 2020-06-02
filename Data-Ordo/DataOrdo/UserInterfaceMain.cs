@@ -131,11 +131,23 @@ namespace DataOrdo
 
         private void OOC_Logs_ListBox_KeyDown(object sender, KeyEventArgs e)
         {
-            // This allows the user to use CTRL+C to copy the selected line.
+            // This allows the user to use CTRL+C to copy the selected lines.
             if (e.Control == true && e.KeyCode == Keys.C)
             {
-                string s = OOC_Logs_ListBox.SelectedItem.ToString();
-                Clipboard.SetData(DataFormats.StringFormat, s);
+                try
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (object row in OOC_Logs_ListBox.SelectedItems)
+                    {
+                        sb.Append(row.ToString());
+                    }
+                    sb.Remove(sb.Length - 1, 1); // Just to avoid copying last empty row
+                    Clipboard.SetData(System.Windows.Forms.DataFormats.Text, sb.ToString());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
         #endregion
