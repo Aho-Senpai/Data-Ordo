@@ -16,21 +16,23 @@ namespace DataOrdo
     public partial class UserInterfaceMain : UserControl
     {
         public MainPlugin PlugInstance;
-        public bool CB_OOCParse;
-        public bool CB_OOCTimestamp = true;
-        public bool CB_OOCLogScroll;
+
         public bool CB_OOCLog = true;
-        public BindingList<FFLogLine> MyFFDataOOC = new BindingList<FFLogLine>();
-        public BindingList<FFLogLine> MyFFDataEnc = new BindingList<FFLogLine>();
-        public bool IsInCombat;
-        public bool EncounterParsing;
+        
+        public bool CB_OOCTimestamp = true;
         public bool CB_EncTimestamp;
 
+        public bool IsInCombat;
+
+        public BindingList<FFLogLine> MyFFDataOOC = new BindingList<FFLogLine>();
+        public BindingList<FFLogLine> MyFFDataEnc = new BindingList<FFLogLine>();
 
         public UserInterfaceMain()
         {
             this.Dock = DockStyle.Fill;
             InitializeComponent();
+
+            toolStrip1.Renderer = new MyRenderer();
 
             OOC_Logs_ListBox.DataSource = MyFFDataOOC;
             OOC_Logs_ListBox.DisplayMember = "FullDisplay";
@@ -49,6 +51,19 @@ namespace DataOrdo
         {
             PlugInstance.ReloadPlugin();
         }
+        private void Parse_Click(object sender, EventArgs e)
+        {
+            if (Parse.BackColor == Color.Red)
+            {
+                Parse.Text = "Parse ON";
+                Parse.BackColor = Color.Green;
+            }
+            else if (Parse.BackColor == Color.Green)
+            {
+                Parse.Text = "Parse OFF";
+                Parse.BackColor = Color.Red;
+            }
+        }
         #endregion
 
         #region Out Of Combat Logs Tab Controlls
@@ -63,22 +78,6 @@ namespace DataOrdo
             {
                 RegexOOCSearchBar.Text = "Regex OFF";
                 RegexOOCSearchBar.BackColor = Color.Gray;
-            }
-        }
-        private void OutOfCombarParsing_CheckedChanged(object sender, EventArgs e)
-        {
-            if (OutOfCombarParsing.BackColor == Color.Green)
-            {
-                OutOfCombarParsing.Text = "Parsing OFF";
-                OutOfCombarParsing.BackColor = Color.Red;
-                CB_OOCParse = false;
-            }
-
-            else if (OutOfCombarParsing.BackColor == Color.Red)
-            {
-                OutOfCombarParsing.Text = "Parsing ON";
-                OutOfCombarParsing.BackColor = Color.Green;
-                CB_OOCParse = true;
             }
         }
         private void OOC_Timestamp_CheckedChanged(object sender, EventArgs e)
@@ -173,5 +172,34 @@ namespace DataOrdo
             }
         }
         #endregion
+
+    }
+
+    class MyRenderer : ToolStripProfessionalRenderer
+    {
+        // This whole thing is to remove the highlight on the toolstrip button Parse >.>
+        protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
+        {
+            if (!e.Item.Selected)
+            {
+                base.OnRenderButtonBackground(e);
+            }
+
+            else if (e.Item.BackColor == Color.Red || e.Item.BackColor == Color.Green)
+            {
+                Rectangle rectangle = new Rectangle(0, 0, e.Item.Size.Width - 1, e.Item.Size.Height - 1);
+
+                if (e.Item.BackColor == Color.Green)
+                {
+                    e.Graphics.FillRectangle(Brushes.Green, rectangle);
+                    e.Graphics.DrawRectangle(Pens.Green, rectangle);
+                }
+                else if (e.Item.BackColor == Color.Red)
+                {
+                    e.Graphics.FillRectangle(Brushes.Red, rectangle);
+                    e.Graphics.DrawRectangle(Pens.Red, rectangle);
+                }
+            }
+        }
     }
 }

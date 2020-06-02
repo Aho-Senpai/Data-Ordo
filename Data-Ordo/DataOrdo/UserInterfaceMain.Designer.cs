@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.Parse = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -47,7 +48,6 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.OOC_Logs_ListBox = new System.Windows.Forms.ListBox();
             this.OOC_SearchTextBox = new System.Windows.Forms.TextBox();
-            this.OutOfCombarParsing = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.Enc_Timestamp = new System.Windows.Forms.CheckBox();
             this.RegexEncSearchBar = new System.Windows.Forms.CheckBox();
@@ -75,6 +75,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButton1,
             this.toolStripSeparator1,
+            this.Parse,
             this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -106,6 +107,20 @@
             this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // Parse
+            // 
+            this.Parse.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.Parse.BackColor = System.Drawing.Color.Red;
+            this.Parse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.Parse.ForeColor = System.Drawing.Color.White;
+            this.Parse.Image = ((System.Drawing.Image)(resources.GetObject("Parse.Image")));
+            this.Parse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Parse.Name = "Parse";
+            this.Parse.Size = new System.Drawing.Size(63, 22);
+            this.Parse.Text = "Parse OFF";
+            this.Parse.ToolTipText = " Toggle Parsing - Both for OOC and Enc";
+            this.Parse.Click += new System.EventHandler(this.Parse_Click);
             // 
             // toolStripButton1
             // 
@@ -148,7 +163,6 @@
             this.tabPage1.Controls.Add(this.ClearOOCLogButton);
             this.tabPage1.Controls.Add(this.OOC_Timestamp);
             this.tabPage1.Controls.Add(this.splitContainer1);
-            this.tabPage1.Controls.Add(this.OutOfCombarParsing);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -163,7 +177,7 @@
             this.CombatToggle.BackColor = System.Drawing.Color.Gray;
             this.CombatToggle.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.CombatToggle.ForeColor = System.Drawing.Color.White;
-            this.CombatToggle.Location = new System.Drawing.Point(1376, 93);
+            this.CombatToggle.Location = new System.Drawing.Point(1376, 64);
             this.CombatToggle.Name = "CombatToggle";
             this.CombatToggle.Size = new System.Drawing.Size(98, 23);
             this.CombatToggle.TabIndex = 13;
@@ -179,7 +193,7 @@
             this.OOCLog.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.OOCLog.ForeColor = System.Drawing.Color.White;
             this.OOCLog.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.OOCLog.Location = new System.Drawing.Point(1376, 64);
+            this.OOCLog.Location = new System.Drawing.Point(1376, 35);
             this.OOCLog.Name = "OOCLog";
             this.OOCLog.Size = new System.Drawing.Size(98, 23);
             this.OOCLog.TabIndex = 15;
@@ -227,7 +241,7 @@
             this.OOC_Timestamp.BackColor = System.Drawing.Color.Green;
             this.OOC_Timestamp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.OOC_Timestamp.ForeColor = System.Drawing.Color.White;
-            this.OOC_Timestamp.Location = new System.Drawing.Point(1376, 122);
+            this.OOC_Timestamp.Location = new System.Drawing.Point(1376, 93);
             this.OOC_Timestamp.Name = "OOC_Timestamp";
             this.OOC_Timestamp.Size = new System.Drawing.Size(98, 23);
             this.OOC_Timestamp.TabIndex = 11;
@@ -261,10 +275,10 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode2.Name = "Root";
-            treeNode2.Text = "Out Of Combat Encounters";
+            treeNode1.Name = "Root";
+            treeNode1.Text = "Out Of Combat Encounters";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode1});
             this.treeView1.Size = new System.Drawing.Size(300, 547);
             this.treeView1.TabIndex = 6;
             // 
@@ -288,24 +302,6 @@
             this.OOC_SearchTextBox.Size = new System.Drawing.Size(1060, 20);
             this.OOC_SearchTextBox.TabIndex = 5;
             this.OOC_SearchTextBox.TextChanged += new System.EventHandler(this.OOC_SearchTextBox_TextChanged);
-            // 
-            // OutOfCombarParsing
-            // 
-            this.OutOfCombarParsing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.OutOfCombarParsing.Appearance = System.Windows.Forms.Appearance.Button;
-            this.OutOfCombarParsing.BackColor = System.Drawing.Color.Red;
-            this.OutOfCombarParsing.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.OutOfCombarParsing.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.OutOfCombarParsing.ForeColor = System.Drawing.Color.White;
-            this.OutOfCombarParsing.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.OutOfCombarParsing.Location = new System.Drawing.Point(1376, 35);
-            this.OutOfCombarParsing.Name = "OutOfCombarParsing";
-            this.OutOfCombarParsing.Size = new System.Drawing.Size(98, 23);
-            this.OutOfCombarParsing.TabIndex = 3;
-            this.OutOfCombarParsing.Text = "Parsing OFF";
-            this.OutOfCombarParsing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.OutOfCombarParsing.UseVisualStyleBackColor = false;
-            this.OutOfCombarParsing.CheckedChanged += new System.EventHandler(this.OutOfCombarParsing_CheckedChanged);
             // 
             // tabPage2
             // 
@@ -453,7 +449,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.CheckBox OutOfCombarParsing;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView treeView1;
@@ -474,5 +469,6 @@
         private System.Windows.Forms.ListBox Enc_Logs_ListBox;
         private System.Windows.Forms.CheckBox RegexEncSearchBar;
         private System.Windows.Forms.CheckBox Enc_Timestamp;
+        public System.Windows.Forms.ToolStripButton Parse;
     }
 }

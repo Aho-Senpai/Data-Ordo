@@ -72,13 +72,13 @@ namespace DataOrdo
 		}
 		#endregion
 
-		#region OOCLogs Tab
+		#region Parsing ON/OFF
 		public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
 		public string EncounterLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Encounter_LogFileTemp.txt");
 
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
-			if (!ActGlobals.oFormActMain.InCombat && UIMain.CB_OOCParse)
+			if (!ActGlobals.oFormActMain.InCombat && UIMain.Parse.BackColor == Color.Green)
 			{
 				var line = new FFLogLine(logInfo.logLine);
 				string Log = line.ToString();
@@ -87,7 +87,7 @@ namespace DataOrdo
 					UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
 			}
 
-			if (ActGlobals.oFormActMain.InCombat && UIMain.EncounterParsing)
+			if (ActGlobals.oFormActMain.InCombat && UIMain.Parse.BackColor == Color.Green)
 			{
 				var line = new FFLogLine(logInfo.logLine);
 				string Log = line.ToString();
@@ -96,12 +96,15 @@ namespace DataOrdo
 			}
 		}
 		#endregion
+
 		#region OnCombat Start/End Events
 		private void OFormActMain_OnCombatEnd(bool isImport, CombatToggleEventArgs encounterInfo)
 		{
 			UIMain.CombatToggle.BackColor = Color.Green;
 			UIMain.CombatToggle.Text = "Out Of Combat";
 			UIMain.IsInCombat = false;
+
+			// grab the out of combat tab IF CB_OOCLog == True
 
 			// Split Encounter here
 
@@ -112,6 +115,8 @@ namespace DataOrdo
 			UIMain.CombatToggle.BackColor = Color.Red;
 			UIMain.CombatToggle.Text = "In Combat";
 			UIMain.IsInCombat = true;
+
+			// grab the encounter tab
 
 			// do some log split here too
 		}
