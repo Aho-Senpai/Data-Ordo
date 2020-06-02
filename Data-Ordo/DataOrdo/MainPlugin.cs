@@ -1,5 +1,4 @@
 ﻿using Advanced_Combat_Tracker;
-using FFXIV_ACT_Plugin.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,16 +31,14 @@ namespace DataOrdo
 			ActGlobals.oFormActMain.OnLogLineRead += OFormActMain_OnLogLineRead;
 			ActGlobals.oFormActMain.OnCombatStart += OFormActMain_OnCombatStart;
 			ActGlobals.oFormActMain.OnCombatEnd += OFormActMain_OnCombatEnd;
-			
-
-			
+			ActGlobals.oFormActMain.BeforeLogLineRead += OFormActMain_BeforeLogLineRead;
 
 			UIMain = new UserInterfaceMain();       // Declare UIMain 
 			this.Controls.Add(UIMain);              // Use UI main and display it
 
-            #region Set Button "CombatToggle" on Init
+			#region Set Button "CombatToggle" on Init
 			// This Region sets the state of the "CombatToggle" button on PluginInit
-            if (ActGlobals.oFormActMain.InCombat)
+			if (ActGlobals.oFormActMain.InCombat)
 			{
 				UIMain.CombatToggle.BackColor = Color.Red;
 				UIMain.CombatToggle.Text = "In Combat";
@@ -53,29 +50,14 @@ namespace DataOrdo
 				UIMain.CombatToggle.Text = "Out Of Combat";
 				UIMain.IsInCombat = false;
 			}
-            #endregion
+			#endregion
 
-            UIMain.SetPluginVar(this);
+			UIMain.SetPluginVar(this);
 
 			LoadSettings();
 
 			lblStatus.Text = "Crash Avoided!";
 		}
-
-		private static IDataSubscription subscription;
-		private static IDataSubscription GetSubscription()
-		{
-			if (subscription != null)
-				return subscription;
-
-			var FFXIV = ActGlobals.oFormActMain.ActPlugins.FirstOrDefault(x => x.lblPluginTitle.Text == "FFXIV_ACT_Plugin.dll");
-			if (FFXIV != null && FFXIV.pluginObj != null)
-			{
-				subscription = (IDataSubscription)FFXIV.pluginObj.GetType().GetProperty("DataSubscription").GetValue(FFXIV.pluginObj);	
-			}
-			return subscription;
-			// Subsription has the ZoneChanged data
-		}	
 
 		public void DeInitPlugin()
 		{
@@ -88,10 +70,10 @@ namespace DataOrdo
 
 			lblStatus.Text = "Ready To Crash";
 		}
-        #endregion
+		#endregion
 
-        #region OOCLogs Tab
-        public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
+		#region OOCLogs Tab
+		public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
 		public string EncounterLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Encounter_LogFileTemp.txt");
 
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
@@ -102,8 +84,9 @@ namespace DataOrdo
 				string Log = line.ToString();
 				File.AppendAllText(OOCLogFile, Log);
 				if (UIMain.CB_OOCLog)
-					UIMain.MyFFData.Add(new FFLogLine(logInfo.logLine));
+					UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
 			}
+
 			if (ActGlobals.oFormActMain.InCombat && UIMain.EncounterParsing)
 			{
 				var line = new FFLogLine(logInfo.logLine);
@@ -112,13 +95,16 @@ namespace DataOrdo
 				UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
 			}
 		}
-        #endregion
-        #region OnCombat Start/End Events
-        private void OFormActMain_OnCombatEnd(bool isImport, CombatToggleEventArgs encounterInfo)
+		#endregion
+		#region OnCombat Start/End Events
+		private void OFormActMain_OnCombatEnd(bool isImport, CombatToggleEventArgs encounterInfo)
 		{
 			UIMain.CombatToggle.BackColor = Color.Green;
 			UIMain.CombatToggle.Text = "Out Of Combat";
 			UIMain.IsInCombat = false;
+
+			// Split Encounter here
+
 		}
 
 		private void OFormActMain_OnCombatStart(bool isImport, CombatToggleEventArgs encounterInfo)
@@ -126,11 +112,19 @@ namespace DataOrdo
 			UIMain.CombatToggle.BackColor = Color.Red;
 			UIMain.CombatToggle.Text = "In Combat";
 			UIMain.IsInCombat = true;
-		}
-        #endregion
 
-        #region Load & Save Settings
-        SettingsSerializer xmlSettings; // For the settings file ? i think
+			// do some log split here too
+		}
+		#endregion
+		private void OFormActMain_BeforeLogLineRead(bool isImport, LogLineEventArgs logInfo)
+		{
+			// regex some lines and split log here
+
+			// also remove selected lines set in a later config
+		}
+
+		#region Load & Save Settings
+		SettingsSerializer xmlSettings; // For the settings file ? i think
 		readonly string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\DataOrdo.config.xml"); // Path for the settings file
 		private void LoadSettings()
 		{

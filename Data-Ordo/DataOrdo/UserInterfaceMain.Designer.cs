@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -261,10 +261,10 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "Root";
-            treeNode1.Text = "Out Of Combat Encounters";
+            treeNode2.Name = "Root";
+            treeNode2.Text = "Out Of Combat Encounters";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeView1.Size = new System.Drawing.Size(300, 547);
             this.treeView1.TabIndex = 6;
             // 
@@ -276,6 +276,7 @@
             this.OOC_Logs_ListBox.FormattingEnabled = true;
             this.OOC_Logs_ListBox.Location = new System.Drawing.Point(0, 23);
             this.OOC_Logs_ListBox.Name = "OOC_Logs_ListBox";
+            this.OOC_Logs_ListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.OOC_Logs_ListBox.Size = new System.Drawing.Size(1060, 524);
             this.OOC_Logs_ListBox.TabIndex = 7;
             // 
@@ -438,6 +439,11 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void OOC_Logs_ListBox_KeyDown1(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion

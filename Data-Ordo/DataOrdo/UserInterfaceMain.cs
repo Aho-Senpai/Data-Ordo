@@ -20,7 +20,7 @@ namespace DataOrdo
         public bool CB_OOCTimestamp = true;
         public bool CB_OOCLogScroll;
         public bool CB_OOCLog = true;
-        public BindingList<FFLogLine> MyFFData = new BindingList<FFLogLine>();
+        public BindingList<FFLogLine> MyFFDataOOC = new BindingList<FFLogLine>();
         public BindingList<FFLogLine> MyFFDataEnc = new BindingList<FFLogLine>();
         public bool IsInCombat;
         public bool EncounterParsing;
@@ -32,7 +32,7 @@ namespace DataOrdo
             this.Dock = DockStyle.Fill;
             InitializeComponent();
 
-            OOC_Logs_ListBox.DataSource = MyFFData;
+            OOC_Logs_ListBox.DataSource = MyFFDataOOC;
             OOC_Logs_ListBox.DisplayMember = "FullDisplay";
 
             Enc_Logs_ListBox.DataSource = MyFFDataEnc;
@@ -127,7 +127,17 @@ namespace DataOrdo
       
         private void OOC_SearchTextBox_TextChanged(object sender, EventArgs e) // WIP
         {
-            //listBox1.DataSource = MyFFData.Where(item => item.ToString().Contains(OOC_SearchTextBox.Text));
+            //listBox1.DataSource = MyFFDataOOC.Where(item => item.ToString().Contains(OOC_SearchTextBox.Text));
+        }
+
+        private void OOC_Logs_ListBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // This allows the user to use CTRL+C to copy the selected line.
+            if (e.Control == true && e.KeyCode == Keys.C)
+            {
+                string s = OOC_Logs_ListBox.SelectedItem.ToString();
+                Clipboard.SetData(DataFormats.StringFormat, s);
+            }
         }
         #endregion
 
