@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Encounters Logs");
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -230,7 +231,7 @@
             this.ClearOOCLogButton.Name = "ClearOOCLogButton";
             this.ClearOOCLogButton.Size = new System.Drawing.Size(98, 23);
             this.ClearOOCLogButton.TabIndex = 12;
-            this.ClearOOCLogButton.Text = "Clear Log";
+            this.ClearOOCLogButton.Text = "Clear";
             this.ClearOOCLogButton.UseVisualStyleBackColor = false;
             this.ClearOOCLogButton.Click += new System.EventHandler(this.ClearOOCLogButton_Click);
             // 
@@ -293,7 +294,6 @@
             this.OOC_Logs_ListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.OOC_Logs_ListBox.Size = new System.Drawing.Size(1060, 524);
             this.OOC_Logs_ListBox.TabIndex = 7;
-            this.OOC_Logs_ListBox.KeyDown += OOC_Logs_ListBox_KeyDown;
             // 
             // OOC_SearchTextBox
             // 
@@ -376,6 +376,10 @@
             this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView2.Location = new System.Drawing.Point(0, 0);
             this.treeView2.Name = "treeView2";
+            treeNode4.Name = "Node0";
+            treeNode4.Text = "Encounters Logs";
+            this.treeView2.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode4});
             this.treeView2.Size = new System.Drawing.Size(300, 547);
             this.treeView2.TabIndex = 0;
             // 
@@ -387,6 +391,7 @@
             this.Enc_Logs_ListBox.FormattingEnabled = true;
             this.Enc_Logs_ListBox.Location = new System.Drawing.Point(0, 23);
             this.Enc_Logs_ListBox.Name = "Enc_Logs_ListBox";
+            this.Enc_Logs_ListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.Enc_Logs_ListBox.Size = new System.Drawing.Size(1060, 524);
             this.Enc_Logs_ListBox.TabIndex = 1;
             // 

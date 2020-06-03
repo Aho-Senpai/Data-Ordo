@@ -18,6 +18,8 @@ namespace DataOrdo
         public MainPlugin PlugInstance;
 
         public bool CB_OOCLog = true;
+
+        public bool OOC_Regex = false;
         
         public bool CB_OOCTimestamp = true;
         public bool CB_EncTimestamp;
@@ -27,18 +29,22 @@ namespace DataOrdo
         public BindingList<FFLogLine> MyFFDataOOC = new BindingList<FFLogLine>();
         public BindingList<FFLogLine> MyFFDataEnc = new BindingList<FFLogLine>();
 
+        
+
         public UserInterfaceMain()
         {
             this.Dock = DockStyle.Fill;
             InitializeComponent();
+            
+            this.OOC_SearchTextBox.KeyDown += OOC_SearchTextBox_KeyDown;
 
             toolStrip1.Renderer = new MyRenderer();
 
             OOC_Logs_ListBox.DataSource = MyFFDataOOC;
-            OOC_Logs_ListBox.DisplayMember = "FullDisplay";
+            // OOC_Logs_ListBox.DisplayMember = "FullDisplay";
 
             Enc_Logs_ListBox.DataSource = MyFFDataEnc;
-            Enc_Logs_ListBox.DisplayMember = "FullDisplay";
+            // Enc_Logs_ListBox.DisplayMember = "FullDisplay";
         }
 
         #region ToolStrip Controls
@@ -67,17 +73,23 @@ namespace DataOrdo
         #endregion
 
         #region Out Of Combat Logs Tab Controlls
-        private void RegexOOCSearchBar_CheckedChanged(object sender, EventArgs e) //WIP
+        private void RegexOOCSearchBar_CheckedChanged(object sender, EventArgs e)
         {
             if (RegexOOCSearchBar.BackColor == Color.Gray)
             {
                 RegexOOCSearchBar.Text = "Regex ON";
                 RegexOOCSearchBar.BackColor = Color.Blue;
+                OOC_Regex = true;
+
+                OOC_SearchTextBox.BackColor = Color.LightGreen;
             }
             else if (RegexOOCSearchBar.BackColor == Color.Blue)
             {
                 RegexOOCSearchBar.Text = "Regex OFF";
                 RegexOOCSearchBar.BackColor = Color.Gray;
+                OOC_Regex = false;
+
+                OOC_SearchTextBox.BackColor = SystemColors.Window;
             }
         }
         private void OOC_Timestamp_CheckedChanged(object sender, EventArgs e)
@@ -111,6 +123,9 @@ namespace DataOrdo
                 OOCLog.Text = "Log ON";
                 OOCLog.BackColor = Color.Green;
                 CB_OOCLog = true;
+
+                // add a way to stop updating the list, but will probably need to "update it" back when log back in ?
+
             }
         }
         private void CombatToggle_Click(object sender, EventArgs e)
@@ -118,16 +133,60 @@ namespace DataOrdo
             if (IsInCombat)
                 ActGlobals.oFormActMain.EndCombat(export: true);
         }
-        private void ClearOOCLogButton_Click(object sender, EventArgs e) //WIP - Broken ATM
+        private void ClearOOCLogButton_Click(object sender, EventArgs e) // Prob to add under a setting later
         {
-            // this line will throw an error because listbox is tied to a DataSource
-            // listBox1.Items.Clear();
+            // This clears the WHOLE list. Be careful when using it.
+            MyFFDataOOC.Clear();
         }
-      
-        private void OOC_SearchTextBox_TextChanged(object sender, EventArgs e) // WIP
+
+        #region OOC Searchbar
+        private void OOC_SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            //listBox1.DataSource = MyFFDataOOC.Where(item => item.ToString().Contains(OOC_SearchTextBox.Text));
+            if (e.KeyCode == Keys.Enter)
+                FindMyStringOOC(OOC_SearchTextBox.Text);
         }
+        private void OOC_SearchTextBox_TextChanged(object sender, EventArgs e)
+        {
+            // This is where we change the background color of the Searchbar
+            if (OOC_Regex)
+            {
+                try
+                {
+                    Regex rex = new Regex(OOC_SearchTextBox.Text);
+                    OOC_SearchTextBox.BackColor = Color.LightGreen;
+                }
+                catch (ArgumentException)
+                {
+                    OOC_SearchTextBox.BackColor = Color.LightCoral;
+                }
+            }
+        }
+        private void FindMyStringOOC(string searchString)
+        {
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                OOC_Logs_ListBox.ClearSelected();
+                for (int i = 0; i < OOC_Logs_ListBox.Items.Count; i++)
+                {
+                    if (OOC_Regex)
+                    {
+                        if (Regex.IsMatch(OOC_Logs_ListBox.Items[i].ToString(), searchString))
+                        {
+                            OOC_Logs_ListBox.SetSelected(i, true);
+                            OOC_Logs_ListBox.Focus();
+                        }
+                    }
+                    else if (OOC_Logs_ListBox.Items[i].ToString().Contains(searchString))
+                    {
+                        OOC_Logs_ListBox.SetSelected(i, true);
+                        OOC_Logs_ListBox.Focus();
+                    }
+                }
+            }
+            else
+                OOC_Logs_ListBox.ClearSelected();
+        }
+        #endregion
 
         private void OOC_Logs_ListBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -181,6 +240,27 @@ namespace DataOrdo
                 Enc_Timestamp.Text = "Timestamp ON";
                 CB_EncTimestamp = true;
                 Enc_Logs_ListBox.DisplayMember = "FFFullLogLine";
+            }
+        }
+        private void Enc_Logs_ListBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // This allows the user to use CTRL+C to copy the selected lines.
+            if (e.Control == true && e.KeyCode == Keys.C)
+            {
+                try
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (object row in Enc_Logs_ListBox.SelectedItems)
+                    {
+                        sb.Append(row.ToString());
+                    }
+                    sb.Remove(sb.Length - 1, 1); // Just to avoid copying last empty row
+                    Clipboard.SetData(System.Windows.Forms.DataFormats.Text, sb.ToString());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
         #endregion

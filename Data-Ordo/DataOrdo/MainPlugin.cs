@@ -66,32 +66,28 @@ namespace DataOrdo
 			ActGlobals.oFormActMain.OnCombatEnd -= OFormActMain_OnCombatEnd;
 
 			SaveSettings();
-			File.WriteAllText(OOCLogFile, "");  // Clears the file
+			// File.WriteAllText(OOCLogFile, "");  // Clears the file
 
 			lblStatus.Text = "Ready To Crash";
 		}
 		#endregion
 
 		#region Parsing ON/OFF
-		public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
-		public string EncounterLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\Encounter_LogFileTemp.txt");
+		// public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
 
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
 			if (!ActGlobals.oFormActMain.InCombat && UIMain.Parse.BackColor == Color.Green)
 			{
-				var line = new FFLogLine(logInfo.logLine);
+				/*var line = new FFLogLine(logInfo.logLine);
 				string Log = line.ToString();
-				File.AppendAllText(OOCLogFile, Log);
-				if (UIMain.CB_OOCLog)
-					UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
+				?StreamWriter(OOCLogFile, Log); // make it async */
+				// if (UIMain.CB_OOCLog)
+				UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
 			}
 
 			if (ActGlobals.oFormActMain.InCombat && UIMain.Parse.BackColor == Color.Green)
 			{
-				var line = new FFLogLine(logInfo.logLine);
-				string Log = line.ToString();
-				File.AppendAllText(EncounterLogFile, Log);
 				UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
 			}
 		}
@@ -116,7 +112,7 @@ namespace DataOrdo
 			UIMain.CombatToggle.Text = "In Combat";
 			UIMain.IsInCombat = true;
 
-			// grab the encounter tab
+			// grab the encounter tab - maybe
 
 			// do some log split here too
 		}
@@ -125,7 +121,8 @@ namespace DataOrdo
 		{
 			// regex some lines and split log here
 
-			// also remove selected lines set in a later config
+			// also remove selected lines set in a later config -> prob moved to _OnLineRead
+			// Regex.Replace(logInfo.logLine, @"^\[.{14}FB:.*", "");
 		}
 
 		#region Load & Save Settings
@@ -182,7 +179,7 @@ namespace DataOrdo
 
 		public void ReloadPlugin()
 		{
-			// This will reload the plugin and then grab the last opened tab (which is said plugin that we just restarted
+			// This will reload the plugin and then grab the last opened tab (which is said plugin that we just restarted)
 			ActPluginData pluginData = ActGlobals.oFormActMain.PluginGetSelfData(this);
 			pluginData.cbEnabled.Checked = false; // Deinit the old plugin
 			Application.DoEvents();
