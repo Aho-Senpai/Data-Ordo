@@ -61,11 +61,13 @@ namespace DataOrdo
             {
                 Parse.Text = "Parse ON";
                 Parse.BackColor = Color.Green;
+                MainPlugin.ParseON = true;
             }
             else if (Parse.BackColor == Color.Green)
             {
                 Parse.Text = "Parse OFF";
                 Parse.BackColor = Color.Red;
+                MainPlugin.ParseON = false;
             }
         }
         #endregion

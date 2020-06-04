@@ -21,7 +21,7 @@ namespace DataOrdo
 		Label lblStatus;    // Create a lblStatus to print a message on the plugin status in the plugin list in ACT
 		UserInterfaceMain UIMain;   // Init UserInterface to display UI later
 
-		internal Thread OOC_Logs_Thread;
+		static public bool ParseON = false;
 
 		#region Init & DeInit PLugin
 		public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
@@ -60,13 +60,6 @@ namespace DataOrdo
 			LoadSettings();
 
 			lblStatus.Text = "Crash Avoided!";
-
-			OOC_Logs_Thread = null;
-			OOC_Logs_Thread = new Thread(new ThreadStart(OOC_Logs_Thread_Start))
-			{
-				Name = " OOC_Logs_Thread"
-			};
-			OOC_Logs_Thread.Start();
 		}
 
 		public void DeInitPlugin()
@@ -79,15 +72,6 @@ namespace DataOrdo
 			// File.WriteAllText(OOCLogFile, "");  // Clears the file
 
 			lblStatus.Text = "Ready To Crash";
-
-			/*if (OOC_Logs_Thread != null)
-			{
-				if (OOC_Logs_Thread.Join(5000) == false)
-				{
-					OOC_Logs_Thread.Abort();
-				}
-				OOC_Logs_Thread = null;
-			}*/
 		}
 		#endregion
 
@@ -103,20 +87,20 @@ namespace DataOrdo
 				?StreamWriter(OOCLogFile, Log); // make it async */
 				// if (UIMain.CB_OOCLog)
 				// UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
-				OOC_Logs_Thread_Start(logInfo);
+				ThreadProc(logInfo);
 			}
-
 			if (ActGlobals.oFormActMain.InCombat && UIMain.Parse.BackColor == Color.Green)
 			{
 				UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
 			}
 		}
-
-		internal void OOC_Logs_Thread_Start(LogLineEventArgs logInfo)
+		public static void ThreadProc(LogLineEventArgs logInfo)
 		{
-			while (UIMain.Parse.BackColor == Color.Green)
+			while (ParseON)
 			{
 				UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
+				// Yield the rest of the time slice.
+				Thread.Sleep(0);
 			}
 		}
 		#endregion
