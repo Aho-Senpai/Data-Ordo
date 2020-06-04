@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Encounters Logs");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Encounters Logs");
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,7 +55,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.treeView2 = new System.Windows.Forms.TreeView();
             this.Enc_Logs_ListBox = new System.Windows.Forms.ListBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Enc_SearchTextBox = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -276,10 +276,10 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode3.Name = "Root";
-            treeNode3.Text = "Out Of Combat Encounters";
+            treeNode6.Name = "Root";
+            treeNode6.Text = "Out Of Combat Encounters";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
+            treeNode6});
             this.treeView1.Size = new System.Drawing.Size(300, 547);
             this.treeView1.TabIndex = 6;
             // 
@@ -366,7 +366,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.Enc_Logs_ListBox);
-            this.splitContainer2.Panel2.Controls.Add(this.textBox1);
+            this.splitContainer2.Panel2.Controls.Add(this.Enc_SearchTextBox);
             this.splitContainer2.Size = new System.Drawing.Size(1364, 547);
             this.splitContainer2.SplitterDistance = 300;
             this.splitContainer2.TabIndex = 5;
@@ -376,10 +376,10 @@
             this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView2.Location = new System.Drawing.Point(0, 0);
             this.treeView2.Name = "treeView2";
-            treeNode4.Name = "Node0";
-            treeNode4.Text = "Encounters Logs";
+            treeNode5.Name = "Node0";
+            treeNode5.Text = "Encounters Logs";
             this.treeView2.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4});
+            treeNode5});
             this.treeView2.Size = new System.Drawing.Size(300, 547);
             this.treeView2.TabIndex = 0;
             // 
@@ -395,14 +395,15 @@
             this.Enc_Logs_ListBox.Size = new System.Drawing.Size(1060, 524);
             this.Enc_Logs_ListBox.TabIndex = 1;
             // 
-            // textBox1
+            // Enc_SearchTextBox
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.Enc_SearchTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(1060, 20);
-            this.textBox1.TabIndex = 0;
+            this.Enc_SearchTextBox.Location = new System.Drawing.Point(0, 0);
+            this.Enc_SearchTextBox.Name = "Enc_SearchTextBox";
+            this.Enc_SearchTextBox.Size = new System.Drawing.Size(1060, 20);
+            this.Enc_SearchTextBox.TabIndex = 0;
+            this.Enc_SearchTextBox.TextChanged += new System.EventHandler(this.Enc_SearchTextBox_TextChanged);
             // 
             // tabPage3
             // 
@@ -455,7 +456,7 @@
         private System.Windows.Forms.TextBox OOC_SearchTextBox;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TreeView treeView2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox Enc_SearchTextBox;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem configToolStripMenuItem;
         private System.Windows.Forms.CheckBox OOC_Timestamp;

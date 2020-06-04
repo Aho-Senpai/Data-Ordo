@@ -20,6 +20,7 @@ namespace DataOrdo
         public bool CB_OOCLog = true;
 
         public bool OOC_Regex = false;
+        public bool Enc_Regex = false;
         
         public bool CB_OOCTimestamp = true;
         public bool CB_EncTimestamp;
@@ -35,6 +36,7 @@ namespace DataOrdo
             InitializeComponent();
             
             this.OOC_SearchTextBox.KeyDown += OOC_SearchTextBox_KeyDown;
+            this.Enc_SearchTextBox.KeyDown += Enc_SearchTextBox_KeyDown;
 
             toolStrip1.Renderer = new MyRenderer();
 
@@ -44,13 +46,12 @@ namespace DataOrdo
             Enc_Logs_ListBox.DataSource = MyFFDataEnc;
             // Enc_Logs_ListBox.DisplayMember = "FullDisplay";
         }
-
-        #region ToolStrip Controls
         public void SetPluginVar(MainPlugin PluginInstance)
         {
             this.PlugInstance = PluginInstance;
         }
 
+        #region ToolStrip Controls
         private void ToolStripButton1_Click(object sender, EventArgs e)
         {
             PlugInstance.ReloadPlugin();
@@ -61,13 +62,11 @@ namespace DataOrdo
             {
                 Parse.Text = "Parse ON";
                 Parse.BackColor = Color.Green;
-                MainPlugin.ParseON = true;
             }
             else if (Parse.BackColor == Color.Green)
             {
                 Parse.Text = "Parse OFF";
                 Parse.BackColor = Color.Red;
-                MainPlugin.ParseON = false;
             }
         }
         #endregion
@@ -218,11 +217,17 @@ namespace DataOrdo
             {
                 RegexEncSearchBar.Text = "Regex ON";
                 RegexEncSearchBar.BackColor = Color.Blue;
+                Enc_Regex = true;
+
+                Enc_SearchTextBox.BackColor = Color.LightGreen;
             }
             else if (RegexEncSearchBar.BackColor == Color.Blue)
             {
                 RegexEncSearchBar.Text = "Regex OFF";
                 RegexEncSearchBar.BackColor = Color.Gray;
+                Enc_Regex = false;
+
+                Enc_SearchTextBox.BackColor = SystemColors.Window;
             }
         }
         private void EncTimestamp_CheckedChanged(object sender, EventArgs e)
@@ -263,8 +268,57 @@ namespace DataOrdo
                 }
             }
         }
+
+        #region Enc Searchbar
+        private void Enc_SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                FindMyStringEnc(Enc_SearchTextBox.Text);
+        }
+        private void Enc_SearchTextBox_TextChanged(object sender, EventArgs e)
+        {
+            // This is where we change the background color of the Searchbar
+            if (Enc_Regex)
+            {
+                try
+                {
+                    Regex rex = new Regex(Enc_SearchTextBox.Text);
+                    Enc_SearchTextBox.BackColor = Color.LightGreen;
+                }
+                catch (ArgumentException)
+                {
+                    Enc_SearchTextBox.BackColor = Color.LightCoral;
+                }
+            }
+        }
+        private void FindMyStringEnc(string searchString)
+        {
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                Enc_Logs_ListBox.ClearSelected();
+                for (int i = 0; i < Enc_Logs_ListBox.Items.Count; i++)
+                {
+                    if (Enc_Regex)
+                    {
+                        if (Regex.IsMatch(Enc_Logs_ListBox.Items[i].ToString(), searchString))
+                        {
+                            Enc_Logs_ListBox.SetSelected(i, true);
+                            Enc_Logs_ListBox.Focus();
+                        }
+                    }
+                    else if (Enc_Logs_ListBox.Items[i].ToString().Contains(searchString))
+                    {
+                        Enc_Logs_ListBox.SetSelected(i, true);
+                        Enc_Logs_ListBox.Focus();
+                    }
+                }
+            }
+            else
+                Enc_Logs_ListBox.ClearSelected();
+        }
         #endregion
 
+        #endregion
     }
 
     class MyRenderer : ToolStripProfessionalRenderer

@@ -21,8 +21,6 @@ namespace DataOrdo
 		Label lblStatus;    // Create a lblStatus to print a message on the plugin status in the plugin list in ACT
 		UserInterfaceMain UIMain;   // Init UserInterface to display UI later
 
-		static public bool ParseON = false;
-
 		#region Init & DeInit PLugin
 		public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
 		{
@@ -85,24 +83,24 @@ namespace DataOrdo
 				/*var line = new FFLogLine(logInfo.logLine);
 				string Log = line.ToString();
 				?StreamWriter(OOCLogFile, Log); // make it async */
-				// if (UIMain.CB_OOCLog)
-				// UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
-				ThreadProc(logInfo);
+				ThreadProcOOC(logInfo);
 			}
 			if (ActGlobals.oFormActMain.InCombat && UIMain.Parse.BackColor == Color.Green)
 			{
-				UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
+				ThreadProcEnc(logInfo);
 			}
 		}
-		public static void ThreadProc(LogLineEventArgs logInfo)
+		public void ThreadProcOOC(LogLineEventArgs logInfo)
 		{
-			while (ParseON)
-			{
-				UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
-				// Yield the rest of the time slice.
-				Thread.Sleep(0);
-			}
+			UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
+			Thread.Sleep(0);
 		}
+		public void ThreadProcEnc(LogLineEventArgs logInfo)
+		{
+			UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
+			Thread.Sleep(0);
+		}
+		
 		#endregion
 
 		#region OnCombat Start/End Events
