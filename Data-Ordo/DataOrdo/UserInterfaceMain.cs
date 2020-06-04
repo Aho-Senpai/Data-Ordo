@@ -29,8 +29,6 @@ namespace DataOrdo
         public BindingList<FFLogLine> MyFFDataOOC = new BindingList<FFLogLine>();
         public BindingList<FFLogLine> MyFFDataEnc = new BindingList<FFLogLine>();
 
-        
-
         public UserInterfaceMain()
         {
             this.Dock = DockStyle.Fill;
