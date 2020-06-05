@@ -21,7 +21,7 @@ namespace DataOrdo
 
         public bool OOC_Regex = false;
         public bool Enc_Regex = false;
-        
+
         public bool CB_OOCTimestamp = true;
         public bool CB_EncTimestamp;
 
@@ -34,9 +34,12 @@ namespace DataOrdo
         {
             this.Dock = DockStyle.Fill;
             InitializeComponent();
-            
+
             this.OOC_SearchTextBox.KeyDown += OOC_SearchTextBox_KeyDown;
             this.Enc_SearchTextBox.KeyDown += Enc_SearchTextBox_KeyDown;
+
+            this.OOC_Logs_ListBox.KeyDown += OOC_Logs_ListBox_KeyDown;
+            this.Enc_Logs_ListBox.KeyDown += Enc_Logs_ListBox_KeyDown;
 
             toolStrip1.Renderer = new MyRenderer();
 
@@ -46,6 +49,7 @@ namespace DataOrdo
             Enc_Logs_ListBox.DataSource = MyFFDataEnc;
             // Enc_Logs_ListBox.DisplayMember = "FullDisplay";
         }
+
         public void SetPluginVar(MainPlugin PluginInstance)
         {
             this.PlugInstance = PluginInstance;
@@ -318,6 +322,12 @@ namespace DataOrdo
         }
         #endregion
 
+        #endregion
+
+        #region Tab3 Controls
+        #endregion
+
+        #region StatusStrip Controls
         #endregion
     }
 

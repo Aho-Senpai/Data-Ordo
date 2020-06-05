@@ -76,31 +76,36 @@ namespace DataOrdo
 		#region Parsing ON/OFF
 		// public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
 
-		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
+		/*
+		UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
+		UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
+		*/
+
+		private async void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
 			if (!ActGlobals.oFormActMain.InCombat && UIMain.Parse.BackColor == Color.Green)
 			{
 				/*var line = new FFLogLine(logInfo.logLine);
 				string Log = line.ToString();
 				?StreamWriter(OOCLogFile, Log); // make it async */
-				ThreadProcOOC(logInfo);
+				await ThreadProcOOC(logInfo);
 			}
 			if (ActGlobals.oFormActMain.InCombat && UIMain.Parse.BackColor == Color.Green)
 			{
-				ThreadProcEnc(logInfo);
+				await ThreadProcEnc(logInfo);
 			}
 		}
-		public void ThreadProcOOC(LogLineEventArgs logInfo)
+
+		public async Task ThreadProcOOC(LogLineEventArgs logInfo)
 		{
 			UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
-			Thread.Sleep(0);
+			await Task.Delay(0);
 		}
-		public void ThreadProcEnc(LogLineEventArgs logInfo)
+		public async Task ThreadProcEnc(LogLineEventArgs logInfo)
 		{
 			UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
-			Thread.Sleep(0);
+			await Task.Delay(0);
 		}
-		
 		#endregion
 
 		#region OnCombat Start/End Events
@@ -218,3 +223,4 @@ namespace DataOrdo
 		public string ToStringNoTimeline() { return $"{LineId}:{LogText}{Environment.NewLine}"; }
 	}
 }
+ 
