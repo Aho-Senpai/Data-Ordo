@@ -100,6 +100,8 @@ namespace DataOrdo
 				Queue<object> MyFFLogLinesEnc = new Queue<object>();
 				MyFFLogLinesEnc.Enqueue(ThreadProcEnc(logInfo));
 			}
+			else
+				await Task.Delay(0);
 		}
 
 		public async Task ThreadProcOOC(LogLineEventArgs logInfo)

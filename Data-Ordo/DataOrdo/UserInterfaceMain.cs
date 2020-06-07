@@ -64,13 +64,13 @@ namespace DataOrdo
         }
         private void Parse_Click(object sender, EventArgs e)
         {
-            if (Parse.BackColor == Color.Red)
+            if (!ParseON)
             {
                 Parse.Text = "Parse ON";
                 Parse.BackColor = Color.Green;
                 ParseON = true;
             }
-            else if (Parse.BackColor == Color.Green)
+            else if (ParseON)
             {
                 Parse.Text = "Parse OFF";
                 Parse.BackColor = Color.Red;
@@ -82,7 +82,7 @@ namespace DataOrdo
         #region Out Of Combat Logs Tab Controlls
         private void RegexOOCSearchBar_CheckedChanged(object sender, EventArgs e)
         {
-            if (RegexOOCSearchBar.BackColor == Color.Gray)
+            if (!OOC_Regex)
             {
                 RegexOOCSearchBar.Text = "Regex ON";
                 RegexOOCSearchBar.BackColor = Color.Blue;
@@ -90,7 +90,7 @@ namespace DataOrdo
 
                 OOC_SearchTextBox.BackColor = Color.LightGreen;
             }
-            else if (RegexOOCSearchBar.BackColor == Color.Blue)
+            else if (OOC_Regex)
             {
                 RegexOOCSearchBar.Text = "Regex OFF";
                 RegexOOCSearchBar.BackColor = Color.Gray;
@@ -101,14 +101,14 @@ namespace DataOrdo
         }
         private void OOC_Timestamp_CheckedChanged(object sender, EventArgs e)
         {
-            if (OOC_Timestamp.BackColor == Color.Green)
+            if (CB_OOCTimestamp)
             {
                 OOC_Timestamp.BackColor = Color.Red; // Disable Option
                 OOC_Timestamp.Text = "Timestamp OFF";
                 CB_OOCTimestamp = false;
                 OOC_Logs_ListBox.DisplayMember = "FFNoTSLogLine";
             }
-            else if (OOC_Timestamp.BackColor == Color.Red)
+            else if (!CB_OOCTimestamp)
             {
                 OOC_Timestamp.BackColor = Color.Green; // Enable Option
                 OOC_Timestamp.Text = "Timestamp ON";
@@ -118,14 +118,14 @@ namespace DataOrdo
         }
         private void OOCLog_CheckedChanged(object sender, EventArgs e)
         {
-            if (OOCLog.BackColor == Color.Green)
+            if (CB_OOCLog)
             {
                 OOCLog.Text = "Log OFF";
                 OOCLog.BackColor = Color.Red;
                 CB_OOCLog = false;
             }
 
-            else if (OOCLog.BackColor == Color.Red)
+            else if (!CB_OOCLog)
             {
                 OOCLog.Text = "Log ON";
                 OOCLog.BackColor = Color.Green;
@@ -225,7 +225,7 @@ namespace DataOrdo
         #region Encounter Logs Tab Controls
         private void RegexEncSearchBar_CheckedChanged(object sender, EventArgs e)
         {
-            if (RegexEncSearchBar.BackColor == Color.Gray)
+            if (!Enc_Regex)
             {
                 RegexEncSearchBar.Text = "Regex ON";
                 RegexEncSearchBar.BackColor = Color.Blue;
@@ -233,7 +233,7 @@ namespace DataOrdo
 
                 Enc_SearchTextBox.BackColor = Color.LightGreen;
             }
-            else if (RegexEncSearchBar.BackColor == Color.Blue)
+            else if (Enc_Regex)
             {
                 RegexEncSearchBar.Text = "Regex OFF";
                 RegexEncSearchBar.BackColor = Color.Gray;
@@ -244,14 +244,14 @@ namespace DataOrdo
         }
         private void EncTimestamp_CheckedChanged(object sender, EventArgs e)
         {
-            if (Enc_Timestamp.BackColor == Color.Green)
+            if (CB_EncTimestamp)
             {
                 Enc_Timestamp.BackColor = Color.Red; // Disable Option
                 Enc_Timestamp.Text = "Timestamp OFF";
                 CB_EncTimestamp = false;
                 Enc_Logs_ListBox.DisplayMember = "FFNoTSLogLine";
             }
-            else if (Enc_Timestamp.BackColor == Color.Red)
+            else if (!CB_EncTimestamp)
             {
                 Enc_Timestamp.BackColor = Color.Green; // Enable Option
                 Enc_Timestamp.Text = "Timestamp ON";
