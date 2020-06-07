@@ -17,13 +17,15 @@ namespace DataOrdo
     {
         public MainPlugin PlugInstance;
 
+        public bool ParseON = false;
+
         public bool CB_OOCLog = true;
 
         public bool OOC_Regex = false;
         public bool Enc_Regex = false;
 
         public bool CB_OOCTimestamp = true;
-        public bool CB_EncTimestamp;
+        public bool CB_EncTimestamp = true;
 
         public bool IsInCombat;
 
@@ -66,11 +68,13 @@ namespace DataOrdo
             {
                 Parse.Text = "Parse ON";
                 Parse.BackColor = Color.Green;
+                ParseON = true;
             }
             else if (Parse.BackColor == Color.Green)
             {
                 Parse.Text = "Parse OFF";
                 Parse.BackColor = Color.Red;
+                ParseON = false;
             }
         }
         #endregion
@@ -142,11 +146,14 @@ namespace DataOrdo
             MyFFDataOOC.Clear();
         }
 
+        
         #region OOC Searchbar
         private void OOC_SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
+            {
                 FindMyStringOOC(OOC_SearchTextBox.Text);
+            }
         }
         private void OOC_SearchTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -189,6 +196,7 @@ namespace DataOrdo
             else
                 OOC_Logs_ListBox.ClearSelected();
         }
+
         #endregion
 
         private void OOC_Logs_ListBox_KeyDown(object sender, KeyEventArgs e)
@@ -321,7 +329,6 @@ namespace DataOrdo
                 Enc_Logs_ListBox.ClearSelected();
         }
         #endregion
-
         #endregion
 
         #region Tab3 Controls

@@ -83,16 +83,22 @@ namespace DataOrdo
 
 		private async void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
-			if (!ActGlobals.oFormActMain.InCombat && UIMain.Parse.BackColor == Color.Green)
+			if (!ActGlobals.oFormActMain.InCombat && UIMain.ParseON)
 			{
 				/*var line = new FFLogLine(logInfo.logLine);
 				string Log = line.ToString();
 				?StreamWriter(OOCLogFile, Log); // make it async */
-				await ThreadProcOOC(logInfo);
+				//await ThreadProcOOC(logInfo);
+
+				Queue<object> MyFFLogLinesOOC = new Queue<object>();
+				MyFFLogLinesOOC.Enqueue(ThreadProcOOC(logInfo));
 			}
-			if (ActGlobals.oFormActMain.InCombat && UIMain.Parse.BackColor == Color.Green)
+			if (ActGlobals.oFormActMain.InCombat && UIMain.ParseON)
 			{
-				await ThreadProcEnc(logInfo);
+				//await ThreadProcEnc(logInfo);
+
+				Queue<object> MyFFLogLinesEnc = new Queue<object>();
+				MyFFLogLinesEnc.Enqueue(ThreadProcEnc(logInfo));
 			}
 		}
 
