@@ -46,10 +46,7 @@ namespace DataOrdo
             toolStrip1.Renderer = new MyRenderer();
 
             OOC_Logs_ListBox.DataSource = MyFFDataOOC;
-            // OOC_Logs_ListBox.DisplayMember = "FullDisplay";
-
             Enc_Logs_ListBox.DataSource = MyFFDataEnc;
-            // Enc_Logs_ListBox.DisplayMember = "FullDisplay";
         }
 
         public void SetPluginVar(MainPlugin PluginInstance)
@@ -329,6 +326,7 @@ namespace DataOrdo
                 Enc_Logs_ListBox.ClearSelected();
         }
         #endregion
+
         #endregion
 
         #region Tab3 Controls
@@ -336,6 +334,7 @@ namespace DataOrdo
 
         #region StatusStrip Controls
         #endregion
+
     }
 
     class MyRenderer : ToolStripProfessionalRenderer

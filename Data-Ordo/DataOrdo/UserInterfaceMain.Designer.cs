@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Out Of Combat Encounters");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Encounters Logs");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Out-Of-Combat Logs");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Encounters Logs");
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +46,7 @@
             this.ClearOOCLogButton = new System.Windows.Forms.Button();
             this.OOC_Timestamp = new System.Windows.Forms.CheckBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.OOCTreeView = new System.Windows.Forms.TreeView();
             this.OOC_Logs_ListBox = new System.Windows.Forms.ListBox();
             this.OOC_SearchTextBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -261,7 +261,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.treeView1);
+            this.splitContainer1.Panel1.Controls.Add(this.OOCTreeView);
             // 
             // splitContainer1.Panel2
             // 
@@ -271,17 +271,17 @@
             this.splitContainer1.SplitterDistance = 300;
             this.splitContainer1.TabIndex = 10;
             // 
-            // treeView1
+            // OOCTreeView
             // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Name = "treeView1";
-            treeNode6.Name = "Root";
-            treeNode6.Text = "Out Of Combat Encounters";
-            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6});
-            this.treeView1.Size = new System.Drawing.Size(300, 547);
-            this.treeView1.TabIndex = 6;
+            this.OOCTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OOCTreeView.Location = new System.Drawing.Point(0, 0);
+            this.OOCTreeView.Name = "OOCTreeView";
+            treeNode1.Name = "Node0";
+            treeNode1.Text = "Out-Of-Combat Logs";
+            this.OOCTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            this.OOCTreeView.Size = new System.Drawing.Size(300, 547);
+            this.OOCTreeView.TabIndex = 6;
             // 
             // OOC_Logs_ListBox
             // 
@@ -376,10 +376,10 @@
             this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView2.Location = new System.Drawing.Point(0, 0);
             this.treeView2.Name = "treeView2";
-            treeNode5.Name = "Node0";
-            treeNode5.Text = "Encounters Logs";
+            treeNode2.Name = "Node0";
+            treeNode2.Text = "Encounters Logs";
             this.treeView2.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5});
+            treeNode2});
             this.treeView2.Size = new System.Drawing.Size(300, 547);
             this.treeView2.TabIndex = 0;
             // 
@@ -452,10 +452,8 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.TextBox OOC_SearchTextBox;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.TreeView treeView2;
         private System.Windows.Forms.TextBox Enc_SearchTextBox;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem configToolStripMenuItem;
@@ -471,5 +469,7 @@
         private System.Windows.Forms.CheckBox RegexEncSearchBar;
         private System.Windows.Forms.CheckBox Enc_Timestamp;
         public System.Windows.Forms.ToolStripButton Parse;
+        public System.Windows.Forms.TreeView OOCTreeView;
+        public System.Windows.Forms.TreeView treeView2;
     }
 }

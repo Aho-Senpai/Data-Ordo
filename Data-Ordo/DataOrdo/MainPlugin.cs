@@ -71,48 +71,32 @@ namespace DataOrdo
 
 			lblStatus.Text = "Ready To Crash";
 		}
-		#endregion
+        #endregion
 
-		#region Parsing ON/OFF
-		// public string OOCLogFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\OOC_LogFileTemp.txt"); // Path for my temp log file for OOC Logs
-
-		/*
+        #region Parsing ON/OFF
+        /*
 		UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
 		UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
 		*/
 
-		private async void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
+        Queue<object> ACTLogLines = new Queue<object>();
+
+		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
-			if (!ActGlobals.oFormActMain.InCombat && UIMain.ParseON)
+			if (UIMain.ParseON)
 			{
-				/*var line = new FFLogLine(logInfo.logLine);
-				string Log = line.ToString();
-				?StreamWriter(OOCLogFile, Log); // make it async */
-				//await ThreadProcOOC(logInfo);
+				// Queue?
+				//ACTLogLines.Enqueue();
 
-				Queue<object> MyFFLogLinesOOC = new Queue<object>();
-				MyFFLogLinesOOC.Enqueue(ThreadProcOOC(logInfo));
+				if (!ActGlobals.oFormActMain.InCombat)
+				{
+					// Add item to UIMain.MyFFDataOOC
+				}
+				if (ActGlobals.oFormActMain.InCombat)
+				{
+					// Add item to UIMain.MyFFDataEnc
+				}
 			}
-			if (ActGlobals.oFormActMain.InCombat && UIMain.ParseON)
-			{
-				//await ThreadProcEnc(logInfo);
-
-				Queue<object> MyFFLogLinesEnc = new Queue<object>();
-				MyFFLogLinesEnc.Enqueue(ThreadProcEnc(logInfo));
-			}
-			else
-				await Task.Delay(0);
-		}
-
-		public async Task ThreadProcOOC(LogLineEventArgs logInfo)
-		{
-			UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
-			await Task.Delay(0);
-		}
-		public async Task ThreadProcEnc(LogLineEventArgs logInfo)
-		{
-			UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
-			await Task.Delay(0);
 		}
 		#endregion
 
@@ -126,7 +110,7 @@ namespace DataOrdo
 			// grab the out of combat tab IF CB_OOCLog == True - maybe
 
 			// Split Encounter here
-
+			
 		}
 
 		private void OFormActMain_OnCombatStart(bool isImport, CombatToggleEventArgs encounterInfo)
@@ -138,8 +122,13 @@ namespace DataOrdo
 			// grab the encounter tab - maybe
 
 			// do some log split here too
+			
+			//UIMain.OOCTreeView.Nodes.Add(new TreeNode("Test"));
+			//UIMain.treeView2.Nodes.Add(new TreeNode(ActGlobals.oFormActMain.CurrentZone));
+			//MessageBox.Show(ActGlobals.oFormActMain.CurrentZone);
 		}
 		#endregion
+
 		private void OFormActMain_BeforeLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
 			// regex some lines and split log here
@@ -231,4 +220,3 @@ namespace DataOrdo
 		public string ToStringNoTimeline() { return $"{LineId}:{LogText}{Environment.NewLine}"; }
 	}
 }
- 
