@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
+//using System.Collections.Concurrent;
 
 namespace DataOrdo
 {
@@ -71,32 +72,62 @@ namespace DataOrdo
 
 			lblStatus.Text = "Ready To Crash";
 		}
-        #endregion
+		#endregion
 
-        #region Parsing ON/OFF
-        /*
+		#region Parsing ON/OFF (WIP - To come back to later)
+		/*
 		UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
 		UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
 		*/
 
-        Queue<object> ACTLogLines = new Queue<object>();
+		//Queue<string> ACTLogLines = new Queue<string>();
 
-		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
+		private async void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
 			if (UIMain.ParseON)
 			{
 				// Queue?
-				//ACTLogLines.Enqueue();
+				//ACTLogLines.Enqueue(logInfo.logLine);
 
-				if (!ActGlobals.oFormActMain.InCombat)
+				/*if (!ActGlobals.oFormActMain.InCombat)
 				{
+					UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
+
 					// Add item to UIMain.MyFFDataOOC
+					//while (ACTLogLines.Count > 0)
+                    //{
+					//	UIMain.MyFFDataOOC.Add(new FFLogLine(ACTLogLines.Dequeue()));
+                    //}
 				}
 				if (ActGlobals.oFormActMain.InCombat)
 				{
+                    UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
+
 					// Add item to UIMain.MyFFDataEnc
-				}
+				}*/
+				await AsyncLogTemp(logInfo.logLine);
 			}
+		}
+
+		public async Task AsyncLogTemp(string logLine)
+        {
+			if (!ActGlobals.oFormActMain.InCombat)
+			{
+				UIMain.MyFFDataOOC.Add(new FFLogLine(logLine));
+
+				// Add item to UIMain.MyFFDataOOC
+				/*while (ACTLogLines.Count > 0)
+				{
+					UIMain.MyFFDataOOC.Add(new FFLogLine(ACTLogLines.Dequeue()));
+				}*/
+			}
+			if (ActGlobals.oFormActMain.InCombat)
+			{
+				UIMain.MyFFDataEnc.Add(new FFLogLine(logLine));
+
+				// Add item to UIMain.MyFFDataEnc
+			}
+			await Task.Delay(0);
 		}
 		#endregion
 
@@ -112,7 +143,6 @@ namespace DataOrdo
 			// Split Encounter here
 			
 		}
-
 		private void OFormActMain_OnCombatStart(bool isImport, CombatToggleEventArgs encounterInfo)
 		{
 			UIMain.CombatToggle.BackColor = Color.Red;
@@ -123,7 +153,7 @@ namespace DataOrdo
 
 			// do some log split here too
 			
-			//UIMain.OOCTreeView.Nodes.Add(new TreeNode("Test"));
+			UIMain.OOCTreeView.Nodes.Add(new TreeNode("Test"));
 			//UIMain.treeView2.Nodes.Add(new TreeNode(ActGlobals.oFormActMain.CurrentZone));
 			//MessageBox.Show(ActGlobals.oFormActMain.CurrentZone);
 		}
