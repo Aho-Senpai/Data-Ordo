@@ -29,6 +29,8 @@ namespace DataOrdo
 
         public bool IsInCombat;
 
+        public bool FakeLogBool = false;
+
         public BindingList<FFLogLine> MyFFDataOOC = new BindingList<FFLogLine>();
         public BindingList<FFLogLine> MyFFDataEnc = new BindingList<FFLogLine>();
 
@@ -43,7 +45,7 @@ namespace DataOrdo
             this.OOC_Logs_ListBox.KeyDown += OOC_Logs_ListBox_KeyDown;
             this.Enc_Logs_ListBox.KeyDown += Enc_Logs_ListBox_KeyDown;
 
-            toolStrip1.Renderer = new MyRenderer();
+            ToolStrip.Renderer = new MyRenderer();
 
             OOC_Logs_ListBox.DataSource = MyFFDataOOC;
             Enc_Logs_ListBox.DataSource = MyFFDataEnc;
@@ -76,7 +78,7 @@ namespace DataOrdo
         }
         #endregion
 
-        #region Out Of Combat Logs Tab Controlls
+        #region Out Of Combat Logs Tab Controlls - Tab1
         private void RegexOOCSearchBar_CheckedChanged(object sender, EventArgs e)
         {
             if (!OOC_Regex)
@@ -143,7 +145,6 @@ namespace DataOrdo
             MyFFDataOOC.Clear();
         }
 
-        
         #region OOC Searchbar
         private void OOC_SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -219,7 +220,7 @@ namespace DataOrdo
         }
         #endregion
 
-        #region Encounter Logs Tab Controls
+        #region Encounter Logs Tab Controls - Tab2
         private void RegexEncSearchBar_CheckedChanged(object sender, EventArgs e)
         {
             if (!Enc_Regex)
@@ -330,6 +331,39 @@ namespace DataOrdo
         #endregion
 
         #region Tab3 Controls
+        #endregion
+
+        #region Tab4 Controls
+        #endregion
+
+        #region Tab5 Controls
+        #endregion
+
+        #region Fake Logs - Tab 6
+        private void FakeLog_Click(object sender, EventArgs e)
+        {
+            if (FakeLogBool)
+            {
+                FakeLog.BackColor = Color.Red;
+                FakeLog.Text = "Fake Logging OFF";
+                FakeLogBool = false;
+            }
+            else if (!FakeLogBool)
+            {
+                FakeLog.BackColor = Color.Green;
+                FakeLog.Text = "Fake Loggin ON";
+                FakeLogBool = true;
+
+                int i = 0;
+                while (FakeLogBool && i != 5)
+                {
+                    MyFFDataOOC.Add(new FFLogLine("[123456789012] 00:This is a test Line:HAHAHA:"));
+                    i++;
+                    MessageBox.Show(i.ToString());
+                }
+            }
+        }
+
         #endregion
 
         #region StatusStrip Controls

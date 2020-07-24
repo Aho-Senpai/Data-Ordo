@@ -59,6 +59,7 @@ namespace DataOrdo
 			LoadSettings();
 
 			lblStatus.Text = "Crash Avoided!";
+			Control.CheckForIllegalCrossThreadCalls = true; // to disable after the plugin is complete
 		}
 
 		public void DeInitPlugin()
@@ -153,7 +154,7 @@ namespace DataOrdo
 
 			// do some log split here too
 			
-			UIMain.OOCTreeView.Nodes.Add(new TreeNode("Test"));
+			//UIMain.OOCTreeView.Nodes.Add(new TreeNode("Test")); // needs to not be on the UI thread
 			//UIMain.treeView2.Nodes.Add(new TreeNode(ActGlobals.oFormActMain.CurrentZone));
 			//MessageBox.Show(ActGlobals.oFormActMain.CurrentZone);
 		}
