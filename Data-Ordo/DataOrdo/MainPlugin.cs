@@ -128,7 +128,7 @@ namespace DataOrdo
 
 				// Add item to UIMain.MyFFDataEnc
 			}
-			await Task.Delay(0);
+			await Task.Delay(1);
 		}
 		#endregion
 

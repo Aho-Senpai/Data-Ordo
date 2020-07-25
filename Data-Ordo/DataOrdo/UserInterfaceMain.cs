@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Advanced_Combat_Tracker;
+using System.Threading;
 
 namespace DataOrdo
 {
@@ -340,7 +341,7 @@ namespace DataOrdo
         #endregion
 
         #region Fake Logs - Tab 6
-        private void FakeLog_Click(object sender, EventArgs e)
+        private async void FakeLog_Click(object sender, EventArgs e)
         {
             if (FakeLogBool)
             {
@@ -353,17 +354,17 @@ namespace DataOrdo
                 FakeLog.BackColor = Color.Green;
                 FakeLog.Text = "Fake Loggin ON";
                 FakeLogBool = true;
-
-                int i = 0;
-                while (FakeLogBool && i != 5)
+                while (FakeLogBool)
                 {
-                    MyFFDataOOC.Add(new FFLogLine("[123456789012] 00:This is a test Line:HAHAHA:"));
-                    i++;
-                    MessageBox.Show(i.ToString());
+                    await FakeLogTask();
                 }
             }
         }
-
+        async Task FakeLogTask()
+        {
+            MyFFDataOOC.Add(new FFLogLine("[123456789012] 00:This is a test Line:HAHAHA:"));
+            await Task.Delay(5000);
+        }
         #endregion
 
         #region StatusStrip Controls
