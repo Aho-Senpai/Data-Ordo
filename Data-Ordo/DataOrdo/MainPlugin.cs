@@ -19,8 +19,8 @@ namespace DataOrdo
 {
 	public class MainPlugin : UserControl, IActPluginV1
 	{
-		Label lblStatus;    // Create a lblStatus to print a message on the plugin status in the plugin list in ACT
-		UserInterfaceMain UIMain;   // Init UserInterface to display UI later
+		Label lblStatus;	// Create a lblStatus to print a message on the plugin status in the plugin list in ACT
+		UserInterfaceMain UIMain;	// Init UserInterface to display UI later
 
 		#region Init & DeInit PLugin
 		public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
@@ -46,7 +46,7 @@ namespace DataOrdo
 				UIMain.CombatToggle.Text = "In Combat";
 				UIMain.IsInCombat = true;
 			}
-			if (!ActGlobals.oFormActMain.InCombat)
+			else if (!ActGlobals.oFormActMain.InCombat)
 			{
 				UIMain.CombatToggle.BackColor = Color.Green;
 				UIMain.CombatToggle.Text = "Out Of Combat";
@@ -83,53 +83,55 @@ namespace DataOrdo
 
 		//Queue<string> ACTLogLines = new Queue<string>();
 
-		private async void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
+		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
+			Thread ACTLogLine = new Thread(() => Log(logInfo.logLine));
 			if (UIMain.ParseON)
 			{
-				// Queue?
-				//ACTLogLines.Enqueue(logInfo.logLine);
-
+				ACTLogLine.Start();
 				/*if (!ActGlobals.oFormActMain.InCombat)
 				{
 					UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
-
-					// Add item to UIMain.MyFFDataOOC
-					//while (ACTLogLines.Count > 0)
-                    //{
-					//	UIMain.MyFFDataOOC.Add(new FFLogLine(ACTLogLines.Dequeue()));
-                    //}
 				}
-				if (ActGlobals.oFormActMain.InCombat)
+				else if (ActGlobals.oFormActMain.InCombat)
 				{
-                    UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
-
-					// Add item to UIMain.MyFFDataEnc
+					UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
 				}*/
-				await AsyncLogTemp(logInfo.logLine);
 			}
 		}
 
-		public async Task AsyncLogTemp(string logLine)
+        public void Log(string logLine)
+        {
+			if (!ActGlobals.oFormActMain.InCombat)
+			{
+				UIMain.MyFFDataOOC.Add(new FFLogLine(logLine));
+			}
+			else if (ActGlobals.oFormActMain.InCombat)
+			{
+				UIMain.MyFFDataEnc.Add(new FFLogLine(logLine));
+			}
+		}
+
+		/*public async Task AsyncLogTemp(string logLine)
         {
 			if (!ActGlobals.oFormActMain.InCombat)
 			{
 				UIMain.MyFFDataOOC.Add(new FFLogLine(logLine));
 
 				// Add item to UIMain.MyFFDataOOC
-				/*while (ACTLogLines.Count > 0)
-				{
-					UIMain.MyFFDataOOC.Add(new FFLogLine(ACTLogLines.Dequeue()));
-				}*/
+				//while (ACTLogLines.Count > 0)
+				//{
+					//UIMain.MyFFDataOOC.Add(new FFLogLine(ACTLogLines.Dequeue()));
+				//}
 			}
-			if (ActGlobals.oFormActMain.InCombat)
+			else if (ActGlobals.oFormActMain.InCombat)
 			{
 				UIMain.MyFFDataEnc.Add(new FFLogLine(logLine));
 
 				// Add item to UIMain.MyFFDataEnc
 			}
 			await Task.Delay(1);
-		}
+		}*/
 		#endregion
 
 		#region OnCombat Start/End Events
@@ -153,8 +155,10 @@ namespace DataOrdo
 			// grab the encounter tab - maybe
 
 			// do some log split here too
-			
-			//UIMain.OOCTreeView.Nodes.Add(new TreeNode("Test")); // needs to not be on the UI thread
+
+
+			// needs to not be on the UI thread
+			//UIMain.OOCTreeView.Nodes.Add(new TreeNode("Test")); 
 			//UIMain.treeView2.Nodes.Add(new TreeNode(ActGlobals.oFormActMain.CurrentZone));
 			//MessageBox.Show(ActGlobals.oFormActMain.CurrentZone);
 		}

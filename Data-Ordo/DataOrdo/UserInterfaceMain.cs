@@ -340,33 +340,6 @@ namespace DataOrdo
         #region Tab5 Controls
         #endregion
 
-        #region Fake Logs - Tab 6
-        private async void FakeLog_Click(object sender, EventArgs e)
-        {
-            if (FakeLogBool)
-            {
-                FakeLog.BackColor = Color.Red;
-                FakeLog.Text = "Fake Logging OFF";
-                FakeLogBool = false;
-            }
-            else if (!FakeLogBool)
-            {
-                FakeLog.BackColor = Color.Green;
-                FakeLog.Text = "Fake Loggin ON";
-                FakeLogBool = true;
-                while (FakeLogBool)
-                {
-                    await FakeLogTask();
-                }
-            }
-        }
-        async Task FakeLogTask()
-        {
-            MyFFDataOOC.Add(new FFLogLine("[123456789012] 00:This is a test Line:HAHAHA:"));
-            await Task.Delay(5000);
-        }
-        #endregion
-
         #region StatusStrip Controls
         #endregion
 

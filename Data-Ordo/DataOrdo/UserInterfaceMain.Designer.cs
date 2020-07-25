@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Out-Of-Combat Logs");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Encounters Logs");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Out-Of-Combat Logs");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Encounters Logs");
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
             this.SettingsDropDown = new System.Windows.Forms.ToolStripDropDownButton();
             this.ConfigButtonToolStripDropDown = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,8 +59,6 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.FakeLog = new System.Windows.Forms.Button();
             this.ToolStrip.SuspendLayout();
             this.PluginTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -73,7 +71,6 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // ToolStrip
@@ -157,7 +154,6 @@
             this.PluginTabControl.Controls.Add(this.tabPage3);
             this.PluginTabControl.Controls.Add(this.tabPage4);
             this.PluginTabControl.Controls.Add(this.tabPage5);
-            this.PluginTabControl.Controls.Add(this.tabPage6);
             this.PluginTabControl.Location = new System.Drawing.Point(0, 25);
             this.PluginTabControl.Name = "PluginTabControl";
             this.PluginTabControl.SelectedIndex = 0;
@@ -284,10 +280,10 @@
             this.OOCTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OOCTreeView.Location = new System.Drawing.Point(0, 0);
             this.OOCTreeView.Name = "OOCTreeView";
-            treeNode5.Name = "Node0";
-            treeNode5.Text = "Out-Of-Combat Logs";
+            treeNode1.Name = "Node0";
+            treeNode1.Text = "Out-Of-Combat Logs";
             this.OOCTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5});
+            treeNode1});
             this.OOCTreeView.Size = new System.Drawing.Size(300, 547);
             this.OOCTreeView.TabIndex = 6;
             // 
@@ -384,10 +380,10 @@
             this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView2.Location = new System.Drawing.Point(0, 0);
             this.treeView2.Name = "treeView2";
-            treeNode6.Name = "Node0";
-            treeNode6.Text = "Encounters Logs";
+            treeNode2.Name = "Node0";
+            treeNode2.Text = "Encounters Logs";
             this.treeView2.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6});
+            treeNode2});
             this.treeView2.Size = new System.Drawing.Size(300, 547);
             this.treeView2.TabIndex = 0;
             // 
@@ -441,26 +437,6 @@
             this.tabPage5.Text = "Settings";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // tabPage6
-            // 
-            this.tabPage6.Controls.Add(this.FakeLog);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1480, 559);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "# Fake Logs for Dev #";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // FakeLog
-            // 
-            this.FakeLog.Location = new System.Drawing.Point(3, 3);
-            this.FakeLog.Name = "FakeLog";
-            this.FakeLog.Size = new System.Drawing.Size(110, 28);
-            this.FakeLog.TabIndex = 0;
-            this.FakeLog.Text = "Start Fake Logging";
-            this.FakeLog.UseVisualStyleBackColor = true;
-            this.FakeLog.Click += new System.EventHandler(this.FakeLog_Click);
-            // 
             // UserInterfaceMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -485,7 +461,6 @@
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -520,7 +495,5 @@
         public System.Windows.Forms.TreeView treeView2;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.TabPage tabPage6;
-        private System.Windows.Forms.Button FakeLog;
     }
 }
