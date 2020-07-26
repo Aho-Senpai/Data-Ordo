@@ -13,14 +13,14 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-//using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 
 namespace DataOrdo
 {
 	public class MainPlugin : UserControl, IActPluginV1
 	{
-		Label lblStatus;	// Create a lblStatus to print a message on the plugin status in the plugin list in ACT
-		UserInterfaceMain UIMain;	// Init UserInterface to display UI later
+		Label lblStatus;    // Create a lblStatus to print a message on the plugin status in the plugin list in ACT
+		UserInterfaceMain UIMain;   // Init UserInterface to display UI later
 
 		#region Init & DeInit PLugin
 		public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
@@ -60,6 +60,7 @@ namespace DataOrdo
 
 			lblStatus.Text = "Crash Avoided!";
 			Control.CheckForIllegalCrossThreadCalls = true; // to disable after the plugin is complete
+			InitThread();
 		}
 
 		public void DeInitPlugin()
@@ -69,69 +70,35 @@ namespace DataOrdo
 			ActGlobals.oFormActMain.OnCombatEnd -= OFormActMain_OnCombatEnd;
 
 			SaveSettings();
-			// File.WriteAllText(OOCLogFile, "");  // Clears the file
 
 			lblStatus.Text = "Ready To Crash";
 		}
 		#endregion
 
-		#region Parsing ON/OFF (WIP - To come back to later)
-		/*
-		UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
-		UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
-		*/
+		#region Parsing ON/OFF
 
-		//Queue<string> ACTLogLines = new Queue<string>();
-
+		ConcurrentQueue<(bool, string)> LogQueue = new ConcurrentQueue<(bool, string)>();
+		public void InitThread()
+		{
+			Thread LogThread = new Thread(Log);
+			LogThread.Start();
+		}
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
-			Thread ACTLogLine = new Thread(() => Log(logInfo.logLine));
 			if (UIMain.ParseON)
+				LogQueue.Enqueue((ActGlobals.oFormActMain.InCombat, logInfo.logLine));
+		}
+        public void Log()
+        {
+			while (true)
 			{
-				ACTLogLine.Start();
-				/*if (!ActGlobals.oFormActMain.InCombat)
-				{
-					UIMain.MyFFDataOOC.Add(new FFLogLine(logInfo.logLine));
-				}
-				else if (ActGlobals.oFormActMain.InCombat)
-				{
-					UIMain.MyFFDataEnc.Add(new FFLogLine(logInfo.logLine));
-				}*/
+				if (LogQueue.TryDequeue(out var tuple) && !tuple.Item1)
+					UIMain.MyFFDataOOC.Add(new FFLogLine(tuple.Item2));
+				else if (LogQueue.TryDequeue(out var Tuple) && tuple.Item1)
+					UIMain.MyFFDataEnc.Add(new FFLogLine(Tuple.Item2));
 			}
 		}
 
-        public void Log(string logLine)
-        {
-			if (!ActGlobals.oFormActMain.InCombat)
-			{
-				UIMain.MyFFDataOOC.Add(new FFLogLine(logLine));
-			}
-			else if (ActGlobals.oFormActMain.InCombat)
-			{
-				UIMain.MyFFDataEnc.Add(new FFLogLine(logLine));
-			}
-		}
-
-		/*public async Task AsyncLogTemp(string logLine)
-        {
-			if (!ActGlobals.oFormActMain.InCombat)
-			{
-				UIMain.MyFFDataOOC.Add(new FFLogLine(logLine));
-
-				// Add item to UIMain.MyFFDataOOC
-				//while (ACTLogLines.Count > 0)
-				//{
-					//UIMain.MyFFDataOOC.Add(new FFLogLine(ACTLogLines.Dequeue()));
-				//}
-			}
-			else if (ActGlobals.oFormActMain.InCombat)
-			{
-				UIMain.MyFFDataEnc.Add(new FFLogLine(logLine));
-
-				// Add item to UIMain.MyFFDataEnc
-			}
-			await Task.Delay(1);
-		}*/
 		#endregion
 
 		#region OnCombat Start/End Events
@@ -189,9 +156,7 @@ namespace DataOrdo
 						if (xReader.NodeType == XmlNodeType.Element)
 						{
 							if (xReader.LocalName == "SettingsSerializer")
-							{
 								xmlSettings.ImportFromXml(xReader);
-							}
 						}
 					}
 				}

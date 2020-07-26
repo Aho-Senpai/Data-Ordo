@@ -150,9 +150,7 @@ namespace DataOrdo
         private void OOC_SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-            {
                 FindMyStringOOC(OOC_SearchTextBox.Text);
-            }
         }
         private void OOC_SearchTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -207,9 +205,7 @@ namespace DataOrdo
                 {
                     StringBuilder sb = new StringBuilder();
                     foreach (object row in OOC_Logs_ListBox.SelectedItems)
-                    {
                         sb.Append(row.ToString());
-                    }
                     sb.Remove(sb.Length - 1, 1); // Just to avoid copying last empty row
                     Clipboard.SetData(System.Windows.Forms.DataFormats.Text, sb.ToString());
                 }
@@ -267,9 +263,7 @@ namespace DataOrdo
                 {
                     StringBuilder sb = new StringBuilder();
                     foreach (object row in Enc_Logs_ListBox.SelectedItems)
-                    {
                         sb.Append(row.ToString());
-                    }
                     sb.Remove(sb.Length - 1, 1); // Just to avoid copying last empty row
                     Clipboard.SetData(System.Windows.Forms.DataFormats.Text, sb.ToString());
                 }
