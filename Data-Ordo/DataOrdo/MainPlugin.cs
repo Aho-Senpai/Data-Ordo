@@ -77,25 +77,29 @@ namespace DataOrdo
 
 		#region Parsing ON/OFF
 
-		ConcurrentQueue<(bool, string)> LogQueue = new ConcurrentQueue<(bool, string)>();
 		public void InitThread()
 		{
 			Thread LogThread = new Thread(Log);
 			LogThread.Start();
+			LogThread.IsBackground = true;
 		}
+		ConcurrentQueue<LogLineEventArgs> LogQueue = new ConcurrentQueue<LogLineEventArgs>();	
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
 			if (UIMain.ParseON)
-				LogQueue.Enqueue((ActGlobals.oFormActMain.InCombat, logInfo.logLine));
+				LogQueue.Enqueue(logInfo);
 		}
-        public void Log()
+		public void Log()
         {
 			while (true)
 			{
-				if (LogQueue.TryDequeue(out var tuple) && !tuple.Item1)
-					UIMain.MyFFDataOOC.Add(new FFLogLine(tuple.Item2));
-				else if (LogQueue.TryDequeue(out var Tuple) && tuple.Item1)
-					UIMain.MyFFDataEnc.Add(new FFLogLine(Tuple.Item2));
+				if (LogQueue.TryDequeue(out var LogInfo))
+				{ 
+					if (!LogInfo.inCombat)
+						UIMain.MyFFDataOOC.Add(new FFLogLine(LogInfo.logLine));
+					else
+						UIMain.MyFFDataEnc.Add(new FFLogLine(LogInfo.logLine));
+				}
 			}
 		}
 
