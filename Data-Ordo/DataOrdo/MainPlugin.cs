@@ -59,7 +59,7 @@ namespace DataOrdo
 			LoadSettings();
 
 			lblStatus.Text = "Crash Avoided!";
-			Control.CheckForIllegalCrossThreadCalls = true; // to disable after the plugin is complete
+			//Control.CheckForIllegalCrossThreadCalls = true; // to disable after the plugin is complete
 			InitThread();
 		}
 
@@ -79,7 +79,7 @@ namespace DataOrdo
 
 		public void InitThread()
 		{
-			Thread LogThread = new Thread(new ThreadStart(UserInterfaceMain.UITimer));
+			Thread LogThread = new Thread(Log);
 			LogThread.Start();
 			LogThread.IsBackground = true;
 		}
@@ -89,9 +89,10 @@ namespace DataOrdo
 			if (UIMain.ParseON)
 				LogQueue.Enqueue(logInfo);
 		}
-		/*public void Log()
+		public void Log()
         {
-			while (true)
+			UIMain.UITimer.Start();
+			/*while (true)
 			{
 				while (!LogQueue.IsEmpty)
 				{
@@ -103,8 +104,8 @@ namespace DataOrdo
 							UIMain.MyFFDataEnc.Add(new FFLogLine(LogInfo.logLine));
 					}
 				}
-			}
-		}*/
+			}*/
+		}
 
 		#endregion
 

@@ -54,9 +54,8 @@ namespace DataOrdo
 
             UITimer.Tick += MyTimer_Tick;
             UITimer.Interval = 1000;
-            UITimer.Start();
+            //UITimer.Start();
         }
-
         private void MyTimer_Tick(object sender, EventArgs e)
         {
             while (true)
