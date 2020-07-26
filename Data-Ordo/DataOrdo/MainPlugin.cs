@@ -79,29 +79,32 @@ namespace DataOrdo
 
 		public void InitThread()
 		{
-			Thread LogThread = new Thread(Log);
+			Thread LogThread = new Thread(new ThreadStart(UserInterfaceMain.UITimer));
 			LogThread.Start();
 			LogThread.IsBackground = true;
 		}
-		ConcurrentQueue<LogLineEventArgs> LogQueue = new ConcurrentQueue<LogLineEventArgs>();	
+		public ConcurrentQueue<LogLineEventArgs> LogQueue = new ConcurrentQueue<LogLineEventArgs>();	
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
 			if (UIMain.ParseON)
 				LogQueue.Enqueue(logInfo);
 		}
-		public void Log()
+		/*public void Log()
         {
 			while (true)
 			{
-				if (LogQueue.TryDequeue(out var LogInfo))
-				{ 
-					if (!LogInfo.inCombat)
-						UIMain.MyFFDataOOC.Add(new FFLogLine(LogInfo.logLine));
-					else
-						UIMain.MyFFDataEnc.Add(new FFLogLine(LogInfo.logLine));
+				while (!LogQueue.IsEmpty)
+				{
+					if (LogQueue.TryDequeue(out var LogInfo))
+					{
+						if (!LogInfo.inCombat)
+							UIMain.MyFFDataOOC.Add(new FFLogLine(LogInfo.logLine));
+						else
+							UIMain.MyFFDataEnc.Add(new FFLogLine(LogInfo.logLine));
+					}
 				}
 			}
-		}
+		}*/
 
 		#endregion
 

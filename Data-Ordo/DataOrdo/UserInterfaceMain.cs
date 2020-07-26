@@ -35,6 +35,7 @@ namespace DataOrdo
         public BindingList<FFLogLine> MyFFDataOOC = new BindingList<FFLogLine>();
         public BindingList<FFLogLine> MyFFDataEnc = new BindingList<FFLogLine>();
 
+        public System.Windows.Forms.Timer UITimer = new System.Windows.Forms.Timer();
         public UserInterfaceMain()
         {
             this.Dock = DockStyle.Fill;
@@ -50,6 +51,27 @@ namespace DataOrdo
 
             OOC_Logs_ListBox.DataSource = MyFFDataOOC;
             Enc_Logs_ListBox.DataSource = MyFFDataEnc;
+
+            UITimer.Tick += MyTimer_Tick;
+            UITimer.Interval = 1000;
+            UITimer.Start();
+        }
+
+        private void MyTimer_Tick(object sender, EventArgs e)
+        {
+            while (true)
+            {
+                while (!PlugInstance.LogQueue.IsEmpty)
+                {
+                    if (PlugInstance.LogQueue.TryDequeue(out var LogInfo))
+                    {
+                        if (!LogInfo.inCombat)
+                            MyFFDataOOC.Add(new FFLogLine(LogInfo.logLine));
+                        else
+                            MyFFDataEnc.Add(new FFLogLine(LogInfo.logLine));
+                    }
+                }
+            }
         }
 
         public void SetPluginVar(MainPlugin PluginInstance)
@@ -336,7 +358,6 @@ namespace DataOrdo
 
         #region StatusStrip Controls
         #endregion
-
     }
 
     class MyRenderer : ToolStripProfessionalRenderer
