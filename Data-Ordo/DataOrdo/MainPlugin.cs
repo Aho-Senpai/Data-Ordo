@@ -13,7 +13,6 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-using System.Collections.Concurrent;
 
 namespace DataOrdo
 {
@@ -59,8 +58,8 @@ namespace DataOrdo
 			LoadSettings();
 
 			lblStatus.Text = "Crash Avoided!";
+
 			//Control.CheckForIllegalCrossThreadCalls = true; // to disable after the plugin is complete
-			InitThread();
 		}
 
 		public void DeInitPlugin()
@@ -73,38 +72,21 @@ namespace DataOrdo
 
 			lblStatus.Text = "Ready To Crash";
 		}
+
 		#endregion
 
 		#region Parsing ON/OFF
 
-		public void InitThread()
-		{
-			Thread LogThread = new Thread(Log);
-			LogThread.Start();
-			LogThread.IsBackground = true;
-		}
-		public ConcurrentQueue<LogLineEventArgs> LogQueue = new ConcurrentQueue<LogLineEventArgs>();	
+		public List<FFLogLine> ACTFFLogsOOC = new List<FFLogLine>();
+		public List<FFLogLine> ACTFFLogsEnc = new List<FFLogLine>();
+
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
 			if (UIMain.ParseON)
-				LogQueue.Enqueue(logInfo);
-		}
-		public void Log()
-        {
-			UIMain.UITimer.Start();
-			/*while (true)
-			{
-				while (!LogQueue.IsEmpty)
-				{
-					if (LogQueue.TryDequeue(out var LogInfo))
-					{
-						if (!LogInfo.inCombat)
-							UIMain.MyFFDataOOC.Add(new FFLogLine(LogInfo.logLine));
-						else
-							UIMain.MyFFDataEnc.Add(new FFLogLine(LogInfo.logLine));
-					}
-				}
-			}*/
+				if (!logInfo.inCombat)
+					ACTFFLogsOOC.Add(new FFLogLine(logInfo.logLine));
+				else
+					ACTFFLogsEnc.Add(new FFLogLine(logInfo.logLine));
 		}
 
 		#endregion
@@ -215,8 +197,11 @@ namespace DataOrdo
 		{
 			Timestamp = Logline.Substring(0, 14);
 			LineId = Logline.Substring(15, 2);
+			// maybe break the different loglines depending on LineID
+			// and have {target} {caster} and so on
 			LogText = Logline.Substring(18);
-			FFFullLogLine = ToString();
+
+			FFFullLogLine = ToStringWithTimeline();
 			FFNoTSLogLine = ToStringNoTimeline();
 		}
 		public string Timestamp { get; set; }
@@ -224,7 +209,7 @@ namespace DataOrdo
 		public string LogText { get; set; }
 		public string FFFullLogLine { get; }
 		public string FFNoTSLogLine { get; }
-		public override string ToString() { return $"{Timestamp} {LineId}:{LogText}{Environment.NewLine}"; }
-		public string ToStringNoTimeline() { return $"{LineId}:{LogText}{Environment.NewLine}"; }
+		public string ToStringWithTimeline() { return $"{Timestamp} {LineId}:{LogText}"; }
+		public string ToStringNoTimeline() { return $"{LineId}:{LogText}"; }
 	}
 }

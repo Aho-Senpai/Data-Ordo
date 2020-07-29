@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Out-Of-Combat Logs");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Encounters Logs");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Out-Of-Combat Logs");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Encounters Logs");
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
             this.SettingsDropDown = new System.Windows.Forms.ToolStripDropDownButton();
             this.ConfigButtonToolStripDropDown = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +47,7 @@
             this.OOC_Timestamp = new System.Windows.Forms.CheckBox();
             this.OOCTabSplitContainer = new System.Windows.Forms.SplitContainer();
             this.OOCTreeView = new System.Windows.Forms.TreeView();
-            this.OOC_Logs_ListBox = new System.Windows.Forms.ListBox();
+            this.OOC_Logs_ListView = new System.Windows.Forms.ListView();
             this.OOC_SearchTextBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.Enc_Timestamp = new System.Windows.Forms.CheckBox();
@@ -269,7 +269,7 @@
             // 
             // OOCTabSplitContainer.Panel2
             // 
-            this.OOCTabSplitContainer.Panel2.Controls.Add(this.OOC_Logs_ListBox);
+            this.OOCTabSplitContainer.Panel2.Controls.Add(this.OOC_Logs_ListView);
             this.OOCTabSplitContainer.Panel2.Controls.Add(this.OOC_SearchTextBox);
             this.OOCTabSplitContainer.Size = new System.Drawing.Size(1364, 547);
             this.OOCTabSplitContainer.SplitterDistance = 300;
@@ -280,24 +280,27 @@
             this.OOCTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OOCTreeView.Location = new System.Drawing.Point(0, 0);
             this.OOCTreeView.Name = "OOCTreeView";
-            treeNode1.Name = "Node0";
-            treeNode1.Text = "Out-Of-Combat Logs";
+            treeNode3.Name = "Node0";
+            treeNode3.Text = "Out-Of-Combat Logs";
             this.OOCTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode3});
             this.OOCTreeView.Size = new System.Drawing.Size(300, 547);
             this.OOCTreeView.TabIndex = 6;
             // 
-            // OOC_Logs_ListBox
+            // OOC_Logs_ListView
             // 
-            this.OOC_Logs_ListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.OOC_Logs_ListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.OOC_Logs_ListBox.FormattingEnabled = true;
-            this.OOC_Logs_ListBox.Location = new System.Drawing.Point(0, 23);
-            this.OOC_Logs_ListBox.Name = "OOC_Logs_ListBox";
-            this.OOC_Logs_ListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.OOC_Logs_ListBox.Size = new System.Drawing.Size(1060, 524);
-            this.OOC_Logs_ListBox.TabIndex = 7;
+            this.OOC_Logs_ListView.GridLines = true;
+            this.OOC_Logs_ListView.HideSelection = false;
+            this.OOC_Logs_ListView.Location = new System.Drawing.Point(0, 26);
+            this.OOC_Logs_ListView.Name = "OOC_Logs_ListView";
+            this.OOC_Logs_ListView.Size = new System.Drawing.Size(1060, 521);
+            this.OOC_Logs_ListView.TabIndex = 6;
+            this.OOC_Logs_ListView.UseCompatibleStateImageBehavior = false;
+            this.OOC_Logs_ListView.View = System.Windows.Forms.View.List;
+            this.OOC_Logs_ListView.VirtualMode = true;
             // 
             // OOC_SearchTextBox
             // 
@@ -380,10 +383,10 @@
             this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView2.Location = new System.Drawing.Point(0, 0);
             this.treeView2.Name = "treeView2";
-            treeNode2.Name = "Node0";
-            treeNode2.Text = "Encounters Logs";
+            treeNode4.Name = "Node0";
+            treeNode4.Text = "Encounters Logs";
             this.treeView2.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode4});
             this.treeView2.Size = new System.Drawing.Size(300, 547);
             this.treeView2.TabIndex = 0;
             // 
@@ -484,7 +487,6 @@
         private System.Windows.Forms.ToolStripButton ReloadPluginButton;
         private System.Windows.Forms.Button ClearOOCLogButton;
         private System.Windows.Forms.CheckBox RegexOOCSearchBar;
-        public System.Windows.Forms.ListBox OOC_Logs_ListBox;
         private System.Windows.Forms.CheckBox OOCLog;
         public System.Windows.Forms.Button CombatToggle;
         private System.Windows.Forms.ListBox Enc_Logs_ListBox;
@@ -495,5 +497,6 @@
         public System.Windows.Forms.TreeView treeView2;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TabPage tabPage5;
+        public System.Windows.Forms.ListView OOC_Logs_ListView;
     }
 }
