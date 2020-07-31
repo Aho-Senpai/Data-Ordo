@@ -28,12 +28,7 @@ namespace DataOrdo
         public bool CB_OOCTimestamp = true;
         public bool CB_EncTimestamp = true;
 
-        public bool IsInCombat;
-
-        public bool FakeLogBool = false;
-
-        //public BindingList<FFLogLine> MyFFDataOOC = new BindingList<FFLogLine>();
-        public BindingList<FFLogLine> MyFFDataEnc = new BindingList<FFLogLine>();
+        public bool IsInCombat = false;
 
         public UserInterfaceMain()
         {
@@ -53,7 +48,6 @@ namespace DataOrdo
             Enc_Logs_ListView.RetrieveVirtualItem += Enc_Logs_ListView_RetrieveVirtualItem;
 
         }
-
 
         void OOC_Logs_ListView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
@@ -85,15 +79,19 @@ namespace DataOrdo
             if (!ParseON)
             {
                 Parse.Text = "Parse ON";
-                Parse.BackColor = Color.Green;
+                Parse.BackColor = EnableColorPicker.BackColor;
                 ParseON = true;
             }
             else if (ParseON)
             {
                 Parse.Text = "Parse OFF";
-                Parse.BackColor = Color.Red;
+                Parse.BackColor = DisableColorPicker.BackColor;
                 ParseON = false;
             }
+        }
+        private void ToolStripSettingsButton_Click(object sender, EventArgs e)
+        {
+            this.PluginTabControl.SelectedTab = SettingsTab;
         }
         #endregion
 
@@ -103,7 +101,7 @@ namespace DataOrdo
             if (!OOC_Regex)
             {
                 RegexOOCSearchBar.Text = "Regex ON";
-                RegexOOCSearchBar.BackColor = Color.Blue;
+                RegexOOCSearchBar.BackColor = EnabledRegexColorPicker.BackColor;
                 OOC_Regex = true;
 
                 OOC_SearchTextBox.BackColor = Color.LightGreen;
@@ -111,7 +109,7 @@ namespace DataOrdo
             else if (OOC_Regex)
             {
                 RegexOOCSearchBar.Text = "Regex OFF";
-                RegexOOCSearchBar.BackColor = Color.Gray;
+                RegexOOCSearchBar.BackColor = DisabledRegexColorPicker.BackColor;
                 OOC_Regex = false;
 
                 OOC_SearchTextBox.BackColor = SystemColors.Window;
@@ -121,25 +119,19 @@ namespace DataOrdo
         {
             if (CB_OOCTimestamp)
             {
-                OOC_Timestamp.BackColor = Color.Red;
+                OOC_Timestamp.BackColor = DisableColorPicker.BackColor;
                 OOC_Timestamp.Text = "Timestamp OFF";
                 CB_OOCTimestamp = false;
-                if (!ParseON)
-                {
-                    OOC_Logs_ListView.VirtualListSize = 0;
-                    OOC_Logs_ListView.VirtualListSize = PlugInstance.ACTFFLogsOOC.Count;
-                }
+                OOC_Logs_ListView.VirtualListSize = 0;
+                OOC_Logs_ListView.VirtualListSize = PlugInstance.ACTFFLogsOOC.Count;
             }
             else
             {
-                OOC_Timestamp.BackColor = Color.Green;
+                OOC_Timestamp.BackColor = EnableColorPicker.BackColor;
                 OOC_Timestamp.Text = "Timestamp ON";
                 CB_OOCTimestamp = true;
-                if (!ParseON)
-                {
-                    OOC_Logs_ListView.VirtualListSize = 0;
-                    OOC_Logs_ListView.VirtualListSize = PlugInstance.ACTFFLogsOOC.Count;
-                }
+                OOC_Logs_ListView.VirtualListSize = 0;
+                OOC_Logs_ListView.VirtualListSize = PlugInstance.ACTFFLogsOOC.Count;
             }
         }
         private void OOCLog_CheckedChanged(object sender, EventArgs e)
@@ -147,18 +139,17 @@ namespace DataOrdo
             if (CB_OOCLog)
             {
                 OOCLog.Text = "Log OFF";
-                OOCLog.BackColor = Color.Red;
+                OOCLog.BackColor = DisableColorPicker.BackColor;
                 CB_OOCLog = false;
             }
 
             else if (!CB_OOCLog)
             {
                 OOCLog.Text = "Log ON";
-                OOCLog.BackColor = Color.Green;
+                OOCLog.BackColor = EnableColorPicker.BackColor;
                 CB_OOCLog = true;
 
-                // add a way to stop updating the list, but will probably need to "update it" back when log back in ?
-
+                // add a way to stop updating the list, but will probably need to "update it" back when log back in ? < Added in the Timer_tick event
             }
         }
         private void CombatToggle_Click(object sender, EventArgs e)
@@ -169,7 +160,8 @@ namespace DataOrdo
         private void ClearOOCLogButton_Click(object sender, EventArgs e) // Prob to add under a setting later
         {
             // This clears the WHOLE list. Be careful when using it.
-            //MyFFDataOOC.Clear();
+            PlugInstance.ACTFFLogsOOC.Clear();
+            OOC_Logs_ListView.VirtualListSize = PlugInstance.ACTFFLogsOOC.Count;
         }
 
         #region OOC Searchbar
@@ -194,7 +186,7 @@ namespace DataOrdo
                 }
             }
         }
-        private void FindMyStringOOC(string searchString)
+        private void FindMyStringOOC(string searchString) // to fix with listview
         {
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -222,7 +214,7 @@ namespace DataOrdo
 
         #endregion
 
-        private void OOC_Logs_ListView_KeyDown(object sender, KeyEventArgs e)
+        private void OOC_Logs_ListView_KeyDown(object sender, KeyEventArgs e) // to fix for ListView
         {
             // This allows the user to use CTRL+C to copy the selected lines.
             if (e.Control == true && e.KeyCode == Keys.C)
@@ -230,7 +222,7 @@ namespace DataOrdo
                 try
                 {
                     StringBuilder sb = new StringBuilder();
-                    foreach (object row in OOC_Logs_ListView.SelectedItems)
+                    foreach (object row in OOC_Logs_ListView.SelectedIndices)
                         sb.Append(row.ToString());
                     sb.Remove(sb.Length - 1, 1); // Just to avoid copying last empty row
                     Clipboard.SetData(DataFormats.Text, sb.ToString());
@@ -263,24 +255,24 @@ namespace DataOrdo
                 Enc_SearchTextBox.BackColor = SystemColors.Window;
             }
         }
-        private void EncTimestamp_CheckedChanged(object sender, EventArgs e)
+        private void EncTimestamp_CheckedChanged(object sender, EventArgs e) // to fix to make same as OOC
         {
             if (CB_EncTimestamp)
             {
-                Enc_Timestamp.BackColor = Color.Red; // Disable Option
+                Enc_Timestamp.BackColor = DisableColorPicker.BackColor; // Disable Option
                 Enc_Timestamp.Text = "Timestamp OFF";
                 CB_EncTimestamp = false;
                 //Enc_Logs_ListBox.DisplayMember = "FFNoTSLogLine";
             }
             else if (!CB_EncTimestamp)
             {
-                Enc_Timestamp.BackColor = Color.Green; // Enable Option
+                Enc_Timestamp.BackColor = EnableColorPicker.BackColor; // Enable Option
                 Enc_Timestamp.Text = "Timestamp ON";
                 CB_EncTimestamp = true;
                 //Enc_Logs_ListBox.DisplayMember = "FFFullLogLine";
             }
         }
-        private void Enc_Logs_ListBox_KeyDown(object sender, KeyEventArgs e)
+        private void Enc_Logs_ListBox_KeyDown(object sender, KeyEventArgs e) // to fix with listview
         {
             // This allows the user to use CTRL+C to copy the selected lines.
             if (e.Control == true && e.KeyCode == Keys.C)
@@ -322,7 +314,7 @@ namespace DataOrdo
                 }
             }
         }
-        private void FindMyStringEnc(string searchString)
+        private void FindMyStringEnc(string searchString) // to fix with listview
         {
             /*if (!string.IsNullOrEmpty(searchString))
             {
@@ -358,21 +350,72 @@ namespace DataOrdo
         #endregion
 
         #region Tab5 Controls
+        private void DevModeCB_CheckedChanged(object sender, EventArgs e)
+        {
+            if (DevModeCB.Checked)
+                ReloadPluginButton.Visible = true;
+            else
+                ReloadPluginButton.Visible = false;
+        }
+        private void ClearLogEnableCB_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ClearLogEnableCB.Checked)
+                ClearOOCLogButton.Visible = true;
+            else
+                ClearOOCLogButton.Visible = false;
+        }
+        private void EnableColorPicker_Click(object sender, EventArgs e)
+        {
+            ColorDialog MyDialog = new ColorDialog();
+            MyDialog.AllowFullOpen = false;
+            MyDialog.Color = EnableColorPicker.BackColor;
+
+            if (MyDialog.ShowDialog() == DialogResult.OK)
+                EnableColorPicker.BackColor = MyDialog.Color;
+        }
+        private void DisableColorPicker_Click(object sender, EventArgs e)
+        {
+            ColorDialog MyDialog = new ColorDialog();
+            MyDialog.AllowFullOpen = false;
+            MyDialog.Color = DisableColorPicker.BackColor;
+
+            if (MyDialog.ShowDialog() == DialogResult.OK)
+                DisableColorPicker.BackColor = MyDialog.Color;
+        }
+
+        private void EnabledRegexColorPicker_Click(object sender, EventArgs e)
+        {
+            ColorDialog MyDialog = new ColorDialog();
+            MyDialog.AllowFullOpen = false;
+            MyDialog.Color = EnabledRegexColorPicker.BackColor;
+
+            if (MyDialog.ShowDialog() == DialogResult.OK)
+                EnabledRegexColorPicker.BackColor = MyDialog.Color;
+        }
+
+        private void DisabledRegexColorPicker_Click(object sender, EventArgs e)
+        {
+            ColorDialog MyDialog = new ColorDialog();
+            MyDialog.AllowFullOpen = false;
+            MyDialog.Color = DisabledRegexColorPicker.BackColor;
+
+            if (MyDialog.ShowDialog() == DialogResult.OK)
+                DisabledRegexColorPicker.BackColor = MyDialog.Color;
+        }
         #endregion
 
         #region StatusStrip Controls
         #endregion
+
     }
 
-    class MyRenderer : ToolStripProfessionalRenderer
+    class MyRenderer : ToolStripProfessionalRenderer // to fix with the DisableColorPicker.BackColor
     {
         // This whole thing is to remove the highlight on the toolstrip button Parse >.>
         protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
         {
             if (!e.Item.Selected)
-            {
                 base.OnRenderButtonBackground(e);
-            }
 
             else if (e.Item.BackColor == Color.Red || e.Item.BackColor == Color.Green)
             {
@@ -384,10 +427,10 @@ namespace DataOrdo
                     e.Graphics.DrawRectangle(Pens.Green, rectangle);
                 }
                 else if (e.Item.BackColor == Color.Red)
-                    {
-                        e.Graphics.FillRectangle(Brushes.Red, rectangle);
-                        e.Graphics.DrawRectangle(Pens.Red, rectangle);
-                    }
+                {
+                    e.Graphics.FillRectangle(Brushes.Red, rectangle);
+                    e.Graphics.DrawRectangle(Pens.Red, rectangle);
+                }
             }
         }
     }

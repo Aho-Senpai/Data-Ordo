@@ -29,11 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Out-Of-Combat Logs");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Encounters Logs");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Out-Of-Combat Logs");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Encounters Logs");
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
-            this.SettingsDropDown = new System.Windows.Forms.ToolStripDropDownButton();
-            this.ConfigButtonToolStripDropDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripSettingsButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.Parse = new System.Windows.Forms.ToolStripButton();
             this.ReloadPluginButton = new System.Windows.Forms.ToolStripButton();
@@ -60,7 +59,13 @@
             this.Enc_SearchTextBox = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.SettingsTab = new System.Windows.Forms.TabPage();
+            this.EnableColorPicker = new System.Windows.Forms.Button();
+            this.DevModeCB = new System.Windows.Forms.CheckBox();
+            this.ClearLogEnableCB = new System.Windows.Forms.CheckBox();
+            this.DisableColorPicker = new System.Windows.Forms.Button();
+            this.EnabledRegexColorPicker = new System.Windows.Forms.Button();
+            this.DisabledRegexColorPicker = new System.Windows.Forms.Button();
             this.ToolStrip.SuspendLayout();
             this.PluginTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -73,12 +78,13 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.SettingsTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // ToolStrip
             // 
             this.ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.SettingsDropDown,
+            this.ToolStripSettingsButton,
             this.toolStripSeparator1,
             this.Parse,
             this.ReloadPluginButton});
@@ -88,24 +94,16 @@
             this.ToolStrip.TabIndex = 0;
             this.ToolStrip.Text = "toolStrip1";
             // 
-            // SettingsDropDown
+            // ToolStripSettingsButton
             // 
-            this.SettingsDropDown.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.SettingsDropDown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ConfigButtonToolStripDropDown});
-            this.SettingsDropDown.Image = ((System.Drawing.Image)(resources.GetObject("SettingsDropDown.Image")));
-            this.SettingsDropDown.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.SettingsDropDown.Name = "SettingsDropDown";
-            this.SettingsDropDown.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.SettingsDropDown.Size = new System.Drawing.Size(78, 22);
-            this.SettingsDropDown.Text = "Settings";
-            // 
-            // ConfigButtonToolStripDropDown
-            // 
-            this.ConfigButtonToolStripDropDown.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.ConfigButtonToolStripDropDown.Name = "ConfigButtonToolStripDropDown";
-            this.ConfigButtonToolStripDropDown.Size = new System.Drawing.Size(110, 22);
-            this.ConfigButtonToolStripDropDown.Text = "Config";
+            this.ToolStripSettingsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.ToolStripSettingsButton.Image = ((System.Drawing.Image)(resources.GetObject("ToolStripSettingsButton.Image")));
+            this.ToolStripSettingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripSettingsButton.Name = "ToolStripSettingsButton";
+            this.ToolStripSettingsButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ToolStripSettingsButton.Size = new System.Drawing.Size(69, 22);
+            this.ToolStripSettingsButton.Text = "Settings";
+            this.ToolStripSettingsButton.Click += new System.EventHandler(this.ToolStripSettingsButton_Click);
             // 
             // toolStripSeparator1
             // 
@@ -136,6 +134,7 @@
             this.ReloadPluginButton.Name = "ReloadPluginButton";
             this.ReloadPluginButton.Size = new System.Drawing.Size(84, 22);
             this.ReloadPluginButton.Text = "Reload Plugin";
+            this.ReloadPluginButton.Visible = false;
             this.ReloadPluginButton.Click += new System.EventHandler(this.ToolStripButton1_Click);
             // 
             // StatusStrip
@@ -155,7 +154,7 @@
             this.PluginTabControl.Controls.Add(this.tabPage2);
             this.PluginTabControl.Controls.Add(this.tabPage3);
             this.PluginTabControl.Controls.Add(this.tabPage4);
-            this.PluginTabControl.Controls.Add(this.tabPage5);
+            this.PluginTabControl.Controls.Add(this.SettingsTab);
             this.PluginTabControl.Location = new System.Drawing.Point(0, 25);
             this.PluginTabControl.Name = "PluginTabControl";
             this.PluginTabControl.SelectedIndex = 0;
@@ -239,6 +238,7 @@
             this.ClearOOCLogButton.TabIndex = 12;
             this.ClearOOCLogButton.Text = "Clear";
             this.ClearOOCLogButton.UseVisualStyleBackColor = false;
+            this.ClearOOCLogButton.Visible = false;
             this.ClearOOCLogButton.Click += new System.EventHandler(this.ClearOOCLogButton_Click);
             // 
             // OOC_Timestamp
@@ -282,10 +282,10 @@
             this.OOCTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OOCTreeView.Location = new System.Drawing.Point(0, 0);
             this.OOCTreeView.Name = "OOCTreeView";
-            treeNode1.Name = "Node0";
-            treeNode1.Text = "Out-Of-Combat Logs";
+            treeNode19.Name = "Node0";
+            treeNode19.Text = "Out-Of-Combat Logs";
             this.OOCTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode19});
             this.OOCTreeView.Size = new System.Drawing.Size(300, 547);
             this.OOCTreeView.TabIndex = 6;
             // 
@@ -393,10 +393,10 @@
             this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView2.Location = new System.Drawing.Point(0, 0);
             this.treeView2.Name = "treeView2";
-            treeNode2.Name = "Node0";
-            treeNode2.Text = "Encounters Logs";
+            treeNode20.Name = "Node0";
+            treeNode20.Text = "Encounters Logs";
             this.treeView2.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode20});
             this.treeView2.Size = new System.Drawing.Size(300, 547);
             this.treeView2.TabIndex = 0;
             // 
@@ -452,14 +452,95 @@
             this.tabPage4.Text = "Raw FFXIV Logs Enc";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // tabPage5
+            // SettingsTab
             // 
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1480, 559);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Settings";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            this.SettingsTab.Controls.Add(this.DisabledRegexColorPicker);
+            this.SettingsTab.Controls.Add(this.EnabledRegexColorPicker);
+            this.SettingsTab.Controls.Add(this.DisableColorPicker);
+            this.SettingsTab.Controls.Add(this.EnableColorPicker);
+            this.SettingsTab.Controls.Add(this.DevModeCB);
+            this.SettingsTab.Controls.Add(this.ClearLogEnableCB);
+            this.SettingsTab.Location = new System.Drawing.Point(4, 22);
+            this.SettingsTab.Name = "SettingsTab";
+            this.SettingsTab.Size = new System.Drawing.Size(1480, 559);
+            this.SettingsTab.TabIndex = 4;
+            this.SettingsTab.Text = "Settings";
+            this.SettingsTab.UseVisualStyleBackColor = true;
+            // 
+            // EnableColorPicker
+            // 
+            this.EnableColorPicker.AutoSize = true;
+            this.EnableColorPicker.BackColor = System.Drawing.Color.Green;
+            this.EnableColorPicker.ForeColor = System.Drawing.Color.White;
+            this.EnableColorPicker.Location = new System.Drawing.Point(3, 26);
+            this.EnableColorPicker.Name = "EnableColorPicker";
+            this.EnableColorPicker.Size = new System.Drawing.Size(117, 23);
+            this.EnableColorPicker.TabIndex = 5;
+            this.EnableColorPicker.Text = "Enabled Button Color";
+            this.EnableColorPicker.UseVisualStyleBackColor = false;
+            this.EnableColorPicker.Click += new System.EventHandler(this.EnableColorPicker_Click);
+            // 
+            // DevModeCB
+            // 
+            this.DevModeCB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.DevModeCB.AutoSize = true;
+            this.DevModeCB.Location = new System.Drawing.Point(1404, 539);
+            this.DevModeCB.Name = "DevModeCB";
+            this.DevModeCB.Size = new System.Drawing.Size(73, 17);
+            this.DevModeCB.TabIndex = 4;
+            this.DevModeCB.Text = "DevMode";
+            this.DevModeCB.UseVisualStyleBackColor = true;
+            this.DevModeCB.CheckedChanged += new System.EventHandler(this.DevModeCB_CheckedChanged);
+            // 
+            // ClearLogEnableCB
+            // 
+            this.ClearLogEnableCB.AutoSize = true;
+            this.ClearLogEnableCB.Location = new System.Drawing.Point(3, 3);
+            this.ClearLogEnableCB.Name = "ClearLogEnableCB";
+            this.ClearLogEnableCB.Size = new System.Drawing.Size(137, 17);
+            this.ClearLogEnableCB.TabIndex = 0;
+            this.ClearLogEnableCB.Text = "Clear Log Button (OOC)";
+            this.ClearLogEnableCB.UseVisualStyleBackColor = true;
+            this.ClearLogEnableCB.CheckedChanged += new System.EventHandler(this.ClearLogEnableCB_CheckedChanged);
+            // 
+            // DisableColorPicker
+            // 
+            this.DisableColorPicker.AutoSize = true;
+            this.DisableColorPicker.BackColor = System.Drawing.Color.Red;
+            this.DisableColorPicker.ForeColor = System.Drawing.Color.White;
+            this.DisableColorPicker.Location = new System.Drawing.Point(3, 55);
+            this.DisableColorPicker.Name = "DisableColorPicker";
+            this.DisableColorPicker.Size = new System.Drawing.Size(119, 23);
+            this.DisableColorPicker.TabIndex = 6;
+            this.DisableColorPicker.Text = "Disabled Button Color";
+            this.DisableColorPicker.UseVisualStyleBackColor = false;
+            this.DisableColorPicker.Click += new System.EventHandler(this.DisableColorPicker_Click);
+            // 
+            // EnabledRegexColorPicker
+            // 
+            this.EnabledRegexColorPicker.AutoSize = true;
+            this.EnabledRegexColorPicker.BackColor = System.Drawing.Color.Blue;
+            this.EnabledRegexColorPicker.ForeColor = System.Drawing.Color.White;
+            this.EnabledRegexColorPicker.Location = new System.Drawing.Point(3, 84);
+            this.EnabledRegexColorPicker.Name = "EnabledRegexColorPicker";
+            this.EnabledRegexColorPicker.Size = new System.Drawing.Size(151, 23);
+            this.EnabledRegexColorPicker.TabIndex = 7;
+            this.EnabledRegexColorPicker.Text = "Enabled Regex Button Color";
+            this.EnabledRegexColorPicker.UseVisualStyleBackColor = false;
+            this.EnabledRegexColorPicker.Click += new System.EventHandler(this.EnabledRegexColorPicker_Click);
+            // 
+            // DisabledRegexColorPicker
+            // 
+            this.DisabledRegexColorPicker.AutoSize = true;
+            this.DisabledRegexColorPicker.BackColor = System.Drawing.Color.Gray;
+            this.DisabledRegexColorPicker.ForeColor = System.Drawing.Color.White;
+            this.DisabledRegexColorPicker.Location = new System.Drawing.Point(3, 113);
+            this.DisabledRegexColorPicker.Name = "DisabledRegexColorPicker";
+            this.DisabledRegexColorPicker.Size = new System.Drawing.Size(153, 23);
+            this.DisabledRegexColorPicker.TabIndex = 8;
+            this.DisabledRegexColorPicker.Text = "Disabled Regex Button Color";
+            this.DisabledRegexColorPicker.UseVisualStyleBackColor = false;
+            this.DisabledRegexColorPicker.Click += new System.EventHandler(this.DisabledRegexColorPicker_Click);
             // 
             // UserInterfaceMain
             // 
@@ -485,6 +566,8 @@
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.SettingsTab.ResumeLayout(false);
+            this.SettingsTab.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -501,8 +584,6 @@
         private System.Windows.Forms.TextBox OOC_SearchTextBox;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TextBox Enc_SearchTextBox;
-        private System.Windows.Forms.ToolStripDropDownButton SettingsDropDown;
-        private System.Windows.Forms.ToolStripMenuItem ConfigButtonToolStripDropDown;
         private System.Windows.Forms.CheckBox OOC_Timestamp;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton ReloadPluginButton;
@@ -516,10 +597,17 @@
         public System.Windows.Forms.TreeView OOCTreeView;
         public System.Windows.Forms.TreeView treeView2;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TabPage SettingsTab;
         public System.Windows.Forms.ListView OOC_Logs_ListView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         public System.Windows.Forms.ListView Enc_Logs_ListView;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ToolStripButton ToolStripSettingsButton;
+        private System.Windows.Forms.CheckBox ClearLogEnableCB;
+        private System.Windows.Forms.CheckBox DevModeCB;
+        public System.Windows.Forms.Button EnableColorPicker;
+        public System.Windows.Forms.Button DisableColorPicker;
+        public System.Windows.Forms.Button EnabledRegexColorPicker;
+        public System.Windows.Forms.Button DisabledRegexColorPicker;
     }
 }

@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
+using System.Diagnostics;
 
 namespace DataOrdo
 {
@@ -20,11 +21,11 @@ namespace DataOrdo
 	{
 		Label lblStatus;    // Create a lblStatus to print a message on the plugin status in the plugin list in ACT
 		UserInterfaceMain UIMain;   // Init UserInterface to display UI later
+		static System.Windows.Forms.Timer LogsTimer = new System.Windows.Forms.Timer();
 
 		#region Init & DeInit PLugin
 		public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
 		{
-
 			lblStatus = pluginStatusText;               // Hand the status label's reference to our local var
 			pluginScreenSpace.Controls.Add(this);       // Add this UserControl to the tab ACT provides
 			xmlSettings = new SettingsSerializer(this); // Create a new settings serializer and pass it this instance
@@ -41,13 +42,13 @@ namespace DataOrdo
 			// This Region sets the state of the "CombatToggle" button on PluginInit
 			if (ActGlobals.oFormActMain.InCombat)
 			{
-				UIMain.CombatToggle.BackColor = Color.Red;
+				UIMain.CombatToggle.BackColor = UIMain.DisableColorPicker.BackColor;
 				UIMain.CombatToggle.Text = "In Combat";
 				UIMain.IsInCombat = true;
 			}
 			else if (!ActGlobals.oFormActMain.InCombat)
 			{
-				UIMain.CombatToggle.BackColor = Color.Green;
+				UIMain.CombatToggle.BackColor = UIMain.EnableColorPicker.BackColor;
 				UIMain.CombatToggle.Text = "Out Of Combat";
 				UIMain.IsInCombat = false;
 			}
@@ -58,11 +59,34 @@ namespace DataOrdo
 			LoadSettings();
 
 			lblStatus.Text = "Crash Avoided!";
-
-			//Control.CheckForIllegalCrossThreadCalls = true; // to disable after the plugin is complete
+            LogsTimer.Tick += LogsTimer_Tick;
+			LogsTimer.Interval = 2000;
+			LogsTimer.Start();
 		}
 
-		public void DeInitPlugin()
+		private void LogsTimer_Tick(object sender, EventArgs e)
+		{
+			if (UIMain.ParseON)
+			{
+				if (!UIMain.IsInCombat)
+				{
+					if (UIMain.CB_OOCLog)
+					{
+						UIMain.OOC_Logs_ListView.BeginUpdate();
+						UIMain.OOC_Logs_ListView.VirtualListSize = ACTFFLogsOOC.Count;
+						UIMain.OOC_Logs_ListView.EndUpdate();
+					}
+				}
+				else
+				{
+					UIMain.Enc_Logs_ListView.BeginUpdate();
+					UIMain.Enc_Logs_ListView.VirtualListSize = ACTFFLogsEnc.Count;
+					UIMain.Enc_Logs_ListView.EndUpdate();
+				}
+			}
+		}
+
+        public void DeInitPlugin()
 		{
 			ActGlobals.oFormActMain.OnLogLineRead -= OFormActMain_OnLogLineRead;
 			ActGlobals.oFormActMain.OnCombatStart -= OFormActMain_OnCombatStart;
@@ -76,7 +100,6 @@ namespace DataOrdo
 		#endregion
 
 		#region Parsing ON/OFF
-
 		public List<FFLogLine> ACTFFLogsOOC = new List<FFLogLine>();
 		public List<FFLogLine> ACTFFLogsEnc = new List<FFLogLine>();
 
@@ -85,34 +108,17 @@ namespace DataOrdo
 			if (UIMain.ParseON)
 			{
 				if (!logInfo.inCombat)
-				{
 					ACTFFLogsOOC.Add(new FFLogLine(logInfo.logLine));
-					if (true) // add condition window is active (selected/in foreground)
-					{
-						UIMain.OOC_Logs_ListView.BeginUpdate();
-						UIMain.OOC_Logs_ListView.VirtualListSize = ACTFFLogsOOC.Count;
-						UIMain.OOC_Logs_ListView.EndUpdate();
-					}
-				}
 				else
-				{
 					ACTFFLogsEnc.Add(new FFLogLine(logInfo.logLine));
-					if (true) // add condition window is active (selected/in foreground)
-					{
-						UIMain.Enc_Logs_ListView.BeginUpdate();
-						UIMain.Enc_Logs_ListView.VirtualListSize = ACTFFLogsEnc.Count;
-						UIMain.Enc_Logs_ListView.EndUpdate();
-					}
-				}
 			}
 		}
-
 		#endregion
 
 		#region OnCombat Start/End Events
 		private void OFormActMain_OnCombatEnd(bool isImport, CombatToggleEventArgs encounterInfo)
 		{
-			UIMain.CombatToggle.BackColor = Color.Green;
+			UIMain.CombatToggle.BackColor = UIMain.EnableColorPicker.BackColor;
 			UIMain.CombatToggle.Text = "Out Of Combat";
 			UIMain.IsInCombat = false;
 
@@ -123,7 +129,7 @@ namespace DataOrdo
 		}
 		private void OFormActMain_OnCombatStart(bool isImport, CombatToggleEventArgs encounterInfo)
 		{
-			UIMain.CombatToggle.BackColor = Color.Red;
+			UIMain.CombatToggle.BackColor = UIMain.DisableColorPicker.BackColor;
 			UIMain.CombatToggle.Text = "In Combat";
 			UIMain.IsInCombat = true;
 
