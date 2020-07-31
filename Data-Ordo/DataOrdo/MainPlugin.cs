@@ -83,10 +83,20 @@ namespace DataOrdo
 		private void OFormActMain_OnLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
 			if (UIMain.ParseON)
+			{
 				if (!logInfo.inCombat)
 					ACTFFLogsOOC.Add(new FFLogLine(logInfo.logLine));
 				else
 					ACTFFLogsEnc.Add(new FFLogLine(logInfo.logLine));
+
+				UIMain.OOC_Logs_ListView.BeginUpdate();
+				UIMain.OOC_Logs_ListView.VirtualListSize = ACTFFLogsOOC.Count;
+				UIMain.OOC_Logs_ListView.EndUpdate();
+
+				UIMain.Enc_Logs_ListView.BeginUpdate();
+				UIMain.Enc_Logs_ListView.VirtualListSize = ACTFFLogsEnc.Count;
+				UIMain.Enc_Logs_ListView.EndUpdate();
+			}
 		}
 
 		#endregion

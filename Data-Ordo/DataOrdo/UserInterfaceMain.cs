@@ -44,29 +44,31 @@ namespace DataOrdo
             this.Enc_SearchTextBox.KeyDown += Enc_SearchTextBox_KeyDown;
 
             this.OOC_Logs_ListView.KeyDown += OOC_Logs_ListView_KeyDown;
-            this.Enc_Logs_ListBox.KeyDown += Enc_Logs_ListBox_KeyDown;
+            this.Enc_Logs_ListView.KeyDown += Enc_Logs_ListBox_KeyDown;
 
             ToolStrip.Renderer = new MyRenderer();
 
-            //OOC_Logs_ListView.DataSource = MyFFDataOOC;
-            Enc_Logs_ListBox.DataSource = MyFFDataEnc;
-
             #region OOC Listview
-
-            OOC_Logs_ListView.VirtualListSize = PlugInstance.ACTFFLogsOOC.Count;
-            //Enc_Logs_ListView.VirrualListSize = PlugInstance.ACTFFLogsEnc.Count;
 
             OOC_Logs_ListView.RetrieveVirtualItem += new RetrieveVirtualItemEventHandler(OOC_Logs_ListView_RetrieveVirtualItem);
             OOC_Logs_ListView.CacheVirtualItems += new CacheVirtualItemsEventHandler(OOC_Logs_ListView_CacheVirtualItems);
             OOC_Logs_ListView.SearchForVirtualItem += new SearchForVirtualItemEventHandler(OOC_Logs_ListView_SearchForVirtualItem);
-            #endregion
-            }
+#endregion
+        }
 
-    #region OOC ListView Events
+#region OOC ListView Events
 
         void OOC_Logs_ListView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
+            if (CB_OOCTimestamp)
+                e.Item = new ListViewItem(PlugInstance.ACTFFLogsOOC[e.ItemIndex].ToStringWithTimeline());
+            else
+                e.Item = new ListViewItem(PlugInstance.ACTFFLogsOOC[e.ItemIndex].ToStringNoTimeline());
 
+            if (CB_EncTimestamp && Enc_Logs_ListView.VirtualListSize > 0)
+                e.Item = new ListViewItem(PlugInstance.ACTFFLogsEnc[e.ItemIndex].ToStringWithTimeline());
+            else if (CB_EncTimestamp && Enc_Logs_ListView.VirtualListSize > 0)
+                e.Item = new ListViewItem(PlugInstance.ACTFFLogsEnc[e.ItemIndex].ToStringNoTimeline());
         }
 
         void OOC_Logs_ListView_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
@@ -78,7 +80,7 @@ namespace DataOrdo
         {
 
         }
-    #endregion
+#endregion
 
         public void SetPluginVar(MainPlugin PluginInstance)
         {
@@ -131,17 +133,25 @@ namespace DataOrdo
         {
             if (CB_OOCTimestamp)
             {
-                OOC_Timestamp.BackColor = Color.Red; // Disable Option
+                OOC_Timestamp.BackColor = Color.Red;
                 OOC_Timestamp.Text = "Timestamp OFF";
                 CB_OOCTimestamp = false;
-                //OOC_Logs_ListView.DisplayMember = "FFNoTSLogLine";
+                if (!ParseON)
+                {
+                    OOC_Logs_ListView.VirtualListSize = 0;
+                    OOC_Logs_ListView.VirtualListSize = PlugInstance.ACTFFLogsOOC.Count;
+                }
             }
-            else if (!CB_OOCTimestamp)
+            else
             {
-                OOC_Timestamp.BackColor = Color.Green; // Enable Option
+                OOC_Timestamp.BackColor = Color.Green;
                 OOC_Timestamp.Text = "Timestamp ON";
                 CB_OOCTimestamp = true;
-                //OOC_Logs_ListView.DisplayMember = "FFFullLogLine";
+                if (!ParseON)
+                {
+                    OOC_Logs_ListView.VirtualListSize = 0;
+                    OOC_Logs_ListView.VirtualListSize = PlugInstance.ACTFFLogsOOC.Count;
+                }
             }
         }
         private void OOCLog_CheckedChanged(object sender, EventArgs e)
@@ -272,14 +282,14 @@ namespace DataOrdo
                 Enc_Timestamp.BackColor = Color.Red; // Disable Option
                 Enc_Timestamp.Text = "Timestamp OFF";
                 CB_EncTimestamp = false;
-                Enc_Logs_ListBox.DisplayMember = "FFNoTSLogLine";
+                //Enc_Logs_ListBox.DisplayMember = "FFNoTSLogLine";
             }
             else if (!CB_EncTimestamp)
             {
                 Enc_Timestamp.BackColor = Color.Green; // Enable Option
                 Enc_Timestamp.Text = "Timestamp ON";
                 CB_EncTimestamp = true;
-                Enc_Logs_ListBox.DisplayMember = "FFFullLogLine";
+                //Enc_Logs_ListBox.DisplayMember = "FFFullLogLine";
             }
         }
         private void Enc_Logs_ListBox_KeyDown(object sender, KeyEventArgs e)
@@ -290,7 +300,7 @@ namespace DataOrdo
                 try
                 {
                     StringBuilder sb = new StringBuilder();
-                    foreach (object row in Enc_Logs_ListBox.SelectedItems)
+                    foreach (object row in Enc_Logs_ListView.SelectedItems)
                         sb.Append(row.ToString());
                     sb.Remove(sb.Length - 1, 1); // Just to avoid copying last empty row
                     Clipboard.SetData(System.Windows.Forms.DataFormats.Text, sb.ToString());
@@ -326,28 +336,28 @@ namespace DataOrdo
         }
         private void FindMyStringEnc(string searchString)
         {
-            if (!string.IsNullOrEmpty(searchString))
+            /*if (!string.IsNullOrEmpty(searchString))
             {
-                Enc_Logs_ListBox.ClearSelected();
-                for (int i = 0; i < Enc_Logs_ListBox.Items.Count; i++)
+                Enc_Logs_ListView.ClearSelected();
+                for (int i = 0; i < Enc_Logs_ListView.Items.Count; i++)
                 {
                     if (Enc_Regex)
                     {
-                        if (Regex.IsMatch(Enc_Logs_ListBox.Items[i].ToString(), searchString))
+                        if (Regex.IsMatch(Enc_Logs_ListView.Items[i].ToString(), searchString))
                         {
-                            Enc_Logs_ListBox.SetSelected(i, true);
-                            Enc_Logs_ListBox.Focus();
+                            Enc_Logs_ListView.SetSelected(i, true);
+                            Enc_Logs_ListView.Focus();
                         }
                     }
-                    else if (Enc_Logs_ListBox.Items[i].ToString().Contains(searchString))
+                    else if (Enc_Logs_ListView.Items[i].ToString().Contains(searchString))
                     {
-                        Enc_Logs_ListBox.SetSelected(i, true);
-                        Enc_Logs_ListBox.Focus();
+                        Enc_Logs_ListView.SetSelected(i, true);
+                        Enc_Logs_ListView.Focus();
                     }
                 }
             }
             else
-                Enc_Logs_ListBox.ClearSelected();
+                Enc_Logs_ListView.ClearSelected();*/
         }
         #endregion
 

@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Out-Of-Combat Logs");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Encounters Logs");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Out-Of-Combat Logs");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Encounters Logs");
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
             this.SettingsDropDown = new System.Windows.Forms.ToolStripDropDownButton();
             this.ConfigButtonToolStripDropDown = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,13 +48,15 @@
             this.OOCTabSplitContainer = new System.Windows.Forms.SplitContainer();
             this.OOCTreeView = new System.Windows.Forms.TreeView();
             this.OOC_Logs_ListView = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.OOC_SearchTextBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.Enc_Timestamp = new System.Windows.Forms.CheckBox();
             this.RegexEncSearchBar = new System.Windows.Forms.CheckBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.treeView2 = new System.Windows.Forms.TreeView();
-            this.Enc_Logs_ListBox = new System.Windows.Forms.ListBox();
+            this.Enc_Logs_ListView = new System.Windows.Forms.ListView();
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Enc_SearchTextBox = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -280,10 +282,10 @@
             this.OOCTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OOCTreeView.Location = new System.Drawing.Point(0, 0);
             this.OOCTreeView.Name = "OOCTreeView";
-            treeNode3.Name = "Node0";
-            treeNode3.Text = "Out-Of-Combat Logs";
+            treeNode1.Name = "Node0";
+            treeNode1.Text = "Out-Of-Combat Logs";
             this.OOCTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
+            treeNode1});
             this.OOCTreeView.Size = new System.Drawing.Size(300, 547);
             this.OOCTreeView.TabIndex = 6;
             // 
@@ -292,15 +294,23 @@
             this.OOC_Logs_ListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.OOC_Logs_ListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
             this.OOC_Logs_ListView.GridLines = true;
+            this.OOC_Logs_ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.OOC_Logs_ListView.HideSelection = false;
             this.OOC_Logs_ListView.Location = new System.Drawing.Point(0, 26);
             this.OOC_Logs_ListView.Name = "OOC_Logs_ListView";
             this.OOC_Logs_ListView.Size = new System.Drawing.Size(1060, 521);
             this.OOC_Logs_ListView.TabIndex = 6;
             this.OOC_Logs_ListView.UseCompatibleStateImageBehavior = false;
-            this.OOC_Logs_ListView.View = System.Windows.Forms.View.List;
+            this.OOC_Logs_ListView.View = System.Windows.Forms.View.Details;
             this.OOC_Logs_ListView.VirtualMode = true;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "";
+            this.columnHeader1.Width = 1056;
             // 
             // OOC_SearchTextBox
             // 
@@ -372,7 +382,7 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.Enc_Logs_ListBox);
+            this.splitContainer2.Panel2.Controls.Add(this.Enc_Logs_ListView);
             this.splitContainer2.Panel2.Controls.Add(this.Enc_SearchTextBox);
             this.splitContainer2.Size = new System.Drawing.Size(1364, 547);
             this.splitContainer2.SplitterDistance = 300;
@@ -383,24 +393,35 @@
             this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView2.Location = new System.Drawing.Point(0, 0);
             this.treeView2.Name = "treeView2";
-            treeNode4.Name = "Node0";
-            treeNode4.Text = "Encounters Logs";
+            treeNode2.Name = "Node0";
+            treeNode2.Text = "Encounters Logs";
             this.treeView2.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4});
+            treeNode2});
             this.treeView2.Size = new System.Drawing.Size(300, 547);
             this.treeView2.TabIndex = 0;
             // 
-            // Enc_Logs_ListBox
+            // Enc_Logs_ListView
             // 
-            this.Enc_Logs_ListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.Enc_Logs_ListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Enc_Logs_ListBox.FormattingEnabled = true;
-            this.Enc_Logs_ListBox.Location = new System.Drawing.Point(0, 23);
-            this.Enc_Logs_ListBox.Name = "Enc_Logs_ListBox";
-            this.Enc_Logs_ListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.Enc_Logs_ListBox.Size = new System.Drawing.Size(1060, 524);
-            this.Enc_Logs_ListBox.TabIndex = 1;
+            this.Enc_Logs_ListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader2});
+            this.Enc_Logs_ListView.GridLines = true;
+            this.Enc_Logs_ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.Enc_Logs_ListView.HideSelection = false;
+            this.Enc_Logs_ListView.Location = new System.Drawing.Point(0, 26);
+            this.Enc_Logs_ListView.Name = "Enc_Logs_ListView";
+            this.Enc_Logs_ListView.Size = new System.Drawing.Size(1060, 521);
+            this.Enc_Logs_ListView.TabIndex = 7;
+            this.Enc_Logs_ListView.UseCompatibleStateImageBehavior = false;
+            this.Enc_Logs_ListView.View = System.Windows.Forms.View.Details;
+            this.Enc_Logs_ListView.VirtualMode = true;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "";
+            this.columnHeader2.Width = 1056;
             // 
             // Enc_SearchTextBox
             // 
@@ -489,7 +510,6 @@
         private System.Windows.Forms.CheckBox RegexOOCSearchBar;
         private System.Windows.Forms.CheckBox OOCLog;
         public System.Windows.Forms.Button CombatToggle;
-        private System.Windows.Forms.ListBox Enc_Logs_ListBox;
         private System.Windows.Forms.CheckBox RegexEncSearchBar;
         private System.Windows.Forms.CheckBox Enc_Timestamp;
         public System.Windows.Forms.ToolStripButton Parse;
@@ -498,5 +518,8 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TabPage tabPage5;
         public System.Windows.Forms.ListView OOC_Logs_ListView;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        public System.Windows.Forms.ListView Enc_Logs_ListView;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
