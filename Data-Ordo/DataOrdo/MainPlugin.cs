@@ -85,17 +85,25 @@ namespace DataOrdo
 			if (UIMain.ParseON)
 			{
 				if (!logInfo.inCombat)
+				{
 					ACTFFLogsOOC.Add(new FFLogLine(logInfo.logLine));
+					if (true) // add condition window is active (selected/in foreground)
+					{
+						UIMain.OOC_Logs_ListView.BeginUpdate();
+						UIMain.OOC_Logs_ListView.VirtualListSize = ACTFFLogsOOC.Count;
+						UIMain.OOC_Logs_ListView.EndUpdate();
+					}
+				}
 				else
+				{
 					ACTFFLogsEnc.Add(new FFLogLine(logInfo.logLine));
-
-				UIMain.OOC_Logs_ListView.BeginUpdate();
-				UIMain.OOC_Logs_ListView.VirtualListSize = ACTFFLogsOOC.Count;
-				UIMain.OOC_Logs_ListView.EndUpdate();
-
-				UIMain.Enc_Logs_ListView.BeginUpdate();
-				UIMain.Enc_Logs_ListView.VirtualListSize = ACTFFLogsEnc.Count;
-				UIMain.Enc_Logs_ListView.EndUpdate();
+					if (true) // add condition window is active (selected/in foreground)
+					{
+						UIMain.Enc_Logs_ListView.BeginUpdate();
+						UIMain.Enc_Logs_ListView.VirtualListSize = ACTFFLogsEnc.Count;
+						UIMain.Enc_Logs_ListView.EndUpdate();
+					}
+				}
 			}
 		}
 

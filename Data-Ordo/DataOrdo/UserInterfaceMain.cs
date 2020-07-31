@@ -48,15 +48,12 @@ namespace DataOrdo
 
             ToolStrip.Renderer = new MyRenderer();
 
-            #region OOC Listview
-
             OOC_Logs_ListView.RetrieveVirtualItem += new RetrieveVirtualItemEventHandler(OOC_Logs_ListView_RetrieveVirtualItem);
-            OOC_Logs_ListView.CacheVirtualItems += new CacheVirtualItemsEventHandler(OOC_Logs_ListView_CacheVirtualItems);
-            OOC_Logs_ListView.SearchForVirtualItem += new SearchForVirtualItemEventHandler(OOC_Logs_ListView_SearchForVirtualItem);
-#endregion
+
+            Enc_Logs_ListView.RetrieveVirtualItem += Enc_Logs_ListView_RetrieveVirtualItem;
+
         }
 
-#region OOC ListView Events
 
         void OOC_Logs_ListView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
@@ -64,23 +61,14 @@ namespace DataOrdo
                 e.Item = new ListViewItem(PlugInstance.ACTFFLogsOOC[e.ItemIndex].ToStringWithTimeline());
             else
                 e.Item = new ListViewItem(PlugInstance.ACTFFLogsOOC[e.ItemIndex].ToStringNoTimeline());
-
-            if (CB_EncTimestamp && Enc_Logs_ListView.VirtualListSize > 0)
+        }
+        private void Enc_Logs_ListView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
+        {
+            if (CB_EncTimestamp)
                 e.Item = new ListViewItem(PlugInstance.ACTFFLogsEnc[e.ItemIndex].ToStringWithTimeline());
-            else if (CB_EncTimestamp && Enc_Logs_ListView.VirtualListSize > 0)
+            else if (CB_EncTimestamp)
                 e.Item = new ListViewItem(PlugInstance.ACTFFLogsEnc[e.ItemIndex].ToStringNoTimeline());
         }
-
-        void OOC_Logs_ListView_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
-        {
-
-        }
-
-        void OOC_Logs_ListView_SearchForVirtualItem(object sender, SearchForVirtualItemEventArgs e)
-        {
-
-        }
-#endregion
 
         public void SetPluginVar(MainPlugin PluginInstance)
         {
