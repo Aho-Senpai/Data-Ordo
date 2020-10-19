@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using System.Diagnostics;
+using FFXIV_ACT_Plugin;
 
 namespace DataOrdo
 {
@@ -21,7 +22,7 @@ namespace DataOrdo
 	{
 		Label lblStatus;    // Create a lblStatus to print a message on the plugin status in the plugin list in ACT
 		UserInterfaceMain UIMain;   // Init UserInterface to display UI later
-		static System.Windows.Forms.Timer LogsTimer = new System.Windows.Forms.Timer();
+		public System.Windows.Forms.Timer LogsTimer = new System.Windows.Forms.Timer();
 
 		#region Init & DeInit PLugin
 		public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
@@ -62,6 +63,8 @@ namespace DataOrdo
             LogsTimer.Tick += LogsTimer_Tick;
 			LogsTimer.Interval = 2000;
 			LogsTimer.Start();
+
+			UIMain.TrackbarValue.Text = "" + UIMain.LogsTimerTrackBarSet.Value;
 		}
 
 		private void LogsTimer_Tick(object sender, EventArgs e)
@@ -75,13 +78,18 @@ namespace DataOrdo
 						UIMain.OOC_Logs_ListView.BeginUpdate();
 						UIMain.OOC_Logs_ListView.VirtualListSize = ACTFFLogsOOC.Count;
 						UIMain.OOC_Logs_ListView.EndUpdate();
-					}
+                        if (UIMain.OOC_Logs_ListView.Items.Count - 1 > 0 & UIMain.AutoLogScroll)
+							UIMain.OOC_Logs_ListView.Items[UIMain.OOC_Logs_ListView.Items.Count - 1].EnsureVisible();
+                        
+                    }
 				}
 				else
 				{
 					UIMain.Enc_Logs_ListView.BeginUpdate();
 					UIMain.Enc_Logs_ListView.VirtualListSize = ACTFFLogsEnc.Count;
 					UIMain.Enc_Logs_ListView.EndUpdate();
+					if (UIMain.Enc_Logs_ListView.Items.Count - 1 > 0 & UIMain.AutoLogScroll)
+						UIMain.Enc_Logs_ListView.Items[UIMain.Enc_Logs_ListView.Items.Count - 1].EnsureVisible();
 				}
 			}
 		}
@@ -99,7 +107,7 @@ namespace DataOrdo
 
 		#endregion
 
-		#region Parsing ON/OFF
+		#region Parsing
 		public List<FFLogLine> ACTFFLogsOOC = new List<FFLogLine>();
 		public List<FFLogLine> ACTFFLogsEnc = new List<FFLogLine>();
 
@@ -113,6 +121,9 @@ namespace DataOrdo
 					ACTFFLogsEnc.Add(new FFLogLine(logInfo.logLine));
 			}
 		}
+
+		public List<FFLogLine> RAWFFLogsOOC = new List<FFLogLine>();
+		public List<FFLogLine> RAWFFLogsEnc = new List<FFLogLine>();
 		#endregion
 
 		#region OnCombat Start/End Events
@@ -123,9 +134,10 @@ namespace DataOrdo
 			UIMain.IsInCombat = false;
 
 			// grab the out of combat tab IF CB_OOCLog == True - maybe
+			if (UIMain.ParseON)
+				UIMain.PluginTabControl.SelectTab(0);
 
-			// Split Encounter here
-			
+			// Split Encounter here?
 		}
 		private void OFormActMain_OnCombatStart(bool isImport, CombatToggleEventArgs encounterInfo)
 		{
@@ -133,9 +145,10 @@ namespace DataOrdo
 			UIMain.CombatToggle.Text = "In Combat";
 			UIMain.IsInCombat = true;
 
-			// grab the encounter tab - maybe
+			if (UIMain.ParseON)
+				UIMain.PluginTabControl.SelectTab(1);
 
-			// do some log split here too
+			// do some log split here too?
 
 
 			// needs to not be on the UI thread
@@ -158,11 +171,18 @@ namespace DataOrdo
 		readonly string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "Config\\DataOrdo.config.xml"); // Path for the settings file
 		private void LoadSettings()
 		{
+			xmlSettings.AddControlSetting(UIMain.DevModeCB.Name, UIMain.DevModeCB);
+			xmlSettings.AddControlSetting(UIMain.ClearLogEnableCB.Name, UIMain.ClearLogEnableCB);
+			xmlSettings.AddControlSetting(UIMain.EnableColorPicker.Name, UIMain.EnableColorPicker);
+			xmlSettings.AddControlSetting(UIMain.DisableColorPicker.Name, UIMain.DisableColorPicker);
+			xmlSettings.AddControlSetting(UIMain.EnabledRegexColorPicker.Name, UIMain.EnabledRegexColorPicker);
+			xmlSettings.AddControlSetting(UIMain.DisabledRegexColorPicker.Name, UIMain.DisabledRegexColorPicker);
+			xmlSettings.AddControlSetting(UIMain.LogsTimerTrackBarSet.Value.ToString(), UIMain.LogsTimerTrackBarSet);
+
 			if (File.Exists(settingsFile))
 			{
 				FileStream fs = new FileStream(settingsFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 				XmlTextReader xReader = new XmlTextReader(fs);
-
 				try
 				{
 					while (xReader.Read())

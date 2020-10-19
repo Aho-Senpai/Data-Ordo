@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterfaceMain));
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Out-Of-Combat Logs");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Encounters Logs");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Out-Of-Combat Logs");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Encounters Logs");
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
             this.ToolStripSettingsButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -60,12 +61,18 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.SettingsTab = new System.Windows.Forms.TabPage();
+            this.CB_DarkMode = new System.Windows.Forms.CheckBox();
+            this.LogsTimerTrackBarSet = new System.Windows.Forms.TrackBar();
+            this.DisabledRegexColorPicker = new System.Windows.Forms.Button();
+            this.EnabledRegexColorPicker = new System.Windows.Forms.Button();
+            this.DisableColorPicker = new System.Windows.Forms.Button();
             this.EnableColorPicker = new System.Windows.Forms.Button();
             this.DevModeCB = new System.Windows.Forms.CheckBox();
             this.ClearLogEnableCB = new System.Windows.Forms.CheckBox();
-            this.DisableColorPicker = new System.Windows.Forms.Button();
-            this.EnabledRegexColorPicker = new System.Windows.Forms.Button();
-            this.DisabledRegexColorPicker = new System.Windows.Forms.Button();
+            this.LogsTimerTrackBarToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.RegexMaker = new System.Windows.Forms.TabPage();
+            this.AutoScroll = new System.Windows.Forms.ToolStripButton();
+            this.TrackbarValue = new System.Windows.Forms.TextBox();
             this.ToolStrip.SuspendLayout();
             this.PluginTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -79,6 +86,7 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.SettingsTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LogsTimerTrackBarSet)).BeginInit();
             this.SuspendLayout();
             // 
             // ToolStrip
@@ -87,6 +95,7 @@
             this.ToolStripSettingsButton,
             this.toolStripSeparator1,
             this.Parse,
+            this.AutoScroll,
             this.ReloadPluginButton});
             this.ToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ToolStrip.Name = "ToolStrip";
@@ -154,6 +163,7 @@
             this.PluginTabControl.Controls.Add(this.tabPage2);
             this.PluginTabControl.Controls.Add(this.tabPage3);
             this.PluginTabControl.Controls.Add(this.tabPage4);
+            this.PluginTabControl.Controls.Add(this.RegexMaker);
             this.PluginTabControl.Controls.Add(this.SettingsTab);
             this.PluginTabControl.Location = new System.Drawing.Point(0, 25);
             this.PluginTabControl.Name = "PluginTabControl";
@@ -163,6 +173,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.BackColor = System.Drawing.Color.Transparent;
             this.tabPage1.Controls.Add(this.CombatToggle);
             this.tabPage1.Controls.Add(this.OOCLog);
             this.tabPage1.Controls.Add(this.RegexOOCSearchBar);
@@ -175,7 +186,6 @@
             this.tabPage1.Size = new System.Drawing.Size(1480, 559);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Out Of Combat Logs";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // CombatToggle
             // 
@@ -230,7 +240,7 @@
             // 
             this.ClearOOCLogButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ClearOOCLogButton.BackColor = System.Drawing.Color.Black;
-            this.ClearOOCLogButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ClearOOCLogButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ClearOOCLogButton.ForeColor = System.Drawing.Color.White;
             this.ClearOOCLogButton.Location = new System.Drawing.Point(1376, 530);
             this.ClearOOCLogButton.Name = "ClearOOCLogButton";
@@ -282,10 +292,10 @@
             this.OOCTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OOCTreeView.Location = new System.Drawing.Point(0, 0);
             this.OOCTreeView.Name = "OOCTreeView";
-            treeNode19.Name = "Node0";
-            treeNode19.Text = "Out-Of-Combat Logs";
+            treeNode7.Name = "Node0";
+            treeNode7.Text = "Out-Of-Combat Logs";
             this.OOCTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode19});
+            treeNode7});
             this.OOCTreeView.Size = new System.Drawing.Size(300, 547);
             this.OOCTreeView.TabIndex = 6;
             // 
@@ -296,7 +306,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OOC_Logs_ListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
-            this.OOC_Logs_ListView.GridLines = true;
             this.OOC_Logs_ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.OOC_Logs_ListView.HideSelection = false;
             this.OOC_Logs_ListView.Location = new System.Drawing.Point(0, 26);
@@ -348,7 +357,7 @@
             this.Enc_Timestamp.Text = "Timestamp ON";
             this.Enc_Timestamp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.Enc_Timestamp.UseVisualStyleBackColor = false;
-            this.Enc_Timestamp.CheckedChanged += new System.EventHandler(this.EncTimestamp_CheckedChanged);
+            this.Enc_Timestamp.CheckedChanged += new System.EventHandler(this.Enc_Timestamp_CheckedChanged);
             // 
             // RegexEncSearchBar
             // 
@@ -393,10 +402,10 @@
             this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView2.Location = new System.Drawing.Point(0, 0);
             this.treeView2.Name = "treeView2";
-            treeNode20.Name = "Node0";
-            treeNode20.Text = "Encounters Logs";
+            treeNode8.Name = "Node0";
+            treeNode8.Text = "Encounters Logs";
             this.treeView2.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode20});
+            treeNode8});
             this.treeView2.Size = new System.Drawing.Size(300, 547);
             this.treeView2.TabIndex = 0;
             // 
@@ -407,7 +416,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Enc_Logs_ListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader2});
-            this.Enc_Logs_ListView.GridLines = true;
             this.Enc_Logs_ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.Enc_Logs_ListView.HideSelection = false;
             this.Enc_Logs_ListView.Location = new System.Drawing.Point(0, 26);
@@ -454,6 +462,9 @@
             // 
             // SettingsTab
             // 
+            this.SettingsTab.Controls.Add(this.TrackbarValue);
+            this.SettingsTab.Controls.Add(this.CB_DarkMode);
+            this.SettingsTab.Controls.Add(this.LogsTimerTrackBarSet);
             this.SettingsTab.Controls.Add(this.DisabledRegexColorPicker);
             this.SettingsTab.Controls.Add(this.EnabledRegexColorPicker);
             this.SettingsTab.Controls.Add(this.DisableColorPicker);
@@ -467,12 +478,79 @@
             this.SettingsTab.Text = "Settings";
             this.SettingsTab.UseVisualStyleBackColor = true;
             // 
+            // CB_DarkMode
+            // 
+            this.CB_DarkMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_DarkMode.AutoSize = true;
+            this.CB_DarkMode.Location = new System.Drawing.Point(1397, 516);
+            this.CB_DarkMode.Name = "CB_DarkMode";
+            this.CB_DarkMode.Size = new System.Drawing.Size(79, 17);
+            this.CB_DarkMode.TabIndex = 10;
+            this.CB_DarkMode.Text = "Dark Mode";
+            this.CB_DarkMode.UseVisualStyleBackColor = true;
+            this.CB_DarkMode.CheckedChanged += new System.EventHandler(this.CB_DarkMode_CheckedChanged);
+            // 
+            // LogsTimerTrackBarSet
+            // 
+            this.LogsTimerTrackBarSet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LogsTimerTrackBarSet.BackColor = System.Drawing.Color.White;
+            this.LogsTimerTrackBarSet.LargeChange = 1;
+            this.LogsTimerTrackBarSet.Location = new System.Drawing.Point(3, 511);
+            this.LogsTimerTrackBarSet.Minimum = 1;
+            this.LogsTimerTrackBarSet.Name = "LogsTimerTrackBarSet";
+            this.LogsTimerTrackBarSet.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.LogsTimerTrackBarSet.Size = new System.Drawing.Size(151, 45);
+            this.LogsTimerTrackBarSet.TabIndex = 9;
+            this.LogsTimerTrackBarToolTip.SetToolTip(this.LogsTimerTrackBarSet, "Sets the delay at which the UI updates for the Logs\r\n\r\nRange from 1 to 10 - Defau" +
+        "lt as 2");
+            this.LogsTimerTrackBarSet.Value = 2;
+            this.LogsTimerTrackBarSet.Scroll += new System.EventHandler(this.LogsTimerTrackBarSet_Scroll);
+            // 
+            // DisabledRegexColorPicker
+            // 
+            this.DisabledRegexColorPicker.AutoSize = true;
+            this.DisabledRegexColorPicker.BackColor = System.Drawing.Color.Gray;
+            this.DisabledRegexColorPicker.ForeColor = System.Drawing.Color.White;
+            this.DisabledRegexColorPicker.Location = new System.Drawing.Point(3, 113);
+            this.DisabledRegexColorPicker.Name = "DisabledRegexColorPicker";
+            this.DisabledRegexColorPicker.Size = new System.Drawing.Size(153, 23);
+            this.DisabledRegexColorPicker.TabIndex = 8;
+            this.DisabledRegexColorPicker.Text = "Disabled Regex Button Color";
+            this.DisabledRegexColorPicker.UseVisualStyleBackColor = false;
+            this.DisabledRegexColorPicker.Click += new System.EventHandler(this.DisabledRegexColorPicker_Click);
+            // 
+            // EnabledRegexColorPicker
+            // 
+            this.EnabledRegexColorPicker.AutoSize = true;
+            this.EnabledRegexColorPicker.BackColor = System.Drawing.Color.Blue;
+            this.EnabledRegexColorPicker.ForeColor = System.Drawing.Color.White;
+            this.EnabledRegexColorPicker.Location = new System.Drawing.Point(3, 84);
+            this.EnabledRegexColorPicker.Name = "EnabledRegexColorPicker";
+            this.EnabledRegexColorPicker.Size = new System.Drawing.Size(151, 23);
+            this.EnabledRegexColorPicker.TabIndex = 7;
+            this.EnabledRegexColorPicker.Text = "Enabled Regex Button Color";
+            this.EnabledRegexColorPicker.UseVisualStyleBackColor = false;
+            this.EnabledRegexColorPicker.Click += new System.EventHandler(this.EnabledRegexColorPicker_Click);
+            // 
+            // DisableColorPicker
+            // 
+            this.DisableColorPicker.AutoSize = true;
+            this.DisableColorPicker.BackColor = System.Drawing.Color.Red;
+            this.DisableColorPicker.ForeColor = System.Drawing.Color.White;
+            this.DisableColorPicker.Location = new System.Drawing.Point(21, 55);
+            this.DisableColorPicker.Name = "DisableColorPicker";
+            this.DisableColorPicker.Size = new System.Drawing.Size(119, 23);
+            this.DisableColorPicker.TabIndex = 6;
+            this.DisableColorPicker.Text = "Disabled Button Color";
+            this.DisableColorPicker.UseVisualStyleBackColor = false;
+            this.DisableColorPicker.Click += new System.EventHandler(this.DisableColorPicker_Click);
+            // 
             // EnableColorPicker
             // 
             this.EnableColorPicker.AutoSize = true;
             this.EnableColorPicker.BackColor = System.Drawing.Color.Green;
             this.EnableColorPicker.ForeColor = System.Drawing.Color.White;
-            this.EnableColorPicker.Location = new System.Drawing.Point(3, 26);
+            this.EnableColorPicker.Location = new System.Drawing.Point(21, 26);
             this.EnableColorPicker.Name = "EnableColorPicker";
             this.EnableColorPicker.Size = new System.Drawing.Size(117, 23);
             this.EnableColorPicker.TabIndex = 5;
@@ -484,7 +562,7 @@
             // 
             this.DevModeCB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.DevModeCB.AutoSize = true;
-            this.DevModeCB.Location = new System.Drawing.Point(1404, 539);
+            this.DevModeCB.Location = new System.Drawing.Point(1397, 539);
             this.DevModeCB.Name = "DevModeCB";
             this.DevModeCB.Size = new System.Drawing.Size(73, 17);
             this.DevModeCB.TabIndex = 4;
@@ -503,49 +581,47 @@
             this.ClearLogEnableCB.UseVisualStyleBackColor = true;
             this.ClearLogEnableCB.CheckedChanged += new System.EventHandler(this.ClearLogEnableCB_CheckedChanged);
             // 
-            // DisableColorPicker
+            // RegexMaker
             // 
-            this.DisableColorPicker.AutoSize = true;
-            this.DisableColorPicker.BackColor = System.Drawing.Color.Red;
-            this.DisableColorPicker.ForeColor = System.Drawing.Color.White;
-            this.DisableColorPicker.Location = new System.Drawing.Point(3, 55);
-            this.DisableColorPicker.Name = "DisableColorPicker";
-            this.DisableColorPicker.Size = new System.Drawing.Size(119, 23);
-            this.DisableColorPicker.TabIndex = 6;
-            this.DisableColorPicker.Text = "Disabled Button Color";
-            this.DisableColorPicker.UseVisualStyleBackColor = false;
-            this.DisableColorPicker.Click += new System.EventHandler(this.DisableColorPicker_Click);
+            this.RegexMaker.Location = new System.Drawing.Point(4, 22);
+            this.RegexMaker.Name = "RegexMaker";
+            this.RegexMaker.Size = new System.Drawing.Size(1480, 559);
+            this.RegexMaker.TabIndex = 5;
+            this.RegexMaker.Text = "RegexMaker";
+            this.RegexMaker.UseVisualStyleBackColor = true;
             // 
-            // EnabledRegexColorPicker
+            // AutoScroll
             // 
-            this.EnabledRegexColorPicker.AutoSize = true;
-            this.EnabledRegexColorPicker.BackColor = System.Drawing.Color.Blue;
-            this.EnabledRegexColorPicker.ForeColor = System.Drawing.Color.White;
-            this.EnabledRegexColorPicker.Location = new System.Drawing.Point(3, 84);
-            this.EnabledRegexColorPicker.Name = "EnabledRegexColorPicker";
-            this.EnabledRegexColorPicker.Size = new System.Drawing.Size(151, 23);
-            this.EnabledRegexColorPicker.TabIndex = 7;
-            this.EnabledRegexColorPicker.Text = "Enabled Regex Button Color";
-            this.EnabledRegexColorPicker.UseVisualStyleBackColor = false;
-            this.EnabledRegexColorPicker.Click += new System.EventHandler(this.EnabledRegexColorPicker_Click);
+            this.AutoScroll.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.AutoScroll.BackColor = System.Drawing.Color.Green;
+            this.AutoScroll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.AutoScroll.ForeColor = System.Drawing.Color.White;
+            this.AutoScroll.Image = ((System.Drawing.Image)(resources.GetObject("AutoScroll.Image")));
+            this.AutoScroll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AutoScroll.Name = "AutoScroll";
+            this.AutoScroll.Size = new System.Drawing.Size(90, 22);
+            this.AutoScroll.Text = "Auto Scroll ON";
+            this.AutoScroll.ToolTipText = " Toggle Parsing - Both for OOC and Enc";
+            this.AutoScroll.Click += new System.EventHandler(this.AutoScroll_Click);
             // 
-            // DisabledRegexColorPicker
+            // TrackbarValue
             // 
-            this.DisabledRegexColorPicker.AutoSize = true;
-            this.DisabledRegexColorPicker.BackColor = System.Drawing.Color.Gray;
-            this.DisabledRegexColorPicker.ForeColor = System.Drawing.Color.White;
-            this.DisabledRegexColorPicker.Location = new System.Drawing.Point(3, 113);
-            this.DisabledRegexColorPicker.Name = "DisabledRegexColorPicker";
-            this.DisabledRegexColorPicker.Size = new System.Drawing.Size(153, 23);
-            this.DisabledRegexColorPicker.TabIndex = 8;
-            this.DisabledRegexColorPicker.Text = "Disabled Regex Button Color";
-            this.DisabledRegexColorPicker.UseVisualStyleBackColor = false;
-            this.DisabledRegexColorPicker.Click += new System.EventHandler(this.DisabledRegexColorPicker_Click);
+            this.TrackbarValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.TrackbarValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TrackbarValue.Location = new System.Drawing.Point(160, 511);
+            this.TrackbarValue.Multiline = true;
+            this.TrackbarValue.Name = "TrackbarValue";
+            this.TrackbarValue.ReadOnly = true;
+            this.TrackbarValue.Size = new System.Drawing.Size(42, 42);
+            this.TrackbarValue.TabIndex = 11;
+            this.TrackbarValue.Text = "2";
+            this.TrackbarValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // UserInterfaceMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.PluginTabControl);
             this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.ToolStrip);
@@ -568,6 +644,7 @@
             this.splitContainer2.ResumeLayout(false);
             this.SettingsTab.ResumeLayout(false);
             this.SettingsTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LogsTimerTrackBarSet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -576,7 +653,6 @@
 
         private System.Windows.Forms.ToolStrip ToolStrip;
         private System.Windows.Forms.StatusStrip StatusStrip;
-        private System.Windows.Forms.TabControl PluginTabControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
@@ -602,12 +678,19 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         public System.Windows.Forms.ListView Enc_Logs_ListView;
         private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ToolStripButton ToolStripSettingsButton;
-        private System.Windows.Forms.CheckBox ClearLogEnableCB;
-        private System.Windows.Forms.CheckBox DevModeCB;
         public System.Windows.Forms.Button EnableColorPicker;
         public System.Windows.Forms.Button DisableColorPicker;
         public System.Windows.Forms.Button EnabledRegexColorPicker;
         public System.Windows.Forms.Button DisabledRegexColorPicker;
+        public System.Windows.Forms.TrackBar LogsTimerTrackBarSet;
+        private System.Windows.Forms.ToolTip LogsTimerTrackBarToolTip;
+        public System.Windows.Forms.ToolStripButton ToolStripSettingsButton;
+        public System.Windows.Forms.CheckBox DevModeCB;
+        public System.Windows.Forms.CheckBox ClearLogEnableCB;
+        public System.Windows.Forms.CheckBox CB_DarkMode;
+        public System.Windows.Forms.TabControl PluginTabControl;
+        private System.Windows.Forms.TabPage RegexMaker;
+        public System.Windows.Forms.ToolStripButton AutoScroll;
+        public System.Windows.Forms.TextBox TrackbarValue;
     }
 }

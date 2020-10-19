@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advanced_Combat_Tracker;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -9,7 +10,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using Advanced_Combat_Tracker;
 using System.Threading;
 
 namespace DataOrdo
@@ -17,17 +17,13 @@ namespace DataOrdo
     public partial class UserInterfaceMain : UserControl
     {
         public MainPlugin PlugInstance;
-
         public bool ParseON = false;
-
+        public bool AutoLogScroll = true;
         public bool CB_OOCLog = true;
-
         public bool OOC_Regex = false;
         public bool Enc_Regex = false;
-
         public bool CB_OOCTimestamp = true;
         public bool CB_EncTimestamp = true;
-
         public bool IsInCombat = false;
 
         public UserInterfaceMain()
@@ -39,14 +35,16 @@ namespace DataOrdo
             this.Enc_SearchTextBox.KeyDown += Enc_SearchTextBox_KeyDown;
 
             this.OOC_Logs_ListView.KeyDown += OOC_Logs_ListView_KeyDown;
-            this.Enc_Logs_ListView.KeyDown += Enc_Logs_ListBox_KeyDown;
+            this.Enc_Logs_ListView.KeyDown += Enc_Logs_ListView_KeyDown;
 
             ToolStrip.Renderer = new MyRenderer();
 
             OOC_Logs_ListView.RetrieveVirtualItem += new RetrieveVirtualItemEventHandler(OOC_Logs_ListView_RetrieveVirtualItem);
+            Enc_Logs_ListView.RetrieveVirtualItem += new RetrieveVirtualItemEventHandler(Enc_Logs_ListView_RetrieveVirtualItem);
 
-            Enc_Logs_ListView.RetrieveVirtualItem += Enc_Logs_ListView_RetrieveVirtualItem;
-
+            OOC_Logs_ListView.SizeChanged += OOC_Logs_ListView_SizeChanged;
+            Enc_Logs_ListView.SizeChanged += Enc_Logs_ListView_SizeChanged;
+            OOC_Logs_ListView.SearchForVirtualItem += new SearchForVirtualItemEventHandler(OOC_Logs_ListView_SearchForVirtualItem);
         }
 
         void OOC_Logs_ListView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
@@ -56,11 +54,11 @@ namespace DataOrdo
             else
                 e.Item = new ListViewItem(PlugInstance.ACTFFLogsOOC[e.ItemIndex].ToStringNoTimeline());
         }
-        private void Enc_Logs_ListView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
+        void Enc_Logs_ListView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
             if (CB_EncTimestamp)
                 e.Item = new ListViewItem(PlugInstance.ACTFFLogsEnc[e.ItemIndex].ToStringWithTimeline());
-            else if (CB_EncTimestamp)
+            else
                 e.Item = new ListViewItem(PlugInstance.ACTFFLogsEnc[e.ItemIndex].ToStringNoTimeline());
         }
 
@@ -92,6 +90,21 @@ namespace DataOrdo
         private void ToolStripSettingsButton_Click(object sender, EventArgs e)
         {
             this.PluginTabControl.SelectedTab = SettingsTab;
+        }
+        private void AutoScroll_Click(object sender, EventArgs e)
+        {
+            if (!AutoLogScroll)
+            {
+                AutoScroll.Text = "Auto Scroll ON";
+                AutoScroll.BackColor = EnableColorPicker.BackColor;
+                AutoLogScroll = true;
+            }
+            else
+            {
+                AutoScroll.Text = "Auto Scroll OFF";
+                AutoScroll.BackColor = DisableColorPicker.BackColor;
+                AutoLogScroll = false;
+            }
         }
         #endregion
 
@@ -165,10 +178,10 @@ namespace DataOrdo
         }
 
         #region OOC Searchbar
-        private void OOC_SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        private void OOC_SearchTextBox_KeyDown(object sender, KeyEventArgs e) // Needs fixing to work with listview
         {
             if (e.KeyCode == Keys.Enter)
-                FindMyStringOOC(OOC_SearchTextBox.Text);
+                return;
         }
         private void OOC_SearchTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -186,46 +199,32 @@ namespace DataOrdo
                 }
             }
         }
-        private void FindMyStringOOC(string searchString) // to fix with listview
+        private void OOC_Logs_ListView_SearchForVirtualItem(object sender, SearchForVirtualItemEventArgs e)
         {
-            if (!string.IsNullOrEmpty(searchString))
+            for (int i = 0; i < OOC_Logs_ListView.VirtualListSize; i++)
             {
-                //OOC_Logs_ListView.ClearSelected();
-                for (int i = 0; i < OOC_Logs_ListView.Items.Count; i++)
-                {
-                    if (OOC_Regex)
-                    {
-                        if (Regex.IsMatch(OOC_Logs_ListView.Items[i].ToString(), searchString))
-                        {
-                            //OOC_Logs_ListView.SetSelected(i, true);
-                            OOC_Logs_ListView.Focus();
-                        }
-                    }
-                    else if (OOC_Logs_ListView.Items[i].ToString().Contains(searchString))
-                    {
-                        //OOC_Logs_ListView.SetSelected(i, true);
-                        OOC_Logs_ListView.Focus();
-                    }
-                }
+                //yourListViewName.Items[i];
             }
-            //  else
-                //OOC_Logs_ListView.ClearSelected();
         }
-
         #endregion
 
-        private void OOC_Logs_ListView_KeyDown(object sender, KeyEventArgs e) // to fix for ListView
+        private void OOC_Logs_ListView_KeyDown(object sender, KeyEventArgs e)
         {
             // This allows the user to use CTRL+C to copy the selected lines.
             if (e.Control == true && e.KeyCode == Keys.C)
             {
                 try
                 {
-                    StringBuilder sb = new StringBuilder();
-                    foreach (object row in OOC_Logs_ListView.SelectedIndices)
-                        sb.Append(row.ToString());
-                    sb.Remove(sb.Length - 1, 1); // Just to avoid copying last empty row
-                    Clipboard.SetData(DataFormats.Text, sb.ToString());
+                    var data = new StringBuilder();
+                    for (int i = 0; i < OOC_Logs_ListView.Items.Count; i++)
+                    {
+                        if (OOC_Logs_ListView.Items[i].Selected)
+                        {
+                            data.AppendLine(OOC_Logs_ListView.Items[i].Text);
+                            continue;
+                        }
+                    }
+                    Clipboard.SetData(DataFormats.Text, data.ToString());
                 }
                 catch (Exception ex)
                 {
@@ -255,35 +254,42 @@ namespace DataOrdo
                 Enc_SearchTextBox.BackColor = SystemColors.Window;
             }
         }
-        private void EncTimestamp_CheckedChanged(object sender, EventArgs e) // to fix to make same as OOC
+        private void Enc_Timestamp_CheckedChanged(object sender, EventArgs e)
         {
             if (CB_EncTimestamp)
             {
-                Enc_Timestamp.BackColor = DisableColorPicker.BackColor; // Disable Option
+                Enc_Timestamp.BackColor = DisableColorPicker.BackColor;
                 Enc_Timestamp.Text = "Timestamp OFF";
                 CB_EncTimestamp = false;
-                //Enc_Logs_ListBox.DisplayMember = "FFNoTSLogLine";
+                Enc_Logs_ListView.VirtualListSize = 0;
+                Enc_Logs_ListView.VirtualListSize = PlugInstance.ACTFFLogsEnc.Count;
             }
-            else if (!CB_EncTimestamp)
+            else
             {
-                Enc_Timestamp.BackColor = EnableColorPicker.BackColor; // Enable Option
+                Enc_Timestamp.BackColor = EnableColorPicker.BackColor;
                 Enc_Timestamp.Text = "Timestamp ON";
                 CB_EncTimestamp = true;
-                //Enc_Logs_ListBox.DisplayMember = "FFFullLogLine";
+                Enc_Logs_ListView.VirtualListSize = 0;
+                Enc_Logs_ListView.VirtualListSize = PlugInstance.ACTFFLogsEnc.Count;
             }
         }
-        private void Enc_Logs_ListBox_KeyDown(object sender, KeyEventArgs e) // to fix with listview
+        private void Enc_Logs_ListView_KeyDown(object sender, KeyEventArgs e)
         {
             // This allows the user to use CTRL+C to copy the selected lines.
             if (e.Control == true && e.KeyCode == Keys.C)
             {
                 try
                 {
-                    StringBuilder sb = new StringBuilder();
-                    foreach (object row in Enc_Logs_ListView.SelectedItems)
-                        sb.Append(row.ToString());
-                    sb.Remove(sb.Length - 1, 1); // Just to avoid copying last empty row
-                    Clipboard.SetData(System.Windows.Forms.DataFormats.Text, sb.ToString());
+                    var data = new StringBuilder();
+                    for (int i = 0; i < Enc_Logs_ListView.Items.Count; i++)
+                    {
+                        if (Enc_Logs_ListView.Items[i].Selected)
+                        {
+                            data.AppendLine(Enc_Logs_ListView.Items[i].Text);
+                            continue;
+                        }
+                    }
+                    Clipboard.SetData(DataFormats.Text, data.ToString());
                 }
                 catch (Exception ex)
                 {
@@ -349,7 +355,10 @@ namespace DataOrdo
         #region Tab4 Controls
         #endregion
 
-        #region Tab5 Controls
+        #region Tab5 - RegexMaker
+        #endregion
+
+        #region Tab6 Controls - Settings
         private void DevModeCB_CheckedChanged(object sender, EventArgs e)
         {
             if (DevModeCB.Checked)
@@ -366,46 +375,129 @@ namespace DataOrdo
         }
         private void EnableColorPicker_Click(object sender, EventArgs e)
         {
-            ColorDialog MyDialog = new ColorDialog();
-            MyDialog.AllowFullOpen = false;
-            MyDialog.Color = EnableColorPicker.BackColor;
-
+            ColorDialog MyDialog = new ColorDialog
+            {
+                AllowFullOpen = false,
+                Color = EnableColorPicker.BackColor
+            };
             if (MyDialog.ShowDialog() == DialogResult.OK)
                 EnableColorPicker.BackColor = MyDialog.Color;
         }
         private void DisableColorPicker_Click(object sender, EventArgs e)
         {
-            ColorDialog MyDialog = new ColorDialog();
-            MyDialog.AllowFullOpen = false;
-            MyDialog.Color = DisableColorPicker.BackColor;
-
+            ColorDialog MyDialog = new ColorDialog
+            {
+                AllowFullOpen = false,
+                Color = DisableColorPicker.BackColor
+            };
             if (MyDialog.ShowDialog() == DialogResult.OK)
                 DisableColorPicker.BackColor = MyDialog.Color;
         }
 
         private void EnabledRegexColorPicker_Click(object sender, EventArgs e)
         {
-            ColorDialog MyDialog = new ColorDialog();
-            MyDialog.AllowFullOpen = false;
-            MyDialog.Color = EnabledRegexColorPicker.BackColor;
-
+            ColorDialog MyDialog = new ColorDialog
+            {
+                AllowFullOpen = false,
+                Color = EnabledRegexColorPicker.BackColor
+            };
             if (MyDialog.ShowDialog() == DialogResult.OK)
                 EnabledRegexColorPicker.BackColor = MyDialog.Color;
         }
 
         private void DisabledRegexColorPicker_Click(object sender, EventArgs e)
         {
-            ColorDialog MyDialog = new ColorDialog();
-            MyDialog.AllowFullOpen = false;
-            MyDialog.Color = DisabledRegexColorPicker.BackColor;
-
+            ColorDialog MyDialog = new ColorDialog
+            {
+                AllowFullOpen = false,
+                Color = DisabledRegexColorPicker.BackColor
+            };
             if (MyDialog.ShowDialog() == DialogResult.OK)
                 DisabledRegexColorPicker.BackColor = MyDialog.Color;
+        }
+
+        private void LogsTimerTrackBarSet_Scroll(object sender, EventArgs e) // NYI - To do
+        {
+            PlugInstance.LogsTimer.Interval = LogsTimerTrackBarSet.Value * 1000;
+            TrackbarValue.Text = "" + LogsTimerTrackBarSet.Value;
+        }
+
+        readonly Color Black = Color.Black;
+        readonly Color White = Color.White;
+        readonly Color Control = SystemColors.Control;
+        readonly Color ControlText = SystemColors.ControlText;
+        readonly Color Window = SystemColors.Window;
+        private void CB_DarkMode_CheckedChanged(object sender, EventArgs e) // To Add UI Elements
+        {
+            if (CB_DarkMode.Checked)
+            {
+                this.BackColor = Black;
+                ToolStrip.BackColor = Black;
+                ToolStripSettingsButton.ForeColor = White;
+                ReloadPluginButton.BackColor = Black;
+                ReloadPluginButton.ForeColor = White;
+                tabPage1.BackColor = Black;
+                tabPage2.BackColor = Black;
+                tabPage3.BackColor = Black;
+                tabPage4.BackColor = Black;
+                OOCTreeView.BackColor = Black;
+                OOCTreeView.ForeColor = White;
+                OOC_Logs_ListView.BackColor = Black;
+                OOC_Logs_ListView.ForeColor = White;
+                StatusStrip.BackColor = Black;
+            }
+            else
+            {
+                this.BackColor = Control;
+                ToolStrip.BackColor = Control;
+                ToolStripSettingsButton.ForeColor = ControlText;
+                ReloadPluginButton.BackColor = Control;
+                ReloadPluginButton.ForeColor = ControlText;
+                tabPage1.BackColor = Color.Transparent;
+                tabPage2.BackColor = Color.Transparent;
+                tabPage3.BackColor = Color.Transparent;
+                tabPage4.BackColor = Color.Transparent;
+                OOCTreeView.BackColor = Window;
+                OOCTreeView.ForeColor = ControlText;
+                OOC_Logs_ListView.BackColor = Window;
+                OOC_Logs_ListView.ForeColor = ControlText;
+                StatusStrip.BackColor = Control;
+            }
         }
         #endregion
 
         #region StatusStrip Controls
         #endregion
+
+        #region Auto Resize ListView
+        private bool OOCResizing = false;
+        private void OOC_Logs_ListView_SizeChanged(object sender, EventArgs e)
+        {
+            if (!OOCResizing)
+            {
+                OOCResizing = true;
+                if (sender is ListView listView)
+                {
+                    listView.Columns[0].Width = listView.ClientRectangle.Width;
+                }
+            }
+            OOCResizing = false;
+        }
+        private bool EncResizing = false;
+        private void Enc_Logs_ListView_SizeChanged(object sender, EventArgs e)
+        {
+            if (!EncResizing)
+            {
+                EncResizing = true;
+                if (sender is ListView listView)
+                {
+                    listView.Columns[0].Width = listView.ClientRectangle.Width;
+                }
+            }
+            EncResizing = false;
+        }
+        #endregion
+
 
     }
 
