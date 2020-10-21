@@ -95,14 +95,14 @@ namespace DataOrdo
         {
             if (!AutoLogScroll)
             {
-                AutoScroll.Text = "Auto Scroll ON";
-                AutoScroll.BackColor = EnableColorPicker.BackColor;
+                AutoScrollBtn.Text = "Auto Scroll ON";
+                AutoScrollBtn.BackColor = EnableColorPicker.BackColor;
                 AutoLogScroll = true;
             }
             else
             {
-                AutoScroll.Text = "Auto Scroll OFF";
-                AutoScroll.BackColor = DisableColorPicker.BackColor;
+                AutoScrollBtn.Text = "Auto Scroll OFF";
+                AutoScrollBtn.BackColor = DisableColorPicker.BackColor;
                 AutoLogScroll = false;
             }
         }
@@ -170,7 +170,7 @@ namespace DataOrdo
             if (IsInCombat)
                 ActGlobals.oFormActMain.EndCombat(export: true);
         }
-        private void ClearOOCLogButton_Click(object sender, EventArgs e) // Prob to add under a setting later
+        private void ClearOOCLogButton_Click(object sender, EventArgs e)
         {
             // This clears the WHOLE list. Be careful when using it.
             PlugInstance.ACTFFLogsOOC.Clear();
@@ -181,7 +181,13 @@ namespace DataOrdo
         private void OOC_SearchTextBox_KeyDown(object sender, KeyEventArgs e) // Needs fixing to work with listview
         {
             if (e.KeyCode == Keys.Enter)
-                return;
+            {
+                ListViewItem searchResult = OOC_Logs_ListView.FindItemWithText(OOC_SearchTextBox.Text);
+                foreach (ListViewItem searchResults in OOC_Logs_ListView.Items)
+                {
+                    searchResults.Selected = true;
+                }
+            }
         }
         private void OOC_SearchTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -203,7 +209,10 @@ namespace DataOrdo
         {
             for (int i = 0; i < OOC_Logs_ListView.VirtualListSize; i++)
             {
-                //yourListViewName.Items[i];
+                if (OOC_Logs_ListView.Items[i] == OOC_Logs_ListView.FindItemWithText(OOC_SearchTextBox.Text))
+                {
+                    OOC_Logs_ListView.Items[i].Selected = true;
+                }
             }
         }
         #endregion

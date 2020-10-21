@@ -71,7 +71,7 @@
             this.ClearLogEnableCB = new System.Windows.Forms.CheckBox();
             this.LogsTimerTrackBarToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.RegexMaker = new System.Windows.Forms.TabPage();
-            this.AutoScroll = new System.Windows.Forms.ToolStripButton();
+            this.AutoScrollBtn = new System.Windows.Forms.ToolStripButton();
             this.TrackbarValue = new System.Windows.Forms.TextBox();
             this.ToolStrip.SuspendLayout();
             this.PluginTabControl.SuspendLayout();
@@ -95,7 +95,7 @@
             this.ToolStripSettingsButton,
             this.toolStripSeparator1,
             this.Parse,
-            this.AutoScroll,
+            this.AutoScrollBtn,
             this.ReloadPluginButton});
             this.ToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ToolStrip.Name = "ToolStrip";
@@ -592,17 +592,17 @@
             // 
             // AutoScroll
             // 
-            this.AutoScroll.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.AutoScroll.BackColor = System.Drawing.Color.Green;
-            this.AutoScroll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.AutoScroll.ForeColor = System.Drawing.Color.White;
-            this.AutoScroll.Image = ((System.Drawing.Image)(resources.GetObject("AutoScroll.Image")));
-            this.AutoScroll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AutoScroll.Name = "AutoScroll";
-            this.AutoScroll.Size = new System.Drawing.Size(90, 22);
-            this.AutoScroll.Text = "Auto Scroll ON";
-            this.AutoScroll.ToolTipText = " Toggle Parsing - Both for OOC and Enc";
-            this.AutoScroll.Click += new System.EventHandler(this.AutoScroll_Click);
+            this.AutoScrollBtn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.AutoScrollBtn.BackColor = System.Drawing.Color.Green;
+            this.AutoScrollBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.AutoScrollBtn.ForeColor = System.Drawing.Color.White;
+            this.AutoScrollBtn.Image = ((System.Drawing.Image)(resources.GetObject("AutoScroll.Image")));
+            this.AutoScrollBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AutoScrollBtn.Name = "AutoScroll";
+            this.AutoScrollBtn.Size = new System.Drawing.Size(90, 22);
+            this.AutoScrollBtn.Text = "Auto Scroll ON";
+            this.AutoScrollBtn.ToolTipText = " Toggle Parsing - Both for OOC and Enc";
+            this.AutoScrollBtn.Click += new System.EventHandler(this.AutoScroll_Click);
             // 
             // TrackbarValue
             // 
@@ -690,7 +690,7 @@
         public System.Windows.Forms.CheckBox CB_DarkMode;
         public System.Windows.Forms.TabControl PluginTabControl;
         private System.Windows.Forms.TabPage RegexMaker;
-        public System.Windows.Forms.ToolStripButton AutoScroll;
+        public System.Windows.Forms.ToolStripButton AutoScrollBtn;
         public System.Windows.Forms.TextBox TrackbarValue;
     }
 }
