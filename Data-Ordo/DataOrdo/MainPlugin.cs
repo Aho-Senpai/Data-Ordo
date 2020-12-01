@@ -156,7 +156,6 @@ namespace DataOrdo
 			EncounterTreeMaker(true);
 		}
 
-		// This shit is on the wrong thread and idfk what i'm doing.
 		private void EncounterTreeMaker(bool IsInCombat)
 		{
 			//Control.CheckForIllegalCrossThreadCalls = true;
@@ -165,15 +164,36 @@ namespace DataOrdo
 				UIMain.EncounterListTreeView.Nodes[0].Expand();
 				if (IsInCombat)
 				{
-					TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
-					newNetworkNode.ForeColor = Color.Green;
-					UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode);
+					if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count > 0)
+					{
+						if (UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Text != ActGlobals.oFormActMain.CurrentZone)
+						{
+							TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+							this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode)));
+						}
+					}
+					else
+					{
+						TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+						this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode)));
+					}
 				}
+
 				else
 				{
-					TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
-					newNetworkNode.ForeColor = Color.Blue;
-					UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode);
+					if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count > 0)
+					{
+						if (UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Text != ActGlobals.oFormActMain.CurrentZone)
+						{
+							TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+							this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode)));
+						}
+					}
+					else
+					{
+						TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+						this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode)));
+					}
 				}
 			}
 			else { UIMain.EncounterListTreeView.Nodes[0].Collapse(); }
