@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using System.Diagnostics;
-using FFXIV_ACT_Plugin;
+//using FFXIV_ACT_Plugin;
 
 namespace DataOrdo
 {
@@ -60,7 +60,8 @@ namespace DataOrdo
 			LoadSettings();
 
 			lblStatus.Text = "Crash Avoided!";
-            LogsTimer.Tick += LogsTimer_Tick;
+
+			LogsTimer.Tick += LogsTimer_Tick;
 			LogsTimer.Interval = 2000;
 			LogsTimer.Start();
 
@@ -78,10 +79,9 @@ namespace DataOrdo
 						UIMain.OOC_Logs_ListView.BeginUpdate();
 						UIMain.OOC_Logs_ListView.VirtualListSize = ACTFFLogsOOC.Count;
 						UIMain.OOC_Logs_ListView.EndUpdate();
-                        if (UIMain.OOC_Logs_ListView.Items.Count - 1 > 0 & UIMain.AutoLogScroll)
+						if (UIMain.OOC_Logs_ListView.Items.Count - 1 > 0 & UIMain.AutoLogScroll)
 							UIMain.OOC_Logs_ListView.Items[UIMain.OOC_Logs_ListView.Items.Count - 1].EnsureVisible();
-                        
-                    }
+					}
 				}
 				else
 				{
@@ -138,6 +138,8 @@ namespace DataOrdo
 				UIMain.PluginTabControl.SelectTab(0);
 
 			// Split Encounter here?
+			// need to rename the encounter created.
+			EncounterTreeMaker(false);
 		}
 		private void OFormActMain_OnCombatStart(bool isImport, CombatToggleEventArgs encounterInfo)
 		{
@@ -150,11 +152,39 @@ namespace DataOrdo
 
 			// do some log split here too?
 
-
 			// needs to not be on the UI thread
-			//UIMain.OOCTreeView.Nodes.Add(new TreeNode("Test")); 
-			//UIMain.treeView2.Nodes.Add(new TreeNode(ActGlobals.oFormActMain.CurrentZone));
-			//MessageBox.Show(ActGlobals.oFormActMain.CurrentZone);
+			EncounterTreeMaker(true);
+		}
+
+		// This shit is on the wrong thread and idfk what i'm doing.
+		private void EncounterTreeMaker(bool IsInCombat)
+		{
+			//Control.CheckForIllegalCrossThreadCalls = true;
+			if (UIMain.CB_NetworkLogSetting)
+			{
+				UIMain.EncounterListTreeView.Nodes[0].Expand();
+				if (IsInCombat)
+				{
+					TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+					newNetworkNode.ForeColor = Color.Green;
+					UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode);
+				}
+				else
+				{
+					TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+					newNetworkNode.ForeColor = Color.Blue;
+					UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode);
+				}
+			}
+			else { UIMain.EncounterListTreeView.Nodes[0].Collapse(); }
+
+
+			// Temporary
+			if (UIMain.CB_RawLogSetting)
+			{
+				TreeNode newRawNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+				UIMain.EncounterListTreeView.Nodes[1].Nodes.Add(newRawNode);
+			}
 		}
 		#endregion
 

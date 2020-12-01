@@ -25,6 +25,8 @@ namespace DataOrdo
         public bool CB_OOCTimestamp = true;
         public bool CB_EncTimestamp = true;
         public bool IsInCombat = false;
+        public bool CB_NetworkLogSetting = true;
+        public bool CB_RawLogSetting = false;
 
         public UserInterfaceMain()
         {
@@ -177,16 +179,13 @@ namespace DataOrdo
             OOC_Logs_ListView.VirtualListSize = PlugInstance.ACTFFLogsOOC.Count;
         }
 
+        // Help wanted for searchbar with virtual listview
         #region OOC Searchbar
         private void OOC_SearchTextBox_KeyDown(object sender, KeyEventArgs e) // Needs fixing to work with listview
         {
             if (e.KeyCode == Keys.Enter)
             {
-                ListViewItem searchResult = OOC_Logs_ListView.FindItemWithText(OOC_SearchTextBox.Text);
-                foreach (ListViewItem searchResults in OOC_Logs_ListView.Items)
-                {
-                    searchResults.Selected = true;
-                }
+                OOC_Logs_ListView.FindItemWithText(OOC_SearchTextBox.Text);
             }
         }
         private void OOC_SearchTextBox_TextChanged(object sender, EventArgs e)
@@ -207,11 +206,13 @@ namespace DataOrdo
         }
         private void OOC_Logs_ListView_SearchForVirtualItem(object sender, SearchForVirtualItemEventArgs e)
         {
-            for (int i = 0; i < OOC_Logs_ListView.VirtualListSize; i++)
+            for (int i = 0; i < OOC_Logs_ListView.Items.Count; i++)
             {
-                if (OOC_Logs_ListView.Items[i] == OOC_Logs_ListView.FindItemWithText(OOC_SearchTextBox.Text))
+                if (Regex.IsMatch(i.ToString(), e.ToString()))
                 {
                     OOC_Logs_ListView.Items[i].Selected = true;
+                    OOC_Logs_ListView.Items[i].Checked = true;
+                    MessageBox.Show(OOC_Logs_ListView.Items[i].ToString());
                 }
             }
         }
@@ -368,6 +369,32 @@ namespace DataOrdo
         #endregion
 
         #region Tab6 Controls - Settings
+        private void CB_LogNetworkSetting_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!CB_NetworkLogSetting)
+            {
+                CB_LogNetworkSetting.BackColor = EnableColorPicker.BackColor;
+                CB_NetworkLogSetting = true;
+            }
+            else if (CB_NetworkLogSetting)
+            {
+                CB_LogNetworkSetting.BackColor = DisableColorPicker.BackColor;
+                CB_NetworkLogSetting = false;
+            }
+        }
+        private void CB_LogRawSetting_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!CB_RawLogSetting)
+            {
+                CB_LogRawSetting.BackColor = EnableColorPicker.BackColor;
+                CB_RawLogSetting = true;
+            }
+            else if (CB_RawLogSetting)
+            {
+                CB_LogRawSetting.BackColor = DisableColorPicker.BackColor;
+                CB_RawLogSetting = false;
+            }
+        }
         private void DevModeCB_CheckedChanged(object sender, EventArgs e)
         {
             if (DevModeCB.Checked)
@@ -449,8 +476,8 @@ namespace DataOrdo
                 tabPage2.BackColor = Black;
                 tabPage3.BackColor = Black;
                 tabPage4.BackColor = Black;
-                OOCTreeView.BackColor = Black;
-                OOCTreeView.ForeColor = White;
+                EncounterListTreeView.BackColor = Black;
+                EncounterListTreeView.ForeColor = White;
                 OOC_Logs_ListView.BackColor = Black;
                 OOC_Logs_ListView.ForeColor = White;
                 StatusStrip.BackColor = Black;
@@ -466,8 +493,8 @@ namespace DataOrdo
                 tabPage2.BackColor = Color.Transparent;
                 tabPage3.BackColor = Color.Transparent;
                 tabPage4.BackColor = Color.Transparent;
-                OOCTreeView.BackColor = Window;
-                OOCTreeView.ForeColor = ControlText;
+                EncounterListTreeView.BackColor = Window;
+                EncounterListTreeView.ForeColor = ControlText;
                 OOC_Logs_ListView.BackColor = Window;
                 OOC_Logs_ListView.ForeColor = ControlText;
                 StatusStrip.BackColor = Control;
@@ -505,8 +532,8 @@ namespace DataOrdo
             }
             EncResizing = false;
         }
-        #endregion
 
+        #endregion
 
     }
 
