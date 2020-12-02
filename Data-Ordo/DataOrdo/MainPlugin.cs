@@ -126,7 +126,7 @@ namespace DataOrdo
 		public List<FFLogLine> RAWFFLogsEnc = new List<FFLogLine>();
 		#endregion
 
-		#region OnCombat Start/End Events
+		#region OnCombat Start/End Events & TreeView Building
 		private void OFormActMain_OnCombatEnd(bool isImport, CombatToggleEventArgs encounterInfo)
 		{
 			UIMain.CombatToggle.BackColor = UIMain.EnableColorPicker.BackColor;
@@ -137,8 +137,6 @@ namespace DataOrdo
 			if (UIMain.ParseON)
 				UIMain.PluginTabControl.SelectTab(0);
 
-			// Split Encounter here?
-			// need to rename the encounter created.
 			EncounterTreeMaker(false, encounterInfo);
 		}
 		private void OFormActMain_OnCombatStart(bool isImport, CombatToggleEventArgs encounterInfo)
@@ -150,62 +148,61 @@ namespace DataOrdo
 			if (UIMain.ParseON)
 				UIMain.PluginTabControl.SelectTab(1);
 
-			// do some log split here too?
-
-			// needs to not be on the UI thread
 			EncounterTreeMaker(true, encounterInfo);
 		}
 
 		private void EncounterTreeMaker(bool IsInCombat, CombatToggleEventArgs encounterInfo)
 		{
+			var NetworkLogsNode = UIMain.EncounterListTreeView.Nodes[0];
+
 			//Control.CheckForIllegalCrossThreadCalls = true;
 			if (UIMain.CB_NetworkLogSetting && UIMain.ParseON)
 			{
 				if (IsInCombat) // This is _OnCombatStart
 				{
-					if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count > 0)
+					if (NetworkLogsNode.Nodes.Count > 0)
 					{
-						if (UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Text != ActGlobals.oFormActMain.CurrentZone)
+						if (NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Text != ActGlobals.oFormActMain.CurrentZone)
 						{
 							TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
-							this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode)));
+							this.Invoke(new Action(() => NetworkLogsNode.Nodes.Add(newNetworkNode)));
 						}
 					}
 					else
 					{
 						TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
-						this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode)));
+						this.Invoke(new Action(() => NetworkLogsNode.Nodes.Add(newNetworkNode)));
 					}
-					this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Nodes.Add("Encounter").ForeColor = Color.Green));
+					this.Invoke(new Action(() => NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Nodes.Add("Encounter").ForeColor = Color.Green));
 				}
 				else // This is _OnCombatEnd
 				{
-					if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count > 0)
+					if (NetworkLogsNode.Nodes.Count > 0)
 					{
-						if (UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Text != ActGlobals.oFormActMain.CurrentZone)
+						if (NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Text != ActGlobals.oFormActMain.CurrentZone)
 						{
 							TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
-							this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode)));
+							this.Invoke(new Action(() => NetworkLogsNode.Nodes.Add(newNetworkNode)));
 						}
 					}
 					else
 					{
 						TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
-						this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode)));
+						this.Invoke(new Action(() => NetworkLogsNode.Nodes.Add(newNetworkNode)));
 					}
 					this.Invoke(new Action(() => {
-						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Nodes.Count - 1].Text = encounterInfo.encounter.Title;
-						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
+						NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Nodes[NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Nodes.Count - 1].Text = encounterInfo.encounter.Title;
+						NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
 					}));
 				}
 				this.Invoke(new Action(() => {
-					UIMain.EncounterListTreeView.Nodes[0].Expand();
-					UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Expand();
-					if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count >= 2)
-						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 2].Collapse();
+					NetworkLogsNode.Expand();
+					NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Expand();
+					if (NetworkLogsNode.Nodes.Count >= 2)
+						NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 2].Collapse();
 				}));
 			}
-			else { this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Collapse())); }
+			else { this.Invoke(new Action(() => NetworkLogsNode.Collapse())); }
 
 
 			// Temporary; will need to do later
@@ -215,38 +212,39 @@ namespace DataOrdo
 				UIMain.EncounterListTreeView.Nodes[1].Nodes.Add(newRawNode);
 			}
 		}
-		#endregion
-
 		private void OFormActMain_BeforeLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
+			var NetworkLogsNode = UIMain.EncounterListTreeView.Nodes[0];
+
 			if (UIMain.CB_NetworkLogSetting && UIMain.ParseON)
 			{
-				if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count > 0
-					&& UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Text != ActGlobals.oFormActMain.CurrentZone)
+				if (NetworkLogsNode.Nodes.Count > 0
+					&& NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Text != ActGlobals.oFormActMain.CurrentZone)
 				{
 					TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
 					
-					// This trow exeption about invone not being able to be called until window handle is created
+					// This trow exeption about invoke not being able to be called until window handle is created
 					this.Invoke(new Action(() => {
-						UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode);
-						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
-						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Expand();
-						if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count >= 2)
-							UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 2].Collapse();
+						NetworkLogsNode.Nodes.Add(newNetworkNode);
+						NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
+						NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Expand();
+						if (NetworkLogsNode.Nodes.Count >= 2)
+							NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 2].Collapse();
 					}));
 				}
-				else if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count == 0)
+				else if (NetworkLogsNode.Nodes.Count == 0)
 				{
 					TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
 					this.Invoke(new Action(() => {
-						UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode);
-						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
-						UIMain.EncounterListTreeView.Nodes[0].Expand();
-						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Expand();
+						NetworkLogsNode.Nodes.Add(newNetworkNode);
+						NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
+						NetworkLogsNode.Expand();
+						NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Expand();
 					}));
 				}
 			}
 		}
+		#endregion
 
 		#region Load & Save Settings
 		SettingsSerializer xmlSettings; // For the settings file ? i think
