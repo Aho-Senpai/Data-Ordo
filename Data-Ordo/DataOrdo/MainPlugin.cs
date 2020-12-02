@@ -139,7 +139,7 @@ namespace DataOrdo
 
 			// Split Encounter here?
 			// need to rename the encounter created.
-			EncounterTreeMaker(false);
+			EncounterTreeMaker(false, encounterInfo);
 		}
 		private void OFormActMain_OnCombatStart(bool isImport, CombatToggleEventArgs encounterInfo)
 		{
@@ -153,16 +153,15 @@ namespace DataOrdo
 			// do some log split here too?
 
 			// needs to not be on the UI thread
-			EncounterTreeMaker(true);
+			EncounterTreeMaker(true, encounterInfo);
 		}
 
-		private void EncounterTreeMaker(bool IsInCombat)
+		private void EncounterTreeMaker(bool IsInCombat, CombatToggleEventArgs encounterInfo)
 		{
 			//Control.CheckForIllegalCrossThreadCalls = true;
-			if (UIMain.CB_NetworkLogSetting)
+			if (UIMain.CB_NetworkLogSetting && UIMain.ParseON)
 			{
-				UIMain.EncounterListTreeView.Nodes[0].Expand();
-				if (IsInCombat)
+				if (IsInCombat) // This is _OnCombatStart
 				{
 					if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count > 0)
 					{
@@ -177,9 +176,9 @@ namespace DataOrdo
 						TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
 						this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode)));
 					}
+					this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Nodes.Add("Encounter").ForeColor = Color.Green));
 				}
-
-				else
+				else // This is _OnCombatEnd
 				{
 					if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count > 0)
 					{
@@ -194,12 +193,22 @@ namespace DataOrdo
 						TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
 						this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode)));
 					}
+					this.Invoke(new Action(() => {
+						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Nodes.Count - 1].Text = encounterInfo.encounter.Title;
+						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
+					}));
 				}
+				this.Invoke(new Action(() => {
+					UIMain.EncounterListTreeView.Nodes[0].Expand();
+					UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Expand();
+					if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count >= 2)
+						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 2].Collapse();
+				}));
 			}
-			else { UIMain.EncounterListTreeView.Nodes[0].Collapse(); }
+			else { this.Invoke(new Action(() => UIMain.EncounterListTreeView.Nodes[0].Collapse())); }
 
 
-			// Temporary
+			// Temporary; will need to do later
 			if (UIMain.CB_RawLogSetting)
 			{
 				TreeNode newRawNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
@@ -210,10 +219,33 @@ namespace DataOrdo
 
 		private void OFormActMain_BeforeLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
-			// regex some lines and split log here
-
-			// also remove selected lines set in a later config -> prob moved to _OnLineRead
-			// Regex.Replace(logInfo.logLine, @"^\[.{14}FB:.*", "");
+			if (UIMain.CB_NetworkLogSetting && UIMain.ParseON)
+			{
+				if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count > 0
+					&& UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Text != ActGlobals.oFormActMain.CurrentZone)
+				{
+					TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+					
+					// This trow exeption about invone not being able to be called until window handle is created
+					this.Invoke(new Action(() => {
+						UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode);
+						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
+						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Expand();
+						if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count >= 2)
+							UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 2].Collapse();
+					}));
+				}
+				else if (UIMain.EncounterListTreeView.Nodes[0].Nodes.Count == 0)
+				{
+					TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+					this.Invoke(new Action(() => {
+						UIMain.EncounterListTreeView.Nodes[0].Nodes.Add(newNetworkNode);
+						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
+						UIMain.EncounterListTreeView.Nodes[0].Expand();
+						UIMain.EncounterListTreeView.Nodes[0].Nodes[UIMain.EncounterListTreeView.Nodes[0].Nodes.Count - 1].Expand();
+					}));
+				}
+			}
 		}
 
 		#region Load & Save Settings
