@@ -85,6 +85,7 @@ namespace DataOrdo
 				}
 				else
 				{
+					// This throws an exeption and idfk why
 					UIMain.Enc_Logs_ListView.BeginUpdate();
 					UIMain.Enc_Logs_ListView.VirtualListSize = ACTFFLogsEnc.Count;
 					UIMain.Enc_Logs_ListView.EndUpdate();
@@ -94,7 +95,7 @@ namespace DataOrdo
 			}
 		}
 
-        public void DeInitPlugin()
+		public void DeInitPlugin()
 		{
 			ActGlobals.oFormActMain.OnLogLineRead -= OFormActMain_OnLogLineRead;
 			ActGlobals.oFormActMain.OnCombatStart -= OFormActMain_OnCombatStart;
@@ -104,7 +105,6 @@ namespace DataOrdo
 
 			lblStatus.Text = "Ready To Crash";
 		}
-
 		#endregion
 
 		#region Parsing
@@ -154,8 +154,9 @@ namespace DataOrdo
 		private void EncounterTreeMaker(bool IsInCombat, CombatToggleEventArgs encounterInfo)
 		{
 			var NetworkLogsNode = UIMain.EncounterListTreeView.Nodes[0];
+			var RawLogsNode = UIMain.EncounterListTreeView.Nodes[1];
 
-			//Control.CheckForIllegalCrossThreadCalls = true;
+			//Network Logs
 			if (UIMain.CB_NetworkLogSetting && UIMain.ParseON)
 			{
 				if (IsInCombat) // This is _OnCombatStart
@@ -204,18 +205,61 @@ namespace DataOrdo
 			}
 			else { this.Invoke(new Action(() => NetworkLogsNode.Collapse())); }
 
-
-			// Temporary; will need to do later
-			if (UIMain.CB_RawLogSetting)
+			// Raw Logs
+			if (UIMain.CB_RawLogSetting && UIMain.ParseON)
 			{
-				TreeNode newRawNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
-				UIMain.EncounterListTreeView.Nodes[1].Nodes.Add(newRawNode);
+				if (IsInCombat) // This is _OnCombatStart
+				{
+					if (RawLogsNode.Nodes.Count > 0)
+					{
+						if (RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 1].Text != ActGlobals.oFormActMain.CurrentZone)
+						{
+							TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+							this.Invoke(new Action(() => RawLogsNode.Nodes.Add(newNetworkNode)));
+						}
+					}
+					else
+					{
+						TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+						this.Invoke(new Action(() => RawLogsNode.Nodes.Add(newNetworkNode)));
+					}
+					this.Invoke(new Action(() => RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 1].Nodes.Add("Encounter").ForeColor = Color.Green));
+				}
+				else // This is _OnCombatEnd
+				{
+					if (RawLogsNode.Nodes.Count > 0)
+					{
+						if (RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 1].Text != ActGlobals.oFormActMain.CurrentZone)
+						{
+							TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+							this.Invoke(new Action(() => RawLogsNode.Nodes.Add(newNetworkNode)));
+						}
+					}
+					else
+					{
+						TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+						this.Invoke(new Action(() => RawLogsNode.Nodes.Add(newNetworkNode)));
+					}
+					this.Invoke(new Action(() => {
+						RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 1].Nodes[RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 1].Nodes.Count - 1].Text = encounterInfo.encounter.Title;
+						RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
+					}));
+				}
+				this.Invoke(new Action(() => {
+					RawLogsNode.Expand();
+					RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 1].Expand();
+					if (RawLogsNode.Nodes.Count >= 2)
+						RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 2].Collapse();
+				}));
 			}
+			else { this.Invoke(new Action(() => RawLogsNode.Collapse())); }
 		}
 		private void OFormActMain_BeforeLogLineRead(bool isImport, LogLineEventArgs logInfo)
 		{
 			var NetworkLogsNode = UIMain.EncounterListTreeView.Nodes[0];
+			var RawLogsNode = UIMain.EncounterListTreeView.Nodes[1];
 
+			// Network Logs
 			if (UIMain.CB_NetworkLogSetting && UIMain.ParseON)
 			{
 				if (NetworkLogsNode.Nodes.Count > 0
@@ -223,7 +267,7 @@ namespace DataOrdo
 				{
 					TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
 					
-					// This trow exeption about invoke not being able to be called until window handle is created
+					// This trow exeption about invoke not being able to be called until window handle is created (maybe? it did once ...)
 					this.Invoke(new Action(() => {
 						NetworkLogsNode.Nodes.Add(newNetworkNode);
 						NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
@@ -240,6 +284,33 @@ namespace DataOrdo
 						NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
 						NetworkLogsNode.Expand();
 						NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Expand();
+					}));
+				}
+			}
+
+			// Raw Logs
+			if (UIMain.CB_RawLogSetting && UIMain.ParseON)
+			{
+				if (RawLogsNode.Nodes.Count > 0
+					&& RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 1].Text != ActGlobals.oFormActMain.CurrentZone)
+				{
+					TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+					this.Invoke(new Action(() => {
+						RawLogsNode.Nodes.Add(newNetworkNode);
+						RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
+						RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 1].Expand();
+						if (RawLogsNode.Nodes.Count >= 2)
+							RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 2].Collapse();
+					}));
+				}
+				else if (RawLogsNode.Nodes.Count == 0)
+				{
+					TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
+					this.Invoke(new Action(() => {
+						RawLogsNode.Nodes.Add(newNetworkNode);
+						RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 1].Nodes.Add("Out Of Combat").ForeColor = Color.Purple;
+						RawLogsNode.Expand();
+						RawLogsNode.Nodes[RawLogsNode.Nodes.Count - 1].Expand();
 					}));
 				}
 			}
@@ -292,13 +363,13 @@ namespace DataOrdo
 				IndentChar = '\t'
 			};
 			xWriter.WriteStartDocument(true);
-			xWriter.WriteStartElement("Config");                // <Config>
-			xWriter.WriteStartElement("SettingsSerializer");    // <Config><SettingsSerializer>
-			xmlSettings.ExportToXml(xWriter);                   // Fill the SettingsSerializer XML
-			xWriter.WriteEndElement();                          // </SettingsSerializer>
-			xWriter.WriteEndElement();                          // </Config>
-			xWriter.WriteEndDocument();                         // Tie up loose ends (shouldn't be any)
-			xWriter.Flush();                                    // Flush the file buffer to disk
+			xWriter.WriteStartElement("Config");				// <Config>
+			xWriter.WriteStartElement("SettingsSerializer");	// <Config><SettingsSerializer>
+			xmlSettings.ExportToXml(xWriter);					// Fill the SettingsSerializer XML
+			xWriter.WriteEndElement();							// </SettingsSerializer>
+			xWriter.WriteEndElement();							// </Config>
+			xWriter.WriteEndDocument();							// Tie up loose ends (shouldn't be any)
+			xWriter.Flush();									// Flush the file buffer to disk
 			xWriter.Close();
 		}
 		#endregion
