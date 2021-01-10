@@ -174,7 +174,7 @@ namespace DataOrdo
 						TreeNode newNetworkNode = new TreeNode(ActGlobals.oFormActMain.CurrentZone);
 						this.Invoke(new Action(() => NetworkLogsNode.Nodes.Add(newNetworkNode)));
 					}
-					this.Invoke(new Action(() => NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Nodes.Add("Encounter").ForeColor = Color.Green));
+					this.Invoke(new Action(() => NetworkLogsNode.Nodes[NetworkLogsNode.Nodes.Count - 1].Nodes.Add(encounterInfo.encounter.Title).ForeColor = Color.Green));
 				}
 				else // This is _OnCombatEnd
 				{
